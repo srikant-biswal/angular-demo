@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-sm bg-light box-shadow">
+  <a class="navbar-brand" href="#">
+    <img src="../assets/vSample.png" alt="Logo" style="width:125px;">
+  </a>
+
+  <ul class="navbar-nav" style="width:100%;justify-content:space-between;">
+    <li class="nav-item">
+      <select class="form-control">
+        <option *ngFor="let hospital of hospitals">{{hospital}}</option>
+      </select>
+    </li>
+
+    <li class="nav-item">
+      <ul class="pagination">
+        <li class="page-item ">
+          <a [ngClass]="{'page-link': true, 'active-link' : selectedLink == 1}" href="#" (click)="setLink(1)">Transportation</a>
+        </li>
+        <li class="page-item ">
+          <a [ngClass]="{'page-link': true, 'active-link' : selectedLink == 2}" href="#" (click)="setLink(2)">Environmental</a>
+        </li>
+        <li class="page-item ">
+          <a [ngClass]="{'page-link': true, 'active-link' : selectedLink == 3}" href="#" (click)="setLink(3)">Others</a>
+        </li>
+        <li class="page-item ">
+          <a [ngClass]="{'page-link': true, 'active-link' : selectedLink == 4}" href="#" (click)="setLink(4)">Others</a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="nav-item" style="display:flex">
+      <a class="nav-link " href="# ">PlayBooks</a>
+      <a class="nav-link " href="# ">Sign Employees In</a>
+      <a class="nav-link " href="# ">Help</a>
+    </li>
+  </ul>
+</nav>
+

@@ -1,0 +1,69 @@
+<div class="card" [ngClass]="{'card-dotted':showEdit}">
+  <div class="card-body">
+    <h5 class="card-title">{{cardTitle}}</h5>
+
+    <div [style.display]="showEdit? 'none':'inline'">
+    <a class="show-right" href="#" (click)="showEditOptions()">Edit</a>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" (change)="isSelectAll=!isSelectAll;selectAll()">
+            </th>
+             <th [style.display]="col.show? '':'none'" class="pointer" *ngFor="let col of columns" (click)="sort(col.name)">
+              {{col.name}}
+              <i class="fa" [ngClass]="{'fa-sort': column != col.name, 'fa-sort-asc': (column == col.name && !isDesc), 'fa-sort-desc': (column == col.name && isDesc) }"
+              aria-hidden="true"> </i>
+            </th>
+
+            <!-- <th [style.display]="columns[0].show? 'inline':'none'" class="pointer" (click)="sort('name')">Person
+              <i class="fa" [ngClass]="{'fa-sort': column != 'name', 'fa-sort-asc': (column == 'name' && !isDesc), 'fa-sort-desc': (column == 'name' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th class="pointer" (click)="sort('min')">Min
+              <i class="fa" [ngClass]="{'fa-sort': column != 'min', 'fa-sort-asc': (column == 'min' && !isDesc), 'fa-sort-desc': (column == 'min' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th class="pointer" (click)="sort('location')">Location
+              <i class="fa" [ngClass]="{'fa-sort': column != 'location', 'fa-sort-asc': (column == 'location' && !isDesc), 'fa-sort-desc': (column == 'location' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th class="pointer" (click)="sort('zone')">Zone
+              <i class="fa" [ngClass]="{'fa-sort': column != 'zone', 'fa-sort-asc': (column == 'zone' && !isDesc), 'fa-sort-desc': (column == 'zone' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>  -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of employees">
+            <td>
+              <input type="checkbox" [checked]="emp.isSelected" (change)="emp.isSelected=!emp.isSelected;" />
+            </td>
+            <td [style.display]="columns[0].show? '':'none'">{{emp.Name}}</td>
+            <td  [style.display]="columns[1].show? '':'none'">{{emp.Min}}</td>
+            <td  [style.display]="columns[2].show? '':'none'">{{emp.Location}}</td>
+            <td  [style.display]="columns[3].show? '':'none'">{{emp.Zone}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <div [style.display]="showEdit? 'inline':'none'">
+      <button class="btn btn-sm btn-primary show-right">Apply</button>
+      <a class="show-right cancel-link" href="#" (click)="showEdit=false;">Cancel</a>
+      <hr>
+      <ul style="list-style:none">
+        <li *ngFor="let col of columns">
+          <input id="col" type="checkbox"
+            (change)='col.show=!col.show'
+            [checked]='col.show'
+          />
+          <label [attr.for]="col">{{col.name}}</label>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
