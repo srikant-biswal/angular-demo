@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import {LoginComponent} from './login/login.component';
+
+
 @NgModule({
   declarations: [
     AppComponent, LoginComponent

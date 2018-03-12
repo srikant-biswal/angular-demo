@@ -1,51 +1,43 @@
-.table{
-  margin-bottom: 0px;
+.ngx-datatable.material
+{
+  height:125px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
 }
-.table th{
+.ngx-datatable.material .datatable-header
+{
+  border-bottom:2px solid lightgrey;
+}
+
+
+.ngx-datatable.material .datatable-header .datatable-header-cell
+{
+  color:black;
   font-weight: bold;
-  font-size: 0.9rem;
-  padding: 0 0 0 10px;
-
-
-}
-
-table td{
-
-  font-weight: bold;
-  padding:2px 10px;
-  font-size: 0.7rem;
-}
-
- thead,tbody { display: block; }
-
-tbody {
-    height: 150px;       /* Just for the demo          */
-    overflow-y: auto;    /* Trigger vertical scroll    */
-    overflow-x: hidden;  /* Hide the horizontal scroll */
+  padding: 0 5px 5px 5px;
 }
 
 
-
-
-
-
-.pointer{
-  cursor: pointer;
+.ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell
+{
+  padding: 5px;
 }
 
+.datatable-checkbox{
+  padding: 0 0 10px 0;
+}
+
+.ngx-datatable .datatable-body .datatable-body-row {
+  border-bottom: 1px solid lightgrey
+}
 
 .show-right{
   float:right;
 }
 
-.cancel-link{
-  padding-right: 10px;
-    line-height: 2rem;
-}
 
- .card{
-   padding: 10px;
-   max-height:200px;
+.card-title,.div-inline{
+  display: inline;
 }
 
 .card-dotted{
@@ -54,16 +46,56 @@ tbody {
 
 .card-body{
   padding:0;
-  overflow: hidden;
 }
 
-.card-title{
-  display: inline;
+.card{
+  padding: 10px;
+  max-height: 200px
 }
 
-body{
-  background-color: #bdc3c7;
+.show-handle-right{
+  float: right;
+  padding:0 10px;
+}
+
+.list-group-item{
+  padding:0;
+  border: none;
+}
+
+.exceeded{
+  background-color: #ffe7e6
+}
+
+.exceeded .datatable-body-cell-label {
+  font-weight: bold;
 }
 
 
+.approaching{
+  background-color: #fffcd6
+}
 
+.approaching .datatable-body-cell-label {
+  font-weight: bold;
+}
+
+.st span{
+  color: #af2b44;
+  border: 1px solid #ea746c;
+  border-radius: 9px;
+  padding: 0px 5px;
+  background-color: #ffe7e6;
+}
+
+.sc span {
+  color: #6d9b36;
+  border: 1px solid #6d9b36;
+  border-radius: 9px;
+  padding: 0px 5px;
+  background-color: #e3ffd6;
+}
+
+.task-column .datatable-header-cell-label{
+  color:white
+}
