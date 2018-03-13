@@ -1,0 +1,36 @@
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-1">
+    <h5>Tasks</h5>
+    <button class="btn btn-primary">New Task</button>
+    <ul style="list-style:none;padding:5px">
+      <li><a [class]="activeTab=='unassigned'? 'active':''" (click)="changeTab('unassigned')">Unassigned</a></li>
+      <li><a [class]="activeTab=='assigned'? 'active':''" (click)="changeTab('assigned')">Assigned</a></li>
+      <li><a [class]="activeTab=='active'? 'active':''" (click)="changeTab('active')">Active</a></li>
+      <li><a [class]="activeTab=='delayed'? 'active':''" (click)="changeTab('delayed')">Delayed</a></li>
+      <li><a [class]="activeTab=='completed'? 'active':''" (click)="changeTab('completed')">Completed</a></li>
+      <li><a [class]="activeTab=='cancelled'? 'active':''" (click)="changeTab('cancelled')">Cancelled</a></li>
+    </ul>
+  </div>
+  <div class="col-md-11">
+    <div style="display: flex" >
+      <input  type="text" class="search-bar" [(ngModel)]="filter" (keyup)="updateFilter()" placeholder="Filter Tasks"/>
+  </div>
+
+  <span *ngIf="filter">Filtered For "{{filter}}"&nbsp;&nbsp;&nbsp;<a href="#" class="clear-link" (click)="clearFilter()">Clear</a></span>
+
+  <ngx-datatable class="material" [rows]="rows" [rowClass]="getRowClass" [columnMode]="'force'" [sortType]="'single'"
+  [headerHeight]="20" [footerHeight]="0" [reorderable]="true" (select)="onSelect($event)" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
+  [scrollbarV]="true" [scrollbarH]="false">
+  <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
+    [checkboxable]="true">
+  </ngx-datatable-column>
+  <ngx-datatable-column headerClass="task-column" [width]="40" name="Task" [cellClass]="getCellClass" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+  </ngx-datatable-column>
+  <ng-container  *ngFor="let col of columns"  >
+  <ngx-datatable-column [draggable]="false" *ngIf="col.show" [name]="col.name" [prop]="col.prop"></ngx-datatable-column>
+  </ng-container>
+  </ngx-datatable>
+  </div>
+</div>
+</div>

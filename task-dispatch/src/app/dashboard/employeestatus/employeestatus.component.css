@@ -60,6 +60,7 @@
 
 .list-group-item{
   padding:0;
+  margin-bottom: -8px;
   border: none;
 }
 
@@ -98,4 +99,29 @@
 
 .task-column .datatable-header-cell-label{
   color:white
+}
+
+ul{
+  margin-bottom: -8px;
+}
+
+hr{
+  margin-bottom: 0.7rem;
+}
+
+a{
+  color:#12456e;
+  text-decoration: underline;
+}
+
+.btn-primary{
+  padding: 0 9px;
+  margin-left: 10px;
+  border-radius: 7px;
+  color: white;
+  background-color: #12456e;
+}
+
+.btn-primary:hover{
+  background-color: #12456e;
 }
