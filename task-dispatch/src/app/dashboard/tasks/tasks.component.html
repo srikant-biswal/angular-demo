@@ -12,9 +12,12 @@
       <li><a [class]="activeTab=='cancelled'? 'active':''" (click)="changeTab('cancelled')">Cancelled</a></li>
     </ul>
   </div>
+
   <div class="col-md-11">
+    <div *ngIf="!showEdit">
     <div style="display: flex" >
       <input  type="text" class="search-bar" [(ngModel)]="filter" (keyup)="updateFilter()" placeholder="Filter Tasks"/>
+      <a class="show-right" href="#" (click)="showEdit=true">Edit</a>
   </div>
 
   <span *ngIf="filter">Filtered For "{{filter}}"&nbsp;&nbsp;&nbsp;<a href="#" class="clear-link" (click)="clearFilter()">Clear</a></span>
@@ -31,6 +34,21 @@
   <ngx-datatable-column [draggable]="false" *ngIf="col.show" [name]="col.name" [prop]="col.prop"></ngx-datatable-column>
   </ng-container>
   </ngx-datatable>
+  </div>
+
+  <div *ngIf="showEdit">
+      <div class="option-box">
+      <a class="cancel-link"  href="#" (click)="cancelEdit()">Cancel</a>
+      <button class="btn btn-primary" (click)="saveEdit()">Apply</button>
+      </div>
+      <hr>
+      <ul  dnd-sortable-container [sortableData]="columns">
+        <li *ngFor="let col of columns; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+          <input id="col" type="checkbox" (change)='col.show=!col.show' [checked]='col.show'/>
+          <label [attr.for]="col">{{col.name}}</label>
+          <span dnd-sortable-handle class="show-handle-right"><i class="fa fa-bars"></i></span>
+        </li>
+      </ul>
   </div>
 </div>
 </div>

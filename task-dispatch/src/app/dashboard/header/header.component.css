@@ -7,7 +7,7 @@ a{
 }
 
 .active-link{
-  color: #fff;
+  color: #fff  !important;
   background-color: #12456e;
   border-color: #12456e;
 }

@@ -1,8 +1,6 @@
 .ngx-datatable.material
 {
   height:150px;
-  box-shadow: none;
-  -webkit-box-shadow: none;
 }
 .active{
   background-color: #f2f2f2;
@@ -24,6 +22,9 @@ h5{
   color: white;
   background-color: #12456e;
 }
+ul{
+  margin:0px;
+}
 
 li{
   font-size: 15px;
@@ -34,6 +35,7 @@ a{
   padding: 0 10px 0 0;
   cursor: pointer;
 }
+
 
 .search-bar{
   background-image:url('../../../assets/search.png');
@@ -47,42 +49,33 @@ a{
   width: 20%;
 }
 
-.exceeded{
-  background-color: #ffe7e6
-}
-
-.exceeded .datatable-body-cell-label {
-  font-weight: bold;
-}
-
-
-.approaching{
-  background-color: #fffcd6
-}
-
-.approaching .datatable-body-cell-label {
-  font-weight: bold;
-}
-
-.st span{
-  color: #af2b44;
-  border: 1px solid #ea746c;
-  border-radius: 9px;
-  padding: 0px 5px;
-  background-color: #ffe7e6;
-}
-
-.sc span {
-  color: #6d9b36;
-  border: 1px solid #6d9b36;
-  border-radius: 9px;
-  padding: 0px 5px;
-  background-color: #e3ffd6;
-}
-
 .clear-link{
   display:inline;
   color: #12456e;
   text-decoration: underline;
 }
+
+.show-handle-right{
+  float: right;
+  margin: 0 100px
+}
+
+hr{
+  margin:5px;
+}
+
+.list-group-item{
+  padding:0;
+  margin-bottom: -2px;
+  border: none;
+}
+
+.cancel-link{
+  display: inline;
+}
+
+.option-box{
+  margin: 10px 0 0 10px;
+}
+
 

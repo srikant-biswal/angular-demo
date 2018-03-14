@@ -9,17 +9,25 @@ export class TasksComponent implements OnInit {
   activeTab = 'unassigned';
    tasks = [
     {siteName: 'Hospital1', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1000, destLocation: 1000, task: 'ST', threshold: 'exceeded', status: 'assigned'},
+    taskClass: 'Radiology', startLocation: 1001, destLocation: 1000, task: 'ST', threshold: 'exceeded', status: 'assigned'},
     {siteName: 'Hospital2', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1000, destLocation: 1000, task: 'SC', threshold: 'approaching', status: 'assigned'},
+    taskClass: 'Radiology', startLocation: 1002, destLocation: 1000, task: 'SC', threshold: 'approaching', status: 'assigned'},
     {siteName: 'Hospital3', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1000, destLocation: 1000, threshold: 'approaching', status: 'assigned'},
+    taskClass: 'Radiology', startLocation: 1003, destLocation: 1000, threshold: 'approaching', status: 'assigned'},
     {siteName: 'Hospital4', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1000, destLocation: 1000, task: 'ST', threshold: 'exceeded', status: 'unassigned'},
+    taskClass: 'Radiology', startLocation: 1004, destLocation: 1000, task: 'ST', threshold: 'exceeded', status: 'unassigned'},
     {siteName: 'Hospital5', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1000, destLocation: 1000, task: 'SC', threshold: 'approaching', status: 'unassigned'},
+    taskClass: 'Radiology', startLocation: 1005, destLocation: 1000, task: 'SC', threshold: 'approaching', status: 'unassigned'},
     {siteName: 'Hospital6', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1000, destLocation: 1000, threshold: 'approaching', status: 'unassigned'},
+    taskClass: 'Radiology', startLocation: 1006, destLocation: 1000 , status: 'active'},
+    {siteName: 'Hospital7', requestNumber: 1000 ,
+    taskClass: 'Radiology', startLocation: 1006, destLocation: 1000, threshold: 'approaching', status: 'delayed'},
+    {siteName: 'Hospital8', requestNumber: 1000 ,
+    taskClass: 'Radiology', startLocation: 1006, destLocation: 1000, threshold: 'approaching', status: 'completed'},
+    {siteName: 'Hospital9', requestNumber: 1000 ,
+    taskClass: 'Radiology', startLocation: 1006, destLocation: 1000, threshold: 'approaching', status: 'cancelled'},
+    {siteName: 'Hospital10', requestNumber: 1000 ,
+    taskClass: 'Radiology', startLocation: 1006, destLocation: 1000, threshold: 'approaching', status: 'unassigned'},
   ];
 
   temp;
@@ -65,17 +73,43 @@ export class TasksComponent implements OnInit {
   }
 
   updateFilter() {
-    const val = this.filter.toLowerCase();
-    const filteredRows = this.temp.filter(function(d) {
-      return d.siteName.toLowerCase().indexOf(val) !== -1 || !val;
+     const val = this.filter.toLowerCase();
+     if (val !== '') {
+    const colsAmt = this.columns.length;
+    const keys = this.columns.map(function(col) {
+        if (col.show) {
+          return col.prop;
+        }
     });
-    this.rows = filteredRows;
+    this.rows = this.temp.filter(function(item) {
+      let searchStr = '';
+      for (let i = 0; i < colsAmt; i++) {
+        searchStr += (item[keys[i]]).toString().toLowerCase();
+      }
+      return searchStr.indexOf(val) !== -1 || !val;
+    });
+  } else {
+      this.rows = this.temp;
+  }
   }
 
   clearFilter() {
     this.filter = '';
     this.rows = this.temp;
   }
+
+  saveEdit() {
+      this.showEdit = false;
+  }
+
+  cancelEdit() {
+    this.showEdit = false;
+  }
+
+
+
+
+
 
   onSelect({ selected }) {
     this.selected.splice(0, this.selected.length);

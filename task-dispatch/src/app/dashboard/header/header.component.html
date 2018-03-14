@@ -5,24 +5,15 @@
 
   <ul class="navbar-nav" style="width:100%;justify-content:space-between;">
     <li class="nav-item">
-      <select class="form-control">
-        <option *ngFor="let hospital of hospitals">{{hospital}}</option>
+      <select (change)="setHospital($event)" class="form-control">
+        <option *ngFor="let hospital of hospitals"  value={{hospital.name}} >{{hospital.name}}</option>
       </select>
     </li>
 
-    <li class="nav-item">
+     <li class="nav-item">
       <ul class="pagination">
-        <li class="page-item ">
-          <a [ngClass]="{'page-link': true, 'active-link' : selectedLink == 1}" href="#" (click)="setLink(1)">Transportation</a>
-        </li>
-        <li class="page-item ">
-          <a [ngClass]="{'page-link': true, 'active-link' : selectedLink == 2}" href="#" (click)="setLink(2)">Environmental</a>
-        </li>
-        <li class="page-item ">
-          <a [ngClass]="{'page-link': true, 'active-link' : selectedLink == 3}" href="#" (click)="setLink(3)">Others</a>
-        </li>
-        <li class="page-item ">
-          <a [ngClass]="{'page-link': true, 'active-link' : selectedLink == 4}" href="#" (click)="setLink(4)">Others</a>
+        <li class="page-item " *ngFor="let area of currentHospital.areas;let i=index">
+          <a class="page-link" [ngClass]="{'active-link' : selectedLink == i}"  (click)="setLink(i)">{{area}}</a>
         </li>
       </ul>
     </li>

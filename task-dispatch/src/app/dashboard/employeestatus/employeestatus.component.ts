@@ -4,7 +4,6 @@ import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
   selector: 'app-employeestatus',
   templateUrl: './employeestatus.component.html',
   styleUrls: ['./employeestatus.component.css'],
-  encapsulation: ViewEncapsulation.None
 })
 export class EmployeestatusComponent implements OnInit {
 

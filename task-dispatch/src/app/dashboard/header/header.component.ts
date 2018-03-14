@@ -6,8 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  selectedLink = -1;
-  hospitals: string[] = ['Hospital 1', 'Hospital 1', 'Hospital 1'];
+  selectedLink = 0;
+  currentHospital;
+  hospitals = [{name: 'Hospital 1', areas: ['Area1', 'Area2', 'Area3', 'Area4']},
+               {name: 'Hospital 2', areas: ['Area1', 'Area2', 'Area3']},
+               {name: 'Hospital 3', areas: ['Area1', 'Area2', 'Area3']}];
 
   setLink(linkNumber: number): void {
     this.selectedLink = linkNumber;
@@ -15,6 +18,13 @@ export class HeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.currentHospital = this.hospitals[0];
   }
 
+  setHospital(event) {
+     const currentHospital = this.hospitals.filter(function(d) {
+      return d.name === event.target.value;
+    });
+    this.currentHospital = currentHospital[0];
+  }
 }

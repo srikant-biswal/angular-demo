@@ -1,1 +1,69 @@
 /* You can add global styles to this file, and also import other style files */
+.ngx-datatable.material
+{
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+.ngx-datatable.material .datatable-header
+{
+  border-bottom:2px solid lightgrey;
+}
+
+.ngx-datatable.material .datatable-header .datatable-header-cell
+{
+  color:black !important;
+  font-weight: bold !important;
+  padding: 0 5px 5px 5px !important;
+}
+
+
+.ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell
+{
+  padding: 5px !important;
+}
+
+.datatable-checkbox{
+  padding: 0 0 10px 0 !important;
+}
+
+.ngx-datatable .datatable-body .datatable-body-row {
+  border-bottom: 1px solid lightgrey
+}
+
+.st span{
+  color: #af2b44;
+  border: 1px solid #ea746c;
+  border-radius: 9px;
+  padding: 0px 5px;
+  background-color: #ffe7e6;
+}
+
+.sc span {
+  color: #6d9b36;
+  border: 1px solid #6d9b36;
+  border-radius: 9px;
+  padding: 0px 5px;
+  background-color: #e3ffd6;
+}
+
+.exceeded{
+  background-color: #ffe7e6
+}
+
+.exceeded .datatable-body-cell-label {
+  font-weight: bold;
+}
+
+
+.approaching{
+  background-color: #fffcd6
+}
+
+.approaching .datatable-body-cell-label {
+  font-weight: bold;
+}
+
+.task-column .datatable-header-cell-label{
+  color:white
+}
+
