@@ -8,9 +8,14 @@
   float:right;
 }
 
+.card{
+  padding: 10px;
+  height: 170px
+}
 
 .card-title,.div-inline{
   display: inline;
+  touch-action: none;
 }
 
 .card-dotted{
@@ -21,14 +26,12 @@
   padding:0;
 }
 
-.card{
-  padding: 10px;
-  max-height: 200px
-}
+
 
 .show-handle-right{
   float: right;
-  padding:0 10px;
+  color: gray;
+  margin:0 20px;
 }
 
 .list-group-item{
@@ -61,4 +64,13 @@ a{
 
 .btn-primary:hover{
   background-color: #12456e;
+}
+
+.empty-image{
+  position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }

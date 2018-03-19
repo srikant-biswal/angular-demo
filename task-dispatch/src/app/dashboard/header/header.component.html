@@ -1,18 +1,18 @@
 <nav class="navbar navbar-expand-sm box-shadow">
   <a class="navbar-brand" href="#">
-    <img src="../../../assets/CompassOne.jpg" alt="Logo" style="width:100px;">
+    <img src="assets/CompassOne.jpg" alt="Logo" style="width:100px;">
   </a>
 
   <ul class="navbar-nav" style="width:100%;justify-content:space-between;">
     <li class="nav-item">
-      <select (change)="setHospital($event)" class="form-control">
-        <option *ngFor="let hospital of hospitals"  value={{hospital.name}} >{{hospital.name}}</option>
+      <select (change)="changeFacility($event)" class="form-control">
+        <option *ngFor="let facility of facilities"  value={{facility.Title}} >{{facility.Title}}</option>
       </select>
     </li>
 
      <li class="nav-item">
       <ul class="pagination">
-        <li class="page-item " *ngFor="let area of currentHospital.areas;let i=index">
+        <li class="page-item " *ngFor="let area of areas;let i=index">
           <a class="page-link" [ngClass]="{'active-link' : selectedLink == i}"  (click)="setLink(i)">{{area}}</a>
         </li>
       </ul>

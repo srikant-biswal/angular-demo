@@ -38,7 +38,7 @@ a{
 
 
 .search-bar{
-  background-image:url('../../../assets/search.png');
+  background-image:url('assets/search.png');
   background-repeat: no-repeat;
   background-position: 3px 6px;
   background-size: 15px;
@@ -57,7 +57,8 @@ a{
 
 .show-handle-right{
   float: right;
-  margin: 0 100px
+  margin: 0 100px;
+  color : gray;
 }
 
 hr{

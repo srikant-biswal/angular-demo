@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DashboardService } from '../../_services/dashboard.service';
+import { ITask } from './task';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tasks',
@@ -6,63 +9,102 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit {
-  activeTab = 'unassigned';
-   tasks = [
-    {siteName: 'Hospital1', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1001, destLocation: 1000, task: 'ST', threshold: 'exceeded', status: 'assigned'},
-    {siteName: 'Hospital2', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1002, destLocation: 1000, task: 'SC', threshold: 'approaching', status: 'assigned'},
-    {siteName: 'Hospital3', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1003, destLocation: 1000, threshold: 'approaching', status: 'assigned'},
-    {siteName: 'Hospital4', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1004, destLocation: 1000, task: 'ST', threshold: 'exceeded', status: 'unassigned'},
-    {siteName: 'Hospital5', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1005, destLocation: 1000, task: 'SC', threshold: 'approaching', status: 'unassigned'},
-    {siteName: 'Hospital6', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1006, destLocation: 1000 , status: 'active'},
-    {siteName: 'Hospital7', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1006, destLocation: 1000, threshold: 'approaching', status: 'delayed'},
-    {siteName: 'Hospital8', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1006, destLocation: 1000, threshold: 'approaching', status: 'completed'},
-    {siteName: 'Hospital9', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1006, destLocation: 1000, threshold: 'approaching', status: 'cancelled'},
-    {siteName: 'Hospital10', requestNumber: 1000 ,
-    taskClass: 'Radiology', startLocation: 1006, destLocation: 1000, threshold: 'approaching', status: 'unassigned'},
-  ];
-
-  temp;
-  rows;
+  activeTab = 1;
+  tasks: ITask[] = [];
+  temp: ITask[];
+  rows: ITask[];
   filter = '';
   showEdit = false;
-  columns = [   {name: 'Site Name', prop: 'siteName', show: true},
-                {name: 'Request Number', prop: 'requestNumber', show: true},
-                {name: 'Task Class', prop: 'taskClass', show: true},
-                {name: 'Start Location', prop: 'startLocation', show: true},
-                {name: 'Dest Location', prop: 'destLocation', show: true}];
+  showSelectAll;
+  columns = [   {name: 'Site Name', prop: 'SiteName', show: true},
+                {name: 'Task Area', prop: 'TskArea', show: true},
+                {name: 'Area Brief', prop: 'AreaBrief', show: true},
+                {name: 'Class Brief', prop: 'ClassBrief', show: true},
+                {name: 'Start Brief', prop: 'StartBrief', show: true},
+                {name: 'Dest Brief', prop: 'DestBrief', show: true},
+                {name: 'Mode Brief', prop: 'ModeBrief', show: true},
+                {name: 'Cost Brief', prop: 'CostBrief', show: true},
+                {name: 'Task Number', prop: 'TaskNumber', show: true},
+                {name: 'Tran Task Number', prop: 'TranTaskNumber', show: true},
+                {name: 'Item', prop: 'Item', show: true},
+                {name: 'Schedule Date', prop: 'ScheduleDate', show: true},
+                {name: 'Dispatch Needed', prop: 'DispatchNeeded', show: true},
+                {name: 'Response Needed', prop: 'ResponseNeeded', show: true},
+                {name: 'Complete Needed', prop: 'CompleteNeeded', show: true},
+                {name: 'Request Date', prop: 'RequestDate', show: true},
+                {name: 'Assigned Date', prop: 'AssignedDate', show: true},
+                {name: 'Active Date', prop: 'ActiveDate', show: true},
+                {name: 'Delay Date', prop: 'DelayDate', show: true},
+                {name: 'Close Date', prop: 'CloseDate', show: true},
+                {name: 'Cancel Date', prop: 'CancelDate', show: true},
+                {name: 'Task Type Brief', prop: 'TskTaskTypeBrief', show: true},
+                {name: 'Notes', prop: 'Notes', show: true},
+                {name: 'Active Date', prop: 'ActiveDate', show: true},
+                {name: 'Isolation Patient', prop: 'IsolationPatient', show: true},
+                {name: 'Isolation Patient Brief', prop: 'IsolationPatientBrief', show: true},
+                {name: 'Priority', prop: 'Priority', show: true},
+                {name: 'Custom Field1', prop: 'CustomField1', show: true},
+                {name: 'Custom Field2', prop: 'CustomField2', show: true},
+                {name: 'Custom Field3', prop: 'CustomField3', show: true},
+                {name: 'Custom Field4', prop: 'CustomField4', show: true},
+                {name: 'Custom Field5', prop: 'CustomField5', show: true},
+                {name: 'Assigned Personnel', prop: 'AssignedPersonel', show: true},
+                {name: 'Requestor Name', prop: 'RequestorName', show: true},
+                {name: 'Requestor Phone', prop: 'RequestorPhone', show: true},
+                {name: 'Requestor Email', prop: 'RequestorEmail', show: true},
+                {name: 'Patient Name', prop: 'PatientName', show: true},
+                {name: 'Patient DOB', prop: 'PatientDOB', show: true},
+                {name: 'Task Request', prop: 'TaskRequest', show: true},
+                {name: 'Entered By', prop: 'EnteredBy', show: true},
+                {name: 'Entered At', prop: 'EnteredAt', show: true},
+                {name: 'Modified By', prop: 'ModifiedBy', show: true},
+                {name: 'Modified At', prop: 'ModifiedAt', show: true},
+              ];
   selected = [];
-  constructor() { }
+  constructor(private dashboardService: DashboardService) {
+  }
 
   ngOnInit() {
-      this.temp = this.tasks.filter(function(d) {
-        return d.status.indexOf('unassigned') !== -1;
-      });
-      this.rows = this.temp;
+  this.dashboardService.componentMethodCalled$.subscribe(
+      () =>  this.getData());
   }
+
+  getData() {
+    this.tasks = [];
+    this.dashboardService.getTaskList().subscribe(
+      task =>  task['data'].map(value => this.tasks.push(value)) ,
+      error => console.log(error),
+        () =>  this.initialize());
+  }
+
+
+  initialize() {
+      this.temp = this.tasks.filter(function(d) {
+              return d.TskStatusType === 1;
+            });
+            this.rows = this.temp;
+            this.checkSelectAll();
+  }
+
 
   changeTab(tab): void {
       this.activeTab = tab;
       this.temp = this.tasks.filter(function(d) {
-        return d.status === tab;
+        return d.TskStatusType === tab;
       });
       this.rows = this.temp;
   }
 
 
-  getRowClass(row) {
-    return {
-      'exceeded': (row.threshold === 'exceeded'),
-      'approaching': (row.threshold === 'approaching')
-    };
+
+  getRowClass(row: ITask) {
+    const date = new Date();
+    const taskDate = new Date(row.CompleteNeeded);
+    const timeDiff = Math.ceil((taskDate.getTime() - date.getTime()) / (1000 * 60) );
+     return {
+       'exceeded': (timeDiff < 0),
+       'approaching': (timeDiff > 0 && timeDiff < 10)
+     };
   }
 
   getCellClass({ row, column, value }): any {
@@ -84,7 +126,9 @@ export class TasksComponent implements OnInit {
     this.rows = this.temp.filter(function(item) {
       let searchStr = '';
       for (let i = 0; i < colsAmt; i++) {
+        if (item[keys[i]]) {
         searchStr += (item[keys[i]]).toString().toLowerCase();
+        }
       }
       return searchStr.indexOf(val) !== -1 || !val;
     });
@@ -106,6 +150,18 @@ export class TasksComponent implements OnInit {
     this.showEdit = false;
   }
 
+  toggleSelectAll() {
+    this.columns.map(col => col.show = this.showSelectAll);
+    this.showSelectAll = ! this.showSelectAll;
+  }
+
+    checkSelectAll() {
+      if (this.columns.every(col => col.show === true)) {
+        this.showSelectAll = false;
+    } else {
+      this.showSelectAll = true;
+    }
+    }
 
 
 

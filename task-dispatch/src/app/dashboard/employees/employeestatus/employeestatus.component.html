@@ -1,23 +1,23 @@
 <div class="card" [ngClass]="{'card-dotted':showEdit}">
     <div class="card-body">
-      <h6 class="card-title">Available</h6>
+      <h6 class="card-title">{{title}}</h6>
 
       <div *ngIf="rows.length==0">
-        <h1>I am Empty</h1>
+        <img class="empty-image" src="assets/{{title.toLowerCase()}}.png"/>
       </div>
 
       <div class="div-inline" *ngIf="!showEdit && rows.length!=0">
         <a class="show-right" href="#" (click)="showEdit=true">Edit</a>
         <ngx-datatable class="material" [rows]="rows" [rowClass]="getRowClass" [columnMode]="'force'" [sortType]="'single'"
-          [headerHeight]="20" [footerHeight]="0" [reorderable]="true" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
+          [headerHeight]="20" [footerHeight]="0" [reorderable]="true"  (select)="onSelect($event)" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
           [scrollbarV]="true" [scrollbarH]="false">
           <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
             [checkboxable]="true">
           </ngx-datatable-column>
-          <ngx-datatable-column headerClass="task-column" [width]="40" name="Task" [cellClass]="getCellClass" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+          <ngx-datatable-column headerClass="task-column" [width]="40" name="" prop="Badge" [cellClass]="getCellClass" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
           </ngx-datatable-column>
           <ng-container  *ngFor="let col of columns"  >
-          <ngx-datatable-column [draggable]="false" *ngIf="col.show" [name]="col.name"></ngx-datatable-column>
+          <ngx-datatable-column [draggable]="false" *ngIf="col.show" [name]="col.name" [prop]="col.prop" ></ngx-datatable-column>
           </ng-container>
         </ngx-datatable>
       </div>
@@ -36,8 +36,6 @@
           </li>
         </ul>
       </div>
-
-
 
     </div>
   </div>

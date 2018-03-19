@@ -1,0 +1,72 @@
+[
+    {
+        "SteFacility": 306,
+        "HirNode": 66993,
+        "Title": "Akron General Medical Center",
+        "Brief": null,
+        "ManagementLevel": 32460,
+        "FullPath": null,
+        "EnteredBy": 0,
+        "EnteredAt": "0001-01-01T00:00:00",
+        "ModifiedBy": 0,
+        "ModifiedAt": "0001-01-01T00:00:00",
+        "ErrorCode": null,
+        "ErrorResponse": null
+    },
+    {
+        "SteFacility": 274,
+        "HirNode": 45837,
+        "Title": "Alle Kiski",
+        "Brief": null,
+        "ManagementLevel": 32460,
+        "FullPath": null,
+        "EnteredBy": 0,
+        "EnteredAt": "0001-01-01T00:00:00",
+        "ModifiedBy": 0,
+        "ModifiedAt": "0001-01-01T00:00:00",
+        "ErrorCode": null,
+        "ErrorResponse": null
+    },
+    {
+        "SteFacility": 253,
+        "HirNode": 37794,
+        "Title": "Allegheny General Hospital",
+        "Brief": null,
+        "ManagementLevel": 32460,
+        "FullPath": null,
+        "EnteredBy": 0,
+        "EnteredAt": "0001-01-01T00:00:00",
+        "ModifiedBy": 0,
+        "ModifiedAt": "0001-01-01T00:00:00",
+        "ErrorCode": null,
+        "ErrorResponse": null
+    },
+    {
+        "SteFacility": 281,
+        "HirNode": 26499,
+        "Title": "Alta Bates - Ashby",
+        "Brief": null,
+        "ManagementLevel": 32462,
+        "FullPath": null,
+        "EnteredBy": 0,
+        "EnteredAt": "0001-01-01T00:00:00",
+        "ModifiedBy": 0,
+        "ModifiedAt": "0001-01-01T00:00:00",
+        "ErrorCode": null,
+        "ErrorResponse": null
+    },
+    {
+        "SteFacility": 282,
+        "HirNode": 26498,
+        "Title": "Alta Bates - Summit",
+        "Brief": null,
+        "ManagementLevel": 32462,
+        "FullPath": null,
+        "EnteredBy": 0,
+        "EnteredAt": "0001-01-01T00:00:00",
+        "ModifiedBy": 0,
+        "ModifiedAt": "0001-01-01T00:00:00",
+        "ErrorCode": null,
+        "ErrorResponse": null
+    }
+]

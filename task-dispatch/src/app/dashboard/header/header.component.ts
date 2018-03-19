@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IFacility } from './facility';
+import { DashboardService } from '../../_services/dashboard.service';
 
 @Component({
   selector: 'app-header',
@@ -7,24 +9,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   selectedLink = 0;
-  currentHospital;
-  hospitals = [{name: 'Hospital 1', areas: ['Area1', 'Area2', 'Area3', 'Area4']},
-               {name: 'Hospital 2', areas: ['Area1', 'Area2', 'Area3']},
-               {name: 'Hospital 3', areas: ['Area1', 'Area2', 'Area3']}];
+  currentFacility;
+  // facilities = [{name: 'Hospital 1', areas: ['Area1', 'Area2', 'Area3', 'Area4']},
+  //              {name: 'Hospital 2', areas: ['Area1', 'Area2', 'Area3']},
+  //              {name: 'Hospital 3', areas: ['Area1', 'Area2', 'Area3']}];
+
+  facilities: IFacility[] = [];
+
+  areas = ['Area1', 'Area2', 'Area3', 'Area4'];
 
   setLink(linkNumber: number): void {
     this.selectedLink = linkNumber;
   }
-  constructor() { }
+  constructor(private dashBoardService: DashboardService) { }
 
   ngOnInit() {
-    this.currentHospital = this.hospitals[0];
+    this.dashBoardService.getFacilityList().subscribe(
+      facility => facility.map(value => this.facilities.push(value)),
+      error => console.log(error),
+      () => this.setHospital(this.facilities[0].HirNode)
+    );
   }
 
-  setHospital(event) {
-     const currentHospital = this.hospitals.filter(function(d) {
-      return d.name === event.target.value;
-    });
-    this.currentHospital = currentHospital[0];
+  changeFacility(event) {
+     const currentFacility = this.facilities.find(facility => facility.Title === event.target.value);
+     this.setHospital(currentFacility.HirNode);
+  }
+
+  setHospital(facilityId) {
+    this.dashBoardService.setFacility(facilityId);
   }
 }
