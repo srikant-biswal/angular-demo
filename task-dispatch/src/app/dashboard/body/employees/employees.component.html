@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-4 card-1">
+    <app-employeestatus [title]= "'Available'" [rows]="available"  ></app-employeestatus>
+  </div>
+  <div class="col-md-4 card-2">
+    <app-employeestatus [title]= "'Assigned'" [rows]="assigned" ></app-employeestatus>
+  </div>
+  <div class="col-md-4 card-3">
+    <app-employeestatus [title]= "'Delayed'" [rows]="delayed" ></app-employeestatus>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4 card-4 ">
+    <app-employeestatus [title]= "'Active'" [rows]="active" ></app-employeestatus>
+  </div>
+  <div class="col-md-4 card-5">
+    <app-employeestatus [title]= "'On Break'" [rows]="onbreak" ></app-employeestatus>
+  </div>
+  <div class="col-md-4 card-6">
+    <app-employeestatus [title]= "'At Lunch'" [rows]="atlunch" ></app-employeestatus>
+  </div>
+</div>

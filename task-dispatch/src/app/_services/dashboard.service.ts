@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ITask } from '../dashboard/tasks/task';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
@@ -13,19 +12,36 @@ const httpOptions = {
 @Injectable()
 export class DashboardService {
   currentFacility;
-  private componentMethodCallSource = new Subject<any>();
-  componentMethodCalled$ = this.componentMethodCallSource.asObservable();
+  currentArea;
 
+  initializeData = new Subject<any>();
+  initializeData$ = this.initializeData.asObservable();
 
+  filterData = new Subject<any>();
+  filterData$ = this.filterData.asObservable();
+
+  areaUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/FunctionalAreaList';
   taskUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Tasklist';
   facilityUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Facilitylist';
   employeeUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Employeelist';
 
   constructor(private http: HttpClient) { }
 
-  setFacility(facilityId) {
-      this.currentFacility = facilityId;
-      this.componentMethodCallSource.next();
+  // setFacility(facilityId) {
+  //     this.currentFacility = facilityId;
+  //     this.componentMethodCallSource.next();
+  // }
+
+
+
+  // setArea(areaId, facilityId) {
+  //     this.currentFacility = facilityId;
+  //     this.currentArea = areaId;
+  // }
+
+  getAreaList(facilityId): Observable<any> {
+    const body = {'SteHirNodeId': facilityId};
+    return this.http.post(this.areaUrl, body, httpOptions);
   }
 
   getEmployeeList(): Observable<any> {

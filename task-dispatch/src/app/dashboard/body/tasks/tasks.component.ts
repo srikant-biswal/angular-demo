@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { DashboardService } from '../../_services/dashboard.service';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { DashboardService } from '../../../_services/dashboard.service';
 import { ITask } from './task';
 import { map } from 'rxjs/operators';
 
@@ -8,13 +8,14 @@ import { map } from 'rxjs/operators';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent implements OnChanges {
   activeTab = 1;
-  tasks: ITask[] = [];
+  @Input() tasks: ITask[] = [];
   temp: ITask[];
   rows: ITask[];
   filter = '';
   showEdit = false;
+  showLoader;
   showSelectAll;
   columns = [   {name: 'Site Name', prop: 'SiteName', show: true},
                 {name: 'Task Area', prop: 'TskArea', show: true},
@@ -64,21 +65,9 @@ export class TasksComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {
   }
 
-  ngOnInit() {
-  this.dashboardService.componentMethodCalled$.subscribe(
-      () =>  this.getData());
-  }
-
-  getData() {
-    this.tasks = [];
-    this.dashboardService.getTaskList().subscribe(
-      task =>  task['data'].map(value => this.tasks.push(value)) ,
-      error => console.log(error),
-        () =>  this.initialize());
-  }
-
-
-  initialize() {
+  ngOnChanges() {
+      console.log(this.tasks);
+      this.activeTab = 1;
       this.temp = this.tasks.filter(function(d) {
               return d.TskStatusType === 1;
             });

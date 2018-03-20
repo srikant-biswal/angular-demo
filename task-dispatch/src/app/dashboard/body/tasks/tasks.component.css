@@ -38,7 +38,7 @@ a{
 
 
 .search-bar{
-  background-image:url('assets/search.png');
+  background-image:url('../../../../assets/search.png');
   background-repeat: no-repeat;
   background-position: 3px 6px;
   background-size: 15px;

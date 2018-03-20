@@ -8,9 +8,8 @@ import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 export class EmployeestatusComponent implements OnInit {
   @Input() title: String;
   @Input() rows = [];
-
   showEdit = false;
-  columns = [{name: 'Name', prop: 'Brief' , show: true},
+  columns =    [{name: 'Name', prop: 'Brief' , show: true},
                 {name: 'Min', prop: 'DiffMinute', show: true},
                 {name: 'Location', prop: 'Location', show: true},
                 {name: 'Zone', prop: 'ZoneBrief', show: true}];
