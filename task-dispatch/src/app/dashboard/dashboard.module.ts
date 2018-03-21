@@ -6,18 +6,18 @@ import { EmployeestatusComponent } from './body/employees/employeestatus/employe
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DndModule } from 'ng2-dnd';
 import { TasksComponent } from './body/tasks/tasks.component';
-import { FormsModule } from '@angular/forms';
 import { DashboardService } from '../_services/dashboard.service';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeesComponent } from './body/employees/employees.component';
 import { BodyComponent } from './body/body.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
-    CommonModule, NgxDatatableModule, DndModule.forRoot(), FormsModule,  HttpClientModule
+    CommonModule, NgxDatatableModule, DndModule.forRoot(), FormsModule,   HttpClientModule
   ],
   declarations: [DashboardComponent, HeaderComponent, EmployeestatusComponent, TasksComponent, EmployeesComponent, BodyComponent],
   providers: [DashboardService],
-  exports: []
+  exports: [FormsModule]
 })
 export class DashboardModule { }

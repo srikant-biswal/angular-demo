@@ -4,7 +4,7 @@
   <div class="container-fluid employee-status-container">
     <app-employees [employees]="filteredEmployees"></app-employees>
   </div>
-  <app-tasks [tasks]="filteredTasks"></app-tasks>
+  <app-tasks [tasks]="filteredTasks" [columnConfig]="columnConfig"></app-tasks>
 </div>
 
 <div class="dim-background" *ngIf="showLoader">

@@ -11,80 +11,48 @@ import { map } from 'rxjs/operators';
 export class TasksComponent implements OnChanges {
   activeTab = 1;
   @Input() tasks: ITask[] = [];
+  @Input() columnConfig;
   temp: ITask[];
   rows: ITask[];
   filter = '';
   showEdit = false;
-  showLoader;
   showSelectAll;
-  columns = [   {name: 'Site Name', prop: 'SiteName', show: true},
-                {name: 'Task Area', prop: 'TskArea', show: true},
-                {name: 'Area Brief', prop: 'AreaBrief', show: true},
-                {name: 'Class Brief', prop: 'ClassBrief', show: true},
-                {name: 'Start Brief', prop: 'StartBrief', show: true},
-                {name: 'Dest Brief', prop: 'DestBrief', show: true},
-                {name: 'Mode Brief', prop: 'ModeBrief', show: true},
-                {name: 'Cost Brief', prop: 'CostBrief', show: true},
-                {name: 'Task Number', prop: 'TaskNumber', show: true},
-                {name: 'Tran Task Number', prop: 'TranTaskNumber', show: true},
-                {name: 'Item', prop: 'Item', show: true},
-                {name: 'Schedule Date', prop: 'ScheduleDate', show: true},
-                {name: 'Dispatch Needed', prop: 'DispatchNeeded', show: true},
-                {name: 'Response Needed', prop: 'ResponseNeeded', show: true},
-                {name: 'Complete Needed', prop: 'CompleteNeeded', show: true},
-                {name: 'Request Date', prop: 'RequestDate', show: true},
-                {name: 'Assigned Date', prop: 'AssignedDate', show: true},
-                {name: 'Active Date', prop: 'ActiveDate', show: true},
-                {name: 'Delay Date', prop: 'DelayDate', show: true},
-                {name: 'Close Date', prop: 'CloseDate', show: true},
-                {name: 'Cancel Date', prop: 'CancelDate', show: true},
-                {name: 'Task Type Brief', prop: 'TskTaskTypeBrief', show: true},
-                {name: 'Notes', prop: 'Notes', show: true},
-                {name: 'Active Date', prop: 'ActiveDate', show: true},
-                {name: 'Isolation Patient', prop: 'IsolationPatient', show: true},
-                {name: 'Isolation Patient Brief', prop: 'IsolationPatientBrief', show: true},
-                {name: 'Priority', prop: 'Priority', show: true},
-                {name: 'Custom Field1', prop: 'CustomField1', show: true},
-                {name: 'Custom Field2', prop: 'CustomField2', show: true},
-                {name: 'Custom Field3', prop: 'CustomField3', show: true},
-                {name: 'Custom Field4', prop: 'CustomField4', show: true},
-                {name: 'Custom Field5', prop: 'CustomField5', show: true},
-                {name: 'Assigned Personnel', prop: 'AssignedPersonel', show: true},
-                {name: 'Requestor Name', prop: 'RequestorName', show: true},
-                {name: 'Requestor Phone', prop: 'RequestorPhone', show: true},
-                {name: 'Requestor Email', prop: 'RequestorEmail', show: true},
-                {name: 'Patient Name', prop: 'PatientName', show: true},
-                {name: 'Patient DOB', prop: 'PatientDOB', show: true},
-                {name: 'Task Request', prop: 'TaskRequest', show: true},
-                {name: 'Entered By', prop: 'EnteredBy', show: true},
-                {name: 'Entered At', prop: 'EnteredAt', show: true},
-                {name: 'Modified By', prop: 'ModifiedBy', show: true},
-                {name: 'Modified At', prop: 'ModifiedAt', show: true},
-              ];
+  columns = [];
   selected = [];
+
   constructor(private dashboardService: DashboardService) {
   }
 
   ngOnChanges() {
       console.log(this.tasks);
       this.activeTab = 1;
-      this.temp = this.tasks.filter(function(d) {
-              return d.TskStatusType === 1;
-            });
-            this.rows = this.temp;
-            this.checkSelectAll();
+      this.temp = this.tasks.filter( task => task.TskStatusType === 1);
+      this.rows = this.temp;
+      this.sortColumns();
+      this.columns = this.columnConfig.filter(column => column.statusType === 1);
+      console.log(this.columns);
+      this.checkSelectAll();
   }
 
 
   changeTab(tab): void {
+     if (this.activeTab !== tab) {
+      this.columns = [];
       this.activeTab = tab;
-      this.temp = this.tasks.filter(function(d) {
-        return d.TskStatusType === tab;
-      });
+      this.temp = this.tasks.filter( task => task.TskStatusType === tab);
       this.rows = this.temp;
+      this.columns = this.columnConfig.filter(column => column.statusType === tab);
+      // this.sortColumns();
+      console.log(this.columnConfig);
+      console.log(this.columns);
+     }
   }
 
-
+  sortColumns() {
+    this.columnConfig.sort(function(a, b) {
+      return (a['displayOrder'] > b['displayOrder'] ? 1 : -1);
+    });
+  }
 
   getRowClass(row: ITask) {
     const date = new Date();
@@ -151,8 +119,6 @@ export class TasksComponent implements OnChanges {
       this.showSelectAll = true;
     }
     }
-
-
 
 
 

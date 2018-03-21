@@ -10,10 +10,12 @@ export class BodyComponent implements OnInit {
   showLoader;
   employees = []; filteredEmployees = [];
   tasks = []; filteredTasks = [];
+  allTaskColumns = []; taskColumnConfig = []; columnConfig = [];
 
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
+      this.getTaskColumnConfig();
       this.dashboardService.initializeData$.subscribe(
         () => this.getEmployees()
       );
@@ -21,6 +23,19 @@ export class BodyComponent implements OnInit {
         () => this.filterEmployees()
       );
   }
+
+  getTaskColumnConfig() {
+    this.dashboardService.getTaskColumnConfig().subscribe(
+      column => column.map( value => {
+        if (value.FunctionalAreaId === -1) {
+          this.allTaskColumns.push(value);
+        } else {
+          this.taskColumnConfig.push(value);
+        }
+      }),
+      error => console.log(error)
+    );
+}
 
   getEmployees() {
     this.showLoader = true;
@@ -42,6 +57,10 @@ export class BodyComponent implements OnInit {
     console.log(this.tasks);
   }
 
+
+
+
+
   filterEmployees() {
     const areaId = this.dashboardService.currentArea;
     console.log(areaId);
@@ -49,7 +68,37 @@ export class BodyComponent implements OnInit {
       employee => employee.FunctionalAreaId === areaId
     );
     console.log(this.filteredEmployees);
-    this.filterTasks(areaId);
+    this.filterColumns(areaId);
+  }
+
+  filterColumns(areaId) {
+    this.columnConfig = [];
+    const filteredTaskColumns = this.taskColumnConfig.filter(
+      column => column.FunctionalAreaId === areaId
+    );
+    console.log(this.allTaskColumns);
+    console.log(filteredTaskColumns);
+    let flag;
+
+          for (let i = 1; i < 7; i++) {
+              const temp = filteredTaskColumns.filter(value => value.TaskStatusTypeId === i);
+              for (let j = 0; j < this.allTaskColumns.length ; j++) {
+                flag = true;
+                for (let k = 0; k < temp.length; k++) {
+                  if (this.allTaskColumns[j].Header === temp[k].Header) {
+                    flag = false;
+                    this.columnConfig.push({'name': temp[k].Header, 'prop': temp[k].AttrName, 'show': true,
+                                             'statusType': i, 'displayOrder': temp[k].DisplayOrder});
+                  }
+                }
+                if (flag) {
+                   this.columnConfig.push({'name': this.allTaskColumns[j].Header, 'prop': this.allTaskColumns[j].AttrName,
+                                           'show': false, 'statusType': i, 'displayOrder': 99});
+                }
+              }
+          }
+      console.log(this.columnConfig);
+      this.filterTasks(areaId);
   }
 
   filterTasks(areaId) {
