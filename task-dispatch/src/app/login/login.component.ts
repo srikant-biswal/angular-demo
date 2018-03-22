@@ -1,20 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../_services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  email1;
-  password1;
+  _email;
+  _password;
 
-  constructor() { }
+  constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
   }
 
   onSubmit() {
-    alert(this.email1 + '' + this.password1);
+    this.loginService.login(this._email, this._password).subscribe(
+      response => {
+      if (response['IsValid']) {
+      this.router.navigate(['/home']);
+      } },
+      error => console.log(error)
+    );
   }
-
 }

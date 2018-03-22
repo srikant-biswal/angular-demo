@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import {LoginComponent} from './login/login.component';
+import { AuthGuard } from './_guards/auth.guard';
+import { LoginService } from './_services/login.service';
 
 
 @NgModule({
@@ -14,7 +16,7 @@ import {LoginComponent} from './login/login.component';
   imports: [
     BrowserModule, AppRoutingModule, DashboardModule
   ],
-  providers: [],
+  providers: [AuthGuard, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

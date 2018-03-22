@@ -79,20 +79,19 @@ export class BodyComponent implements OnInit {
     console.log(this.allTaskColumns);
     console.log(filteredTaskColumns);
     let flag;
-
-          for (let i = 1; i < 7; i++) {
-              const temp = filteredTaskColumns.filter(value => value.TaskStatusTypeId === i);
-              for (let j = 0; j < this.allTaskColumns.length ; j++) {
-                flag = true;
-                for (let k = 0; k < temp.length; k++) {
-                  if (this.allTaskColumns[j].Header === temp[k].Header) {
-                    flag = false;
-                    this.columnConfig.push({'name': temp[k].Header, 'prop': temp[k].AttrName, 'show': true,
+     for (let i = 1; i < 7; i++) {
+        const temp = filteredTaskColumns.filter(value => value.TaskStatusTypeId === i);
+        for (let j = 0; j < this.allTaskColumns.length ; j++) {
+        flag = true;
+        for (let k = 0; k < temp.length; k++) {
+            if (this.allTaskColumns[j].Header === temp[k].Header) {
+                flag = false;
+                 this.columnConfig.push({'name': temp[k].Header, 'prop': temp[k].AttrName, 'show': true,
                                              'statusType': i, 'displayOrder': temp[k].DisplayOrder});
                   }
-                }
-                if (flag) {
-                   this.columnConfig.push({'name': this.allTaskColumns[j].Header, 'prop': this.allTaskColumns[j].AttrName,
+            }
+            if (flag) {
+                this.columnConfig.push({'name': this.allTaskColumns[j].Header, 'prop': this.allTaskColumns[j].AttrName,
                                            'show': false, 'statusType': i, 'displayOrder': 99});
                 }
               }

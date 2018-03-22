@@ -5,10 +5,10 @@
     <div class="card">
       <div class="card-header bg-primary text-white">Log In</div>
       <div class="card-body">
-        <form #myForm="ngForm">
+        <form #myForm="ngForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label for="email">Email</label>
-            <input id="email" [(ngModel)]="email1" class="form-control" name="email" type="text" placeholder="Enter Email" required #email="ngModel">
+            <input id="email" [(ngModel)]="_email" class="form-control" name="email" type="text" placeholder="Enter Email" required #email="ngModel">
 
             <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
                 Email is required.
@@ -17,13 +17,11 @@
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input id="password" [(ngModel)]="password1" class="form-control" name="password" type="password" placeholder="Enter Password"
+            <input id="password" [(ngModel)]="_password" class="form-control" name="password" type="password" placeholder="Enter Password"
               required #password="ngModel">
-
               <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
                   Password is required.
               </div>
-
           </div>
           <button type="submit" class="btn btn-success" [disabled]="!myForm.form.valid">Submit</button>
         </form>
