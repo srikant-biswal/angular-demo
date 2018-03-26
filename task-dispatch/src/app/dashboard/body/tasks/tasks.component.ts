@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, NgZone } from '@angular/core';
 import { DashboardService } from '../../../_services/dashboard.service';
 import { ITask } from './task';
 import { map } from 'rxjs/operators';
@@ -12,6 +12,9 @@ export class TasksComponent implements OnChanges {
   activeTab = 1;
   @Input() tasks: ITask[] = [];
   @Input() columnConfig;
+  contextMenu = false;
+  contextMenuRow;
+  x; y;
   temp: ITask[];
   rows: ITask[];
   filter = '';
@@ -20,7 +23,7 @@ export class TasksComponent implements OnChanges {
   columns = [];
   selected = [];
 
-  constructor(private dashboardService: DashboardService) {
+  constructor(private dashboardService: DashboardService, private ngZone: NgZone) {
   }
 
   ngOnChanges() {
@@ -107,11 +110,24 @@ export class TasksComponent implements OnChanges {
     this.showSelectAll = ! this.showSelectAll;
   }
 
-    checkSelectAll() {
+  checkSelectAll() {
       if (this.columns.every(col => col.show === true)) {
         this.showSelectAll = false;
     } else {
       this.showSelectAll = true;
+    }
+    }
+
+    onTableContextMenu(context) {
+      if (context.type === 'body') {
+      this.x = context.event.x - 5 ;
+      this.y = context.event.y - 5;
+      this.contextMenuRow = context.content;
+      this.ngZone.run(() => {
+        this.contextMenu = true;
+      });
+      context.event.preventDefault();
+      context.event.stopPropagation();
     }
     }
 

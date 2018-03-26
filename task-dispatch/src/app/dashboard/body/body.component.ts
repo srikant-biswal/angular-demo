@@ -20,7 +20,7 @@ export class BodyComponent implements OnInit {
         () => this.getEmployees()
       );
       this.dashboardService.filterData$.subscribe(
-        () => this.filterEmployees()
+        () => this.filterEmployees(true)
       );
   }
 
@@ -52,17 +52,19 @@ export class BodyComponent implements OnInit {
     this.dashboardService.getTaskList().subscribe(
         task => task['data'].map(value => this.tasks.push(value)),
         error => console.log(error),
-        () => this.filterEmployees());
+        () => this.filterEmployees(true));
   }
 
 
-  filterEmployees() {
+  filterEmployees(filterColumns) {
     const areaId = this.dashboardService.currentArea;
     console.log(areaId);
     this.filteredEmployees = this.employees.filter(
       employee => employee.FunctionalAreaId === areaId
     );
-    this.filterColumns(areaId);
+    if (filterColumns) {
+      this.filterColumns(areaId);
+    }
   }
 
   filterColumns(areaId) {
@@ -99,12 +101,10 @@ export class BodyComponent implements OnInit {
   }
 
   changeStatus(employee) {
-    console.log(this.filteredEmployees);
-    const index = this.filteredEmployees.findIndex(emp => emp.EmployeeId === employee.EmployeeId);
-    this.filteredEmployees.splice(index, 1);
-    console.log(this.filteredEmployees);
-    this.filteredEmployees.push(employee);
-    console.log(this.filteredEmployees);
+    const index = this.employees.findIndex(emp => emp.EmployeeId === employee.EmployeeId);
+    this.employees.splice(index, 1);
+    this.employees.push(employee);
+    this.filterEmployees(false);
   }
 
 }

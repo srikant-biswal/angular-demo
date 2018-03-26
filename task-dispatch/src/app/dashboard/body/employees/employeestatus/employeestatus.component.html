@@ -13,16 +13,16 @@
     <p *ngIf="title=='Active'" (click)="changeStatus(1)">Completed</p>
     <p *ngIf="title=='On Break' || title=='At Lunch'" (click)="changeStatus(1)">Available</p>
   </div>
+
 <div  class="card" [ngClass]="{'card-dotted':showEdit}">
     <div class="card-body">
       <h6 class="card-title">{{title}}</h6>
-
       <div *ngIf="rows.length==0">
         <img class="empty-image" src="assets/{{title.toLowerCase()}}.png"/>
       </div>
 
       <div class="div-inline" *ngIf="!showEdit && rows.length!=0">
-        <a class="show-right" href="#" (click)="showEdit=true">Edit</a>
+        <a class="show-right" (click)="showEdit=true">Edit</a>
         <ngx-datatable class="material" [rows]="rows" [rowClass]="getRowClass" [columnMode]="'force'" [sortType]="'single'"
           [headerHeight]="20" [footerHeight]="0" [reorderable]="true"  (select)="onSelect($event)" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
           [scrollbarV]="true" [scrollbarH]="false" (tableContextmenu)="onTableContextMenu($event)">
@@ -39,7 +39,7 @@
 
       <div class="div-inline" *ngIf="showEdit && rows.length!=0">
         <button class="btn btn-primary show-right" (click)="saveEdit()">Apply</button>
-        <a class="show-right cancel-link" href="#" (click)="cancelEdit()">Cancel</a>
+        <a class="show-right cancel-link"  (click)="cancelEdit()">Cancel</a>
         <hr>
         <ul  dnd-sortable-container [sortableData]="columns">
           <li *ngFor="let col of columns; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
@@ -51,8 +51,6 @@
           </li>
         </ul>
       </div>
-
-
     </div>
   </div>
 

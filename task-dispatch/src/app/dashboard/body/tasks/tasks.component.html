@@ -1,56 +1,79 @@
+<div class="context-menu" *ngIf="contextMenu" [ngStyle]="{'left.px': x, 'top.px': y}" (mouseleave)="contextMenu = false">
+  <p>Task {{contextMenuRow.TaskNumber}}</p>
+  <hr>
+  <p>Break</p>
+</div>
+
 <div class="container-fluid">
-<div class="row">
-  <div class="col-md-1">
-    <h5>Tasks</h5>
-    <button class="btn btn-primary">New Task</button>
-    <ul style="list-style:none;padding:5px">
-      <li><a [class]="activeTab==1? 'active':''" (click)="changeTab(1)">Unassigned</a></li>
-      <li><a [class]="activeTab==2? 'active':''" (click)="changeTab(2)">Assigned</a></li>
-      <li><a [class]="activeTab==3? 'active':''" (click)="changeTab(3)">Active</a></li>
-      <li><a [class]="activeTab==4? 'active':''" (click)="changeTab(4)">Delayed</a></li>
-      <li><a [class]="activeTab==5? 'active':''" (click)="changeTab(5)">Completed</a></li>
-      <li><a [class]="activeTab==6? 'active':''" (click)="changeTab(6)">Cancelled</a></li>
-    </ul>
-  </div>
-
-  <div class="col-md-11">
-    <div *ngIf="!showEdit">
-    <div style="display: flex" >
-      <input  type="text" class="search-bar" [(ngModel)]="filter" (keyup)="updateFilter()" placeholder="Filter Tasks"/>
-      <a class="show-right" href="#" (click)="showEdit=true">Edit</a>
-  </div>
-
-  <span *ngIf="filter">Filtered For "{{filter}}"&nbsp;&nbsp;&nbsp;<a href="#" class="clear-link" (click)="clearFilter()">Clear</a></span>
-
-  <ngx-datatable class="material" [rows]="rows" [rowClass]="getRowClass" [columnMode]="'force'" [sortType]="'single'"
-  [headerHeight]="20" [footerHeight]="0" [reorderable]="true" (select)="onSelect($event)" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
-  [scrollbarV]="true" [scrollbarH]="true" [loadingIndicator]="showLoader">
-  <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
-    [checkboxable]="true">
-  </ngx-datatable-column>
-  <ngx-datatable-column headerClass="task-column" [width]="40" name="" prop="Badge" [cellClass]="getCellClass" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
-  </ngx-datatable-column>
-  <ng-container  *ngFor="let col of columns"  >
-  <ngx-datatable-column [width]="100"  [draggable]="false" *ngIf="col.show" [name]="col.name" [prop]="col.prop"></ngx-datatable-column>
-  </ng-container>
-  </ngx-datatable>
-  </div>
-
-  <div *ngIf="showEdit">
-      <div class="option-box">
-      <a class="cancel-link"  (click)="cancelEdit()">Cancel</a>
-      <button class="btn btn-primary" (click)="saveEdit()">Apply</button>
-      <a class="cancel-link" *ngIf="showSelectAll"   (click)="toggleSelectAll()" >Select All</a>
-      <a class="cancel-link" *ngIf="!showSelectAll"   (click)="toggleSelectAll()" >UnSelect All</a>
-      </div>
-      <hr>
-      <ul  dnd-sortable-container [sortableData]="columns">
-        <li *ngFor="let col of columns; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
-          <input id="col" type="checkbox" (change)='col.show=!col.show;checkSelectAll()' [checked]='col.show'/>
-          <label [attr.for]="col">{{col.name}}</label>
-          <span dnd-sortable-handle class="show-handle-right"><i class="fa fa-bars"></i></span>
+  <div class="row">
+    <div class="col-md-1">
+      <h5>Tasks</h5>
+      <button class="btn btn-primary">New Task</button>
+      <ul class="tab-switcher">
+        <li>
+          <a [class]="activeTab==1? 'active':''" (click)="changeTab(1)">Unassigned</a>
+        </li>
+        <li>
+          <a [class]="activeTab==2? 'active':''" (click)="changeTab(2)">Assigned</a>
+        </li>
+        <li>
+          <a [class]="activeTab==3? 'active':''" (click)="changeTab(3)">Active</a>
+        </li>
+        <li>
+          <a [class]="activeTab==4? 'active':''" (click)="changeTab(4)">Delayed</a>
+        </li>
+        <li>
+          <a [class]="activeTab==5? 'active':''" (click)="changeTab(5)">Completed</a>
+        </li>
+        <li>
+          <a [class]="activeTab==6? 'active':''" (click)="changeTab(6)">Cancelled</a>
         </li>
       </ul>
+    </div>
+
+    <div class="col-md-11">
+      <div *ngIf="!showEdit">
+        <div style="display: flex">
+          <input type="text" class="search-bar" [(ngModel)]="filter" (keyup)="updateFilter()" placeholder="Filter Tasks" />
+          <a class="show-right" (click)="showEdit=true">Edit</a>
+        </div>
+
+        <span *ngIf="filter">Filtered For "{{filter}}"&nbsp;&nbsp;&nbsp;
+          <a class="clear-link" (click)="clearFilter()">Clear</a>
+        </span>
+
+        <ngx-datatable class="material" [rows]="rows" [rowClass]="getRowClass" [columnMode]="'force'" [sortType]="'single'" [headerHeight]="20"
+          [footerHeight]="0" [reorderable]="true" (select)="onSelect($event)" [selected]="selected" [selectionType]="'checkbox'"
+          [selectAllRowsOnPage]="false" [scrollbarV]="true" [scrollbarH]="true" (tableContextmenu)="onTableContextMenu($event)">
+          <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
+            [checkboxable]="true">
+          </ngx-datatable-column>
+          <ngx-datatable-column headerClass="task-column" [width]="40" name="" prop="Badge" [cellClass]="getCellClass" [sortable]="false"
+            [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+          </ngx-datatable-column>
+          <ng-container *ngFor="let col of columns">
+            <ngx-datatable-column [width]="100" [draggable]="false" *ngIf="col.show" [name]="col.name" [prop]="col.prop"></ngx-datatable-column>
+          </ng-container>
+        </ngx-datatable>
+      </div>
+
+      <div *ngIf="showEdit">
+        <div class="option-box">
+          <a class="cancel-link" (click)="cancelEdit()">Cancel</a>
+          <button class="btn btn-primary" (click)="saveEdit()">Apply</button>
+          <a class="cancel-link" *ngIf="showSelectAll" (click)="toggleSelectAll()">Select All</a>
+          <a class="cancel-link" *ngIf="!showSelectAll" (click)="toggleSelectAll()">UnSelect All</a>
+        </div>
+        <hr>
+        <ul dnd-sortable-container [sortableData]="columns">
+          <li *ngFor="let col of columns; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+            <input id="col" type="checkbox" (change)='col.show=!col.show;checkSelectAll()' [checked]='col.show' />
+            <label [attr.for]="col">{{col.name}}</label>
+            <span dnd-sortable-handle class="show-handle-right">
+              <i class="fa fa-bars"></i>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
-</div>
-</div>

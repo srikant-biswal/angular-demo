@@ -3,6 +3,11 @@
  height: 125px;
 }
 
+a:not([href]):not([tabindex]) {
+  color: #12456e;
+  cursor: pointer;
+  text-decoration: underline;
+}
 
 .show-right{
   float:right;
@@ -10,7 +15,8 @@
 
 .card{
   padding: 10px;
-  height: 170px
+  height: 170px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 .card-title,.div-inline{
@@ -75,29 +81,3 @@ a{
     margin: auto;
 }
 
-.context-menu {
-  font-size: 14px;
-  background-color: white;
-  width : 150px;
-  height: auto;
-  padding: 10px;
-  z-index: 100;
-  position: fixed;
-  border: 1px solid #f2f2f2;
-  border-radius: 7px;
-}
-
-.context-menu hr {
-  margin : 5px 0 0 0;
-}
-
-.context-menu p:first-of-type {
-  margin : 0;
-  font-weight: bold;
-  cursor: auto;
-}
-
-.context-menu p {
-  margin : 0;
-  cursor: pointer;
-}

@@ -19,37 +19,32 @@ export class DashboardService {
 
   filterData = new Subject<any>();
   filterData$ = this.filterData.asObservable();
-
-  areaUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/FunctionalAreaList';
-  taskUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Tasklist';
-  taskColumnConfigUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Config/TaskGridColumnList';
-  facilityUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Facilitylist';
-  employeeUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Employeelist';
+  baseUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch';
 
   constructor(private http: HttpClient) { }
 
   getAreaList(): Observable<any> {
     const body = {'SteHirNodeId': this.currentFacility};
-    return this.http.post(this.areaUrl, body, httpOptions);
+    return this.http.post(this.baseUrl + '/FunctionalAreaList', body, httpOptions);
   }
 
   getEmployeeList(): Observable<any> {
     const body = {'SteHirNodeId': this.currentFacility};
-    return this.http.post(this.employeeUrl, body, httpOptions);
+    return this.http.post(this.baseUrl + '/Employeelist', body, httpOptions);
   }
 
   getFacilityList(): Observable<any> {
     const body = {'SteHirNodeId': 20867};
-     return this.http.post(this.facilityUrl, body, httpOptions);
+     return this.http.post(this.baseUrl + '/FacilityList', body, httpOptions);
     }
 
   getTaskList(): Observable<any> {
   const body = {'SteHirNodeId': this.currentFacility};
-  return this.http.post(this.taskUrl, body, httpOptions);
+  return this.http.post(this.baseUrl + '/TaskList', body, httpOptions);
 }
 
   getTaskColumnConfig(): Observable<any> {
-    return this.http.post(this.taskColumnConfigUrl, {}, httpOptions);
+    return this.http.post(this.baseUrl + '/Config/TaskGridColumnList', {}, httpOptions);
   }
 
 
