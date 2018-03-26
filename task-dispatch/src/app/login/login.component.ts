@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../_services/login.service';
 import { Router } from '@angular/router';
 
+
+
 @Component({
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -18,8 +20,10 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.loginService.login(this._email, this._password).subscribe(
       response => {
-      if (response['IsValid']) {
-      this.router.navigate(['/home']);
+      if (response.body['IsValid']) {
+        console.log(response.headers.keys());
+        console.log(response.headers.get('Set-Cookie'));
+      // this.router.navigate(['/home']);
       } },
       error => console.log(error)
     );

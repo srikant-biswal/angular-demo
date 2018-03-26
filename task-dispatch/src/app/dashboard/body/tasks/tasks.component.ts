@@ -24,13 +24,11 @@ export class TasksComponent implements OnChanges {
   }
 
   ngOnChanges() {
-      console.log(this.tasks);
       this.activeTab = 1;
       this.temp = this.tasks.filter( task => task.TskStatusType === 1);
       this.rows = this.temp;
       this.sortColumns();
       this.columns = this.columnConfig.filter(column => column.statusType === 1);
-      console.log(this.columns);
       this.checkSelectAll();
   }
 
@@ -42,9 +40,6 @@ export class TasksComponent implements OnChanges {
       this.temp = this.tasks.filter( task => task.TskStatusType === tab);
       this.rows = this.temp;
       this.columns = this.columnConfig.filter(column => column.statusType === tab);
-      // this.sortColumns();
-      console.log(this.columnConfig);
-      console.log(this.columns);
      }
   }
 

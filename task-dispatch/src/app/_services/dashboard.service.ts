@@ -23,13 +23,13 @@ export class DashboardService {
   areaUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/FunctionalAreaList';
   taskUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Tasklist';
   taskColumnConfigUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Config/TaskGridColumnList';
-  facilityUrl = 'http://172.16.9.239/hrcapi/api/dispatch/Facilitylist';
+  facilityUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Facilitylist';
   employeeUrl = 'http://172.16.9.239/HRCNextGn/api/dispatch/Employeelist';
 
   constructor(private http: HttpClient) { }
 
-  getAreaList(facilityId): Observable<any> {
-    const body = {'SteHirNodeId': facilityId};
+  getAreaList(): Observable<any> {
+    const body = {'SteHirNodeId': this.currentFacility};
     return this.http.post(this.areaUrl, body, httpOptions);
   }
 
@@ -51,5 +51,7 @@ export class DashboardService {
   getTaskColumnConfig(): Observable<any> {
     return this.http.post(this.taskColumnConfigUrl, {}, httpOptions);
   }
+
+
 
 }

@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+const hdrs = new HttpHeaders({ 'Content-Type': 'application/json' });
 
 @Injectable()
 export class LoginService {
@@ -16,6 +14,6 @@ export class LoginService {
 
     login(userName, password): Observable<any> {
       const body = {'UserName': userName , 'Password': password};
-      return this.http.post(this.loginUrl, body, httpOptions);
+      return this.http.post(this.loginUrl, body, {headers : hdrs, observe: 'response', withCredentials : true});
     }
 }

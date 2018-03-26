@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, EventEmitter, Output } from '@angular/core';
 import { DashboardService } from '../../../_services/dashboard.service';
 
 @Component({
@@ -6,12 +6,21 @@ import { DashboardService } from '../../../_services/dashboard.service';
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.css']
 })
-export class EmployeesComponent implements OnChanges {
+export class EmployeesComponent implements OnChanges, OnInit {
+  employee;
   @Input() employees;
+  @Output() childEvent = new EventEmitter();
   available = []; assigned = []; delayed = []; active = []; onbreak = []; atlunch = [];
   constructor(private dashboardService: DashboardService) { }
 
+  ngOnInit() {
+  }
+
   ngOnChanges() {
+   this.filterEmployees();
+  }
+
+  filterEmployees() {
     console.log(this.employees);
     this.available = []; this.assigned = []; this.delayed = []; this.active = []; this.onbreak = []; this.atlunch = [];
     this.employees.map(
@@ -41,4 +50,12 @@ export class EmployeesComponent implements OnChanges {
       }
     );
   }
+
+
+
+  changeStatus(employee) {
+    this.childEvent.emit(employee);
+  }
+
+
 }

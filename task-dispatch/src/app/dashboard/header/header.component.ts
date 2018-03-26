@@ -9,7 +9,6 @@ import { IArea } from './area';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  currentFacility;
   currentArea;
   facilities: IFacility[] = [];
 
@@ -37,9 +36,9 @@ export class HeaderComponent implements OnInit {
   }
 
   getAreas(facilityId) {
-    this.currentFacility = facilityId;
+    this.dashBoardService.currentFacility = facilityId;
     this.areas = [];
-    this.dashBoardService.getAreaList(facilityId).subscribe(
+    this.dashBoardService.getAreaList().subscribe(
         area => area.map(value => this.areas.push(value)),
         error => console.log(error),
         () => this.initializeData(this.areas[0].FunctionalArea)
@@ -47,11 +46,9 @@ export class HeaderComponent implements OnInit {
   }
 
   initializeData(areaId) {
-      this.dashBoardService.currentFacility = this.currentFacility;
-      console.log(this.currentFacility);
-      this.dashBoardService.initializeData.next();
       this.currentArea = areaId;
       this.dashBoardService.currentArea = areaId;
+      this.dashBoardService.initializeData.next();
   }
 
 

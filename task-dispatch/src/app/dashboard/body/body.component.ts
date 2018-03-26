@@ -48,17 +48,12 @@ export class BodyComponent implements OnInit {
   }
 
   getTasks() {
-    console.log(this.employees);
     this.tasks = [];
     this.dashboardService.getTaskList().subscribe(
         task => task['data'].map(value => this.tasks.push(value)),
         error => console.log(error),
         () => this.filterEmployees());
-    console.log(this.tasks);
   }
-
-
-
 
 
   filterEmployees() {
@@ -67,7 +62,6 @@ export class BodyComponent implements OnInit {
     this.filteredEmployees = this.employees.filter(
       employee => employee.FunctionalAreaId === areaId
     );
-    console.log(this.filteredEmployees);
     this.filterColumns(areaId);
   }
 
@@ -76,8 +70,6 @@ export class BodyComponent implements OnInit {
     const filteredTaskColumns = this.taskColumnConfig.filter(
       column => column.FunctionalAreaId === areaId
     );
-    console.log(this.allTaskColumns);
-    console.log(filteredTaskColumns);
     let flag;
      for (let i = 1; i < 7; i++) {
         const temp = filteredTaskColumns.filter(value => value.TaskStatusTypeId === i);
@@ -96,16 +88,23 @@ export class BodyComponent implements OnInit {
                 }
               }
           }
-      console.log(this.columnConfig);
       this.filterTasks(areaId);
   }
 
   filterTasks(areaId) {
-    console.log(this.tasks);
     this.filteredTasks = this.tasks.filter(
       task => task.TskArea === areaId
     );
-    console.log(this.filteredTasks);
     this.showLoader = false;
   }
+
+  changeStatus(employee) {
+    console.log(this.filteredEmployees);
+    const index = this.filteredEmployees.findIndex(emp => emp.EmployeeId === employee.EmployeeId);
+    this.filteredEmployees.splice(index, 1);
+    console.log(this.filteredEmployees);
+    this.filteredEmployees.push(employee);
+    console.log(this.filteredEmployees);
+  }
+
 }

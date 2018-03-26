@@ -1,4 +1,19 @@
-<div class="card" [ngClass]="{'card-dotted':showEdit}">
+
+  <div class="context-menu" *ngIf="contextMenu" [ngStyle]="{'left.px': x, 'top.px': y}" (mouseleave)="contextMenu = false">
+    <p>{{contextMenuRow.Brief}}</p>
+    <hr>
+    <p>View</p>
+    <p>Message</p>
+    <hr>
+    <p *ngIf="title=='Available'" (click)="changeStatus(5)">Break</p>
+    <p *ngIf="title=='Available'" (click)="changeStatus(6)">Lunch</p>
+    <p *ngIf="title=='Available'" (click)="changeStatus(7)">Not In</p>
+    <p *ngIf="title=='Assigned' || title=='Active' " (click)="changeStatus(3)">Delay</p>
+    <p *ngIf="title=='Assigned' || title=='Delayed'" (click)="changeStatus(4)">Start</p>
+    <p *ngIf="title=='Active'" (click)="changeStatus(1)">Completed</p>
+    <p *ngIf="title=='On Break' || title=='At Lunch'" (click)="changeStatus(1)">Available</p>
+  </div>
+<div  class="card" [ngClass]="{'card-dotted':showEdit}">
     <div class="card-body">
       <h6 class="card-title">{{title}}</h6>
 
@@ -10,7 +25,7 @@
         <a class="show-right" href="#" (click)="showEdit=true">Edit</a>
         <ngx-datatable class="material" [rows]="rows" [rowClass]="getRowClass" [columnMode]="'force'" [sortType]="'single'"
           [headerHeight]="20" [footerHeight]="0" [reorderable]="true"  (select)="onSelect($event)" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
-          [scrollbarV]="true" [scrollbarH]="false">
+          [scrollbarV]="true" [scrollbarH]="false" (tableContextmenu)="onTableContextMenu($event)">
           <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
             [checkboxable]="true">
           </ngx-datatable-column>
@@ -37,5 +52,8 @@
         </ul>
       </div>
 
+
     </div>
   </div>
+
+

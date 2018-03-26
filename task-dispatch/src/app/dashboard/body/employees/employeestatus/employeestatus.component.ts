@@ -1,13 +1,18 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, NgZone, Output, EventEmitter, OnChanges } from '@angular/core';
+
 
 @Component({
   selector: 'app-employeestatus',
   templateUrl: './employeestatus.component.html',
   styleUrls: ['./employeestatus.component.css'],
 })
-export class EmployeestatusComponent implements OnInit {
-  @Input() title: String;
+export class EmployeestatusComponent implements OnChanges {
+  @Input() title;
   @Input() rows = [];
+  @Output() childEvent = new EventEmitter();
+  contextMenu = false;
+  contextMenuRow;
+  x; y;
   showEdit = false;
   columns =    [{name: 'Name', prop: 'Brief' , show: true},
                 {name: 'Min', prop: 'DiffMinute', show: true},
@@ -15,9 +20,10 @@ export class EmployeestatusComponent implements OnInit {
                 {name: 'Zone', prop: 'ZoneBrief', show: true}];
   selected = [];
 
-  constructor() { }
+  constructor(private ngZone: NgZone) { }
 
-  ngOnInit() {
+  ngOnChanges() {
+
   }
 
   saveEdit(): void {
@@ -43,6 +49,25 @@ export class EmployeestatusComponent implements OnInit {
     };
   }
 
+  onTableContextMenu(context) {
+    if (context.type === 'body') {
+    this.x = context.event.x - 5 ;
+    this.y = context.event.y - 5;
+    this.contextMenuRow = context.content;
+    this.ngZone.run(() => {
+      this.contextMenu = true;
+    });
+    context.event.preventDefault();
+    context.event.stopPropagation();
+  }
+  }
+
+  changeStatus(status) {
+    console.log(status);
+    this.contextMenu = false;
+    this.contextMenuRow.EmpStatusType = status;
+    this.childEvent.emit(this.contextMenuRow);
+  }
 
 
   onSelect({ selected }) {
