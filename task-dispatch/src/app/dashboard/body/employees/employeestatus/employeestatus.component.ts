@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, Input, NgZone, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, NgZone, Output, EventEmitter, OnChanges, AfterViewInit } from '@angular/core';
+import {IEmployee} from 'app/models/employee';
 
 
 @Component({
@@ -8,8 +9,10 @@ import { Component, OnInit, ViewEncapsulation, Input, NgZone, Output, EventEmitt
 })
 export class EmployeestatusComponent implements OnChanges {
   @Input() title;
-  @Input() rows = [];
+  ready = false;
+  @Input() _rows: IEmployee[] = [];
   @Output() childEvent = new EventEmitter();
+  rows: IEmployee[] = [];
   contextMenu = false;
   contextMenuRow;
   x; y;
@@ -23,8 +26,12 @@ export class EmployeestatusComponent implements OnChanges {
   constructor(private ngZone: NgZone) { }
 
   ngOnChanges() {
-
+      if (this._rows) {
+        this.rows = this._rows;
+      }
   }
+
+
 
   saveEdit(): void {
     this.showEdit = false;

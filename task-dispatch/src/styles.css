@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+
+
 .ngx-datatable.material
 {
   box-shadow: none !important;
@@ -9,6 +11,8 @@
   border-bottom:2px solid lightgrey;
 }
 
+.datatable-scroll { width: 100% !important; }
+
 .ngx-datatable.material .datatable-header .datatable-header-cell
 {
   color:black !important;
@@ -16,6 +20,9 @@
   padding: 0 5px 5px 5px !important;
 }
 
+.ngx-datatable.material .datatable-scroller{
+  width:100% !important;
+}
 
 .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell
 {
@@ -99,6 +106,11 @@
   .context-menu p {
     margin : 0;
     cursor: pointer;
+  }
+
+  .ng-sidebar{
+    background-color: white;
+    padding: 10px;
   }
 
 

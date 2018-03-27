@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, OnChanges, NgZone } from '@angular/core';
-import { DashboardService } from '../../../_services/dashboard.service';
-import { ITask } from './task';
+import { Component, OnInit, Input, OnChanges, NgZone, Output, EventEmitter } from '@angular/core';
+import { DashboardService } from 'app/_services/dashboard.service';
+import { ITask } from 'app/models/task';
 import { map } from 'rxjs/operators';
+import { ITaskColumn } from '../../../models/taskcolumn';
 
 @Component({
   selector: 'app-tasks',
@@ -11,7 +12,8 @@ import { map } from 'rxjs/operators';
 export class TasksComponent implements OnChanges {
   activeTab = 1;
   @Input() tasks: ITask[] = [];
-  @Input() columnConfig;
+  @Input() columnConfig: ITaskColumn[];
+  @Output() childEvent = new EventEmitter();
   contextMenu = false;
   contextMenuRow;
   x; y;
@@ -27,12 +29,14 @@ export class TasksComponent implements OnChanges {
   }
 
   ngOnChanges() {
+     if (this.tasks && this.columnConfig) {
       this.activeTab = 1;
       this.temp = this.tasks.filter( task => task.TskStatusType === 1);
       this.rows = this.temp;
       this.sortColumns();
       this.columns = this.columnConfig.filter(column => column.statusType === 1);
       this.checkSelectAll();
+     }
   }
 
 

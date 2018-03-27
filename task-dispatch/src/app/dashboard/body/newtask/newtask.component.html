@@ -1,0 +1,29 @@
+<h2>Requestor Info</h2>
+
+<form #newTaskForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Email</label>
+      <input id="name" [(ngModel)]="_name" class="form-control" name="email" type="text" placeholder="Enter Email"  #name="ngModel">
+      <!-- <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+          Email is required.
+      </div> -->
+    </div>
+    <div class="form-group">
+      <label for="phone">Password</label>
+      <input id="phone" [(ngModel)]="_phone" class="form-control" name="phone" type="number" placeholder="Enter Phone" #phone="ngModel">
+        <!-- <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+            Password is required.
+        </div> -->
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" [(ngModel)]="_email" class="form-control" name="email" type="text" placeholder="Enter Email" #email="ngModel">
+          <!-- <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+              Password is required.
+          </div> -->
+    </div>
+    <div>
+    <button type="submit" class="btn btn-success">Cancel</button>
+    <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </form>

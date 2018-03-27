@@ -1,9 +1,15 @@
+<ng-sidebar-container style="height:91vh">
 
+    <ng-sidebar [mode]="mode" position="right" [(opened)]="showSideBar">
+        <app-newtask></app-newtask>
+    </ng-sidebar>
+
+
+  <div ng-sidebar-content>
   <div class="container-fluid employee-status-container">
     <app-employees [employees]="filteredEmployees" (childEvent)="changeStatus($event)"></app-employees>
   </div>
-  <app-tasks [tasks]="filteredTasks" [columnConfig]="columnConfig"></app-tasks>
-
+  <app-tasks [tasks]="filteredTasks" [columnConfig]="columnConfig" (childEvent)="toggleSideBar()"></app-tasks>
 
 <div class="dim-background" *ngIf="showLoader">
   <svg class="loader" version="1.1" id="L7" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -24,4 +30,6 @@
       />
     </path>
   </svg>
+  </div>
 </div>
+</ng-sidebar-container>

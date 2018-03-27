@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnChanges, EventEmitter, Output } from '@angular/core';
-import { DashboardService } from '../../../_services/dashboard.service';
+import { DashboardService } from 'app/_services/dashboard.service';
+import { IEmployee } from 'app/models/employee';
 
 @Component({
   selector: 'app-employees',
@@ -8,9 +9,10 @@ import { DashboardService } from '../../../_services/dashboard.service';
 })
 export class EmployeesComponent implements OnChanges, OnInit {
   employee;
-  @Input() employees;
+  @Input() employees: IEmployee[];
   @Output() childEvent = new EventEmitter();
-  available = []; assigned = []; delayed = []; active = []; onbreak = []; atlunch = [];
+  available: IEmployee[]; assigned: IEmployee[]; delayed: IEmployee[];
+  active: IEmployee[]; onbreak: IEmployee[]; atlunch: IEmployee[];
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
@@ -21,11 +23,12 @@ export class EmployeesComponent implements OnChanges, OnInit {
   }
 
   filterEmployees() {
+    if (this.employees) {
     console.log(this.employees);
     this.available = []; this.assigned = []; this.delayed = []; this.active = []; this.onbreak = []; this.atlunch = [];
     this.employees.map(
       employee => {
-        switch (employee['EmpStatusType']) {
+        switch (employee.EmpStatusType) {
           case 1:
           this.available.push(employee);
           break;
@@ -49,6 +52,7 @@ export class EmployeesComponent implements OnChanges, OnInit {
         }
       }
     );
+  }
   }
 
 

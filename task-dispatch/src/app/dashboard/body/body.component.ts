@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardService } from '../../_services/dashboard.service';
+import { DashboardService } from 'app/_services/dashboard.service';
+import { IEmployee } from 'app/models/employee';
+import { ITask } from 'app/models/task';
+import { ITaskColumn } from 'app/models/taskcolumn';
+import { ITaskColumnDb } from 'app/models/taskcolumndb';
 
 @Component({
   selector: 'app-body',
@@ -8,11 +12,17 @@ import { DashboardService } from '../../_services/dashboard.service';
 })
 export class BodyComponent implements OnInit {
   showLoader;
-  employees = []; filteredEmployees = [];
-  tasks = []; filteredTasks = [];
-  allTaskColumns = []; taskColumnConfig = []; columnConfig = [];
+  mode = 'over';
+  showSideBar = false;
+  employees: IEmployee[]; filteredEmployees: IEmployee[];
+  tasks: ITask[]; filteredTasks: ITask[];
+  allTaskColumns = []; taskColumnConfig = []; columnConfig: ITaskColumn[];
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService) {
+    if (window.screen.width > 1100) {
+      this.mode = 'push';
+    }
+   }
 
   ngOnInit() {
       this.getTaskColumnConfig();
@@ -41,7 +51,7 @@ export class BodyComponent implements OnInit {
     this.showLoader = true;
     this.employees = [];
     this.dashboardService.getEmployeeList().subscribe(
-        employee => employee.map(value => this.employees.push(value)),
+        employees => this.employees = employees,
         error => console.log(error),
         () => this.getTasks()
     );
@@ -105,6 +115,10 @@ export class BodyComponent implements OnInit {
     this.employees.splice(index, 1);
     this.employees.push(employee);
     this.filterEmployees(false);
+  }
+
+  toggleSideBar() {
+    this.showSideBar = !this.showSideBar;
   }
 
 }

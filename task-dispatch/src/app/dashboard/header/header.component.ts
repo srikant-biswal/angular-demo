@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IFacility } from './facility';
-import { DashboardService } from '../../_services/dashboard.service';
-import { IArea } from './area';
+import { IFacility } from 'app/models/facility';
+import { DashboardService } from 'app/_services/dashboard.service';
+import { IArea } from 'app/models/area';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.dashBoardService.getFacilityList().subscribe(
-      facility => facility.map(value => this.facilities.push(value)),
+      facility => this.facilities = facility,
       error => console.log(error),
       () => this.getAreas(this.facilities[0].HirNode)
     );
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
     this.dashBoardService.currentFacility = facilityId;
     this.areas = [];
     this.dashBoardService.getAreaList().subscribe(
-        area => area.map(value => this.areas.push(value)),
+        area => this.areas = area,
         error => console.log(error),
         () => this.initializeData(this.areas[0].FunctionalArea)
     );

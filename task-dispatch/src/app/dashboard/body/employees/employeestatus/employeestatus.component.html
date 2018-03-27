@@ -23,9 +23,9 @@
 
       <div class="div-inline" *ngIf="!showEdit && rows.length!=0">
         <a class="show-right" (click)="showEdit=true">Edit</a>
-        <ngx-datatable class="material" [rows]="rows" [rowClass]="getRowClass" [columnMode]="'force'" [sortType]="'single'"
+        <ngx-datatable appNgxResizeWatcher  class="material" [rows]="rows" [rowClass]="getRowClass" [columnMode]="'force'" [sortType]="'single'"
           [headerHeight]="20" [footerHeight]="0" [reorderable]="true"  (select)="onSelect($event)" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
-          [scrollbarV]="true" [scrollbarH]="false" (tableContextmenu)="onTableContextMenu($event)">
+          [scrollbarV]="true"  (tableContextmenu)="onTableContextMenu($event)">
           <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
             [checkboxable]="true">
           </ngx-datatable-column>

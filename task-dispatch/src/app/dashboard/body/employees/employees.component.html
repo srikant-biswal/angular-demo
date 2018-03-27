@@ -1,22 +1,22 @@
 <div class="row">
   <div class="col-md-4 card-1">
-    <app-employeestatus [title]= "'Available'" [rows]="available" (childEvent)="changeStatus($event)"  ></app-employeestatus>
+    <app-employeestatus [title]= "'Available'" [_rows]="available" (childEvent)="changeStatus($event)"  ></app-employeestatus>
   </div>
   <div class="col-md-4 card-2">
-    <app-employeestatus [title]= "'Assigned'" [rows]="assigned" (childEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'Assigned'" [_rows]="assigned" (childEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
   <div class="col-md-4 card-3">
-    <app-employeestatus [title]= "'Delayed'" [rows]="delayed" (childEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'Delayed'" [_rows]="delayed" (childEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
 </div>
 <div class="row">
   <div class="col-md-4 card-4 ">
-    <app-employeestatus [title]= "'Active'" [rows]="active" (childEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'Active'" [_rows]="active" (childEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
   <div class="col-md-4 card-5">
-    <app-employeestatus [title]= "'On Break'" [rows]="onbreak" (childEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'On Break'" [_rows]="onbreak" (childEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
   <div class="col-md-4 card-6">
-    <app-employeestatus [title]= "'At Lunch'" [rows]="atlunch" (childEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'At Lunch'" [_rows]="atlunch" (childEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
 </div>

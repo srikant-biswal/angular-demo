@@ -5,18 +5,21 @@ import { DashboardComponent } from './dashboard.component';
 import { EmployeestatusComponent } from './body/employees/employeestatus/employeestatus.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DndModule } from 'ng2-dnd';
+import {SidebarModule} from 'ng-sidebar';
 import { TasksComponent } from './body/tasks/tasks.component';
 import { DashboardService } from '../_services/dashboard.service';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeesComponent } from './body/employees/employees.component';
 import { BodyComponent } from './body/body.component';
 import { FormsModule } from '@angular/forms';
+import { NewtaskComponent } from './body/newtask/newtask.component';
+import { NgxResizeWatcherDirective } from './body/ngx-resize-watcher.directive';
 
 @NgModule({
   imports: [
-    CommonModule, NgxDatatableModule, DndModule.forRoot(), FormsModule,   HttpClientModule
+    CommonModule, NgxDatatableModule, DndModule.forRoot(), SidebarModule.forRoot(), FormsModule,   HttpClientModule
   ],
-  declarations: [DashboardComponent, HeaderComponent, EmployeestatusComponent, TasksComponent, EmployeesComponent, BodyComponent],
+  declarations: [DashboardComponent, HeaderComponent, EmployeestatusComponent, TasksComponent, EmployeesComponent, BodyComponent, NewtaskComponent, NgxResizeWatcherDirective],
   providers: [DashboardService],
   exports: [FormsModule]
 })

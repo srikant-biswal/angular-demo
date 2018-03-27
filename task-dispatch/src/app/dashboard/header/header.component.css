@@ -1,6 +1,4 @@
-.box-shadow{
-  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2)
-}
+
 
 a{
   color:#12456e;
@@ -18,4 +16,9 @@ a{
 
 .bootstrap-select .btn:focus {
   outline: none !important;
+}
+
+nav {
+  height : 9vh;
+  border-bottom: 1px solid #dcdcdc;
 }

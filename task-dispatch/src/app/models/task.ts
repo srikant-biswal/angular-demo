@@ -1,6 +1,7 @@
 export interface ITask {
   TskArea;
   AreaBrief;
+  Badge;
   ClassBrief;
   StartBrief;
   DestBrief;
