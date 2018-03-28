@@ -61,7 +61,7 @@ export class BodyComponent implements OnInit {
   getTasks() {
     this.tasks = [];
     this.dashboardService.getTaskList().subscribe(
-        task => task['data'].map(value => this.tasks.push(value)),
+        task => task.map(value => this.tasks.push(value)),
         error => console.log(error),
         () => this.filterEmployees(true));
   }
