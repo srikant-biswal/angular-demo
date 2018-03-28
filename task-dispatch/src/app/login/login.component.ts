@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../_services/login.service';
 import { Router } from '@angular/router';
+import { DashboardService } from 'app/_services/dashboard.service';
 
-
+const key = 'MIIBITANBGKQHKIG9W0BAQEFAAOCAQ4AMIIBCQKCAQBJ67E+ROUGDNVVNNVQFWGLTK+3DIIEMIMXHMT5WTJ6BD1OWQHNBPQ6XT1MYAT6QPBRJFCDKBC8QJ';
 
 @Component({
   templateUrl: './login.component.html',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
   _email;
   _password;
 
-  constructor(private loginService: LoginService, private router: Router) { }
+  constructor(private loginService: LoginService, private router: Router, private dashboardService: DashboardService) { }
 
   ngOnInit() {
   }
@@ -21,9 +22,9 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this._email, this._password).subscribe(
       response => {
       if (response.body['IsValid']) {
-        console.log(response.headers.keys());
-        console.log(response.headers.get('Set-Cookie'));
-      // this.router.navigate(['/home']);
+        console.log(response.headers.get(key));
+        this.dashboardService.key = response.headers.get(key);
+        this.router.navigate(['/home']);
       } },
       error => console.log(error)
     );
