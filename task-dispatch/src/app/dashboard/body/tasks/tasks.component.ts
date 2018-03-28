@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnChanges, NgZone, Output, EventEmitter } fro
 import { DashboardService } from 'app/_services/dashboard.service';
 import { ITask } from 'app/models/task';
 import { map } from 'rxjs/operators';
-import { ITaskColumn } from '../../../models/taskcolumn';
+import { ITaskColumn } from 'app/models/taskcolumn';
 
 @Component({
   selector: 'app-tasks',

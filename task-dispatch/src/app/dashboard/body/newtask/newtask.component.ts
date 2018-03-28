@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-newtask',
@@ -8,11 +8,17 @@ import { Component, OnInit } from '@angular/core';
 export class NewtaskComponent implements OnInit {
   _name;
   _phone;
+  @Output() childEvent = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
   }
-    OnSubmit() {
+    onSubmit() {
+    }
+
+    onCancel() {
+      this.childEvent.emit();
     }
 
 }

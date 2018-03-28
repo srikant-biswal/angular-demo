@@ -1,5 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+/* html {
+  font-size:12px !important;
+}
 
+li[_ngcontent-c8] {
+  font-size:12px !important;
+} */
 
 .ngx-datatable.material
 {
@@ -18,14 +24,14 @@
   color:black !important;
   font-weight: bold !important;
   padding: 0 5px 5px 5px !important;
+  /* font-size:12px !important; */
 }
 
-.ngx-datatable.material .datatable-scroller{
-  width:100% !important;
-}
+
 
 .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell
 {
+  /* font-size:12px !important; */
   padding: 5px !important;
 }
 
@@ -111,6 +117,10 @@
   .ng-sidebar{
     background-color: white;
     padding: 10px;
+  }
+
+  .show-right{
+    float:right;
   }
 
 

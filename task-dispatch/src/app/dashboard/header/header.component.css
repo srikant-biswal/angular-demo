@@ -4,6 +4,10 @@ a{
   color:#12456e;
 }
 
+select {
+  width : 80%;
+}
+
 .active-link{
   color: #fff  !important;
   background-color: #12456e;
@@ -19,6 +23,6 @@ a{
 }
 
 nav {
-  height : 9vh;
+  height : 60px;
   border-bottom: 1px solid #dcdcdc;
 }

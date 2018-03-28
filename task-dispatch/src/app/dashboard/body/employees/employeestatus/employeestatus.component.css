@@ -9,9 +9,7 @@ a:not([href]):not([tabindex]) {
   text-decoration: underline;
 }
 
-.show-right{
-  float:right;
-}
+
 
 .card{
   padding: 10px;

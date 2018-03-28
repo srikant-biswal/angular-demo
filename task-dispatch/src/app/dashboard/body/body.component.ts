@@ -49,6 +49,7 @@ export class BodyComponent implements OnInit {
 
   getEmployees() {
     this.showLoader = true;
+    this.showSideBar = false;
     this.employees = [];
     this.dashboardService.getEmployeeList().subscribe(
         employees => this.employees = employees,
