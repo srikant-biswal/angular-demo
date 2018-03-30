@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IFacility } from 'app/models/facility';
 import { DashboardService } from 'app/_services/dashboard.service';
 import { IArea } from 'app/models/area';
+import { Router } from '@angular/router';
+import {BodyComponent} from '../body/body.component';
 
 @Component({
   selector: 'app-header',
@@ -14,12 +16,12 @@ export class HeaderComponent implements OnInit {
 
   areas: IArea[] = [];
 
-  constructor(private dashBoardService: DashboardService) { }
+  constructor(private dashBoardService: DashboardService, private router: Router) { }
 
   ngOnInit() {
     this.dashBoardService.getFacilityList().subscribe(
       facility => this.facilities = facility,
-      error => console.log(error),
+      error => this.handleError(error),
       () => this.getAreas(this.facilities[0].HirNode)
     );
   }
@@ -48,6 +50,7 @@ export class HeaderComponent implements OnInit {
   initializeData(areaId) {
       this.currentArea = areaId;
       this.dashBoardService.currentArea = areaId;
+      this.dashBoardService.areas = this.areas;
       this.dashBoardService.initializeData.next();
   }
 
@@ -57,5 +60,12 @@ export class HeaderComponent implements OnInit {
     this.dashBoardService.currentArea = areaId;
     console.log(areaId);
     this.dashBoardService.filterData.next();
+  }
+
+  handleError(error) {
+    if (error.status === 401) {
+      this.router.navigate(['/login']);
+    }
+    console.log(error);
   }
 }

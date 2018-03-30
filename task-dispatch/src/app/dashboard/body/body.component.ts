@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { DashboardService } from 'app/_services/dashboard.service';
 import { IEmployee } from 'app/models/employee';
 import { ITask } from 'app/models/task';
 import { ITaskColumn } from 'app/models/taskcolumn';
 import { ITaskColumnDb } from 'app/models/taskcolumndb';
+import 'rxjs/add/operator/skip';
 
 @Component({
   selector: 'app-body',
@@ -14,11 +15,12 @@ export class BodyComponent implements OnInit {
   showLoader;
   mode = 'over';
   showSideBar = false;
+  showActionBar = false;
   employees: IEmployee[]; filteredEmployees: IEmployee[];
   tasks: ITask[]; filteredTasks: ITask[];
   allTaskColumns = []; taskColumnConfig = []; columnConfig: ITaskColumn[];
 
-  constructor(private dashboardService: DashboardService) {
+  constructor(private dashboardService: DashboardService, private ngZone: NgZone) {
     if (window.screen.width > 1100) {
       this.mode = 'push';
     }
@@ -26,13 +28,15 @@ export class BodyComponent implements OnInit {
 
   ngOnInit() {
       this.getTaskColumnConfig();
-      this.dashboardService.initializeData$.subscribe(
+      this.dashboardService.initializeData.unsubscribe();
+      this.dashboardService.initializeData.subscribe(
         () => this.getEmployees()
       );
       this.dashboardService.filterData$.subscribe(
         () => this.filterEmployees(true)
       );
   }
+
 
   getTaskColumnConfig() {
     this.dashboardService.getTaskColumnConfig().subscribe(
@@ -43,7 +47,7 @@ export class BodyComponent implements OnInit {
           this.taskColumnConfig.push(value);
         }
       }),
-      error => console.log(error)
+      error => this.handleError(error)
     );
 }
 
@@ -61,7 +65,7 @@ export class BodyComponent implements OnInit {
   getTasks() {
     this.tasks = [];
     this.dashboardService.getTaskList().subscribe(
-        task => task.map(value => this.tasks.push(value)),
+        tasks => this.tasks = tasks,
         error => console.log(error),
         () => this.filterEmployees(true));
   }
@@ -74,6 +78,7 @@ export class BodyComponent implements OnInit {
       employee => employee.FunctionalAreaId === areaId
     );
     if (filterColumns) {
+      this.resetSelections();
       this.filterColumns(areaId);
     }
   }
@@ -120,6 +125,26 @@ export class BodyComponent implements OnInit {
 
   toggleSideBar() {
     this.showSideBar = !this.showSideBar;
+  }
+
+  toggleActionBar(value) {
+    this.ngZone.run(() => {
+      this.showActionBar = value;
+    });
+  }
+
+  handleError(error) {
+    if (error.status === 401) {
+      console.log('Error');
+    }
+    console.log(error);
+  }
+
+
+  resetSelections() {
+    this.toggleActionBar(false);
+    this.dashboardService.selected = [];
+    this.dashboardService.uncheck.next();
   }
 
 }

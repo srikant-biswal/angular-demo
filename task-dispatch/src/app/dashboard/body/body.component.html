@@ -1,7 +1,11 @@
 <ng-sidebar-container style="height:91vh">
 
-    <ng-sidebar [mode]="mode" position="right" [(opened)]="showSideBar">
+    <ng-sidebar class="side-bar" [mode]="mode" position="right" [(opened)]="showSideBar">
         <app-newtask (childEvent)="toggleSideBar()"></app-newtask>
+    </ng-sidebar>
+
+    <ng-sidebar class="action-bar" [mode]="'over'" position="bottom" [autoFocus]="false" [(opened)]="showActionBar" >
+      <app-actionbar (childEvent)="toggleActionBar($event)"></app-actionbar>
     </ng-sidebar>
 
 

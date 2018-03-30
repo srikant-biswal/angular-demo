@@ -7,7 +7,7 @@ const hdrs = new HttpHeaders({ 'Content-Type': 'application/json' });
 @Injectable()
 export class LoginService {
 
-  loginUrl = 'http://localhost/hrcapi/api/authapi/signin';
+  loginUrl = 'http://172.16.9.239/teampro/api/auth/signin';
 
 
   constructor(private http: HttpClient) { }

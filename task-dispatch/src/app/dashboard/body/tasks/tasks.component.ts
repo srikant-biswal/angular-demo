@@ -9,7 +9,7 @@ import { ITaskColumn } from 'app/models/taskcolumn';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnChanges {
+export class TasksComponent implements OnInit, OnChanges {
   activeTab = 1;
   @Input() tasks: ITask[] = [];
   @Input() columnConfig: ITaskColumn[];
@@ -26,6 +26,12 @@ export class TasksComponent implements OnChanges {
   selected = [];
 
   constructor(private dashboardService: DashboardService, private ngZone: NgZone) {
+  }
+
+  ngOnInit() {
+    this.dashboardService.uncheck$.subscribe(
+      () => this.remove()
+    );
   }
 
   ngOnChanges() {
@@ -140,16 +146,11 @@ export class TasksComponent implements OnChanges {
   onSelect({ selected }) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
-    console.log('Select Event', this.selected);
+    this.dashboardService.selected[7] = selected;
+    this.dashboardService.actionBar.next();
+
   }
 
-  add() {
-    this.selected.push(this.rows[1], this.rows[3]);
-  }
-
-  update() {
-    this.selected = [ this.rows[1], this.rows[3] ];
-  }
 
   remove() {
     this.selected = [];

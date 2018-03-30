@@ -1,0 +1,25 @@
+a:not([href]):not([tabindex]) {
+  color: #12456e;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-primary {
+  margin:0;
+  padding: 3px 25px;
+  border: 1px solid gainsboro;
+  border-radius: 7px;
+  color: #12456e;
+  background-color: white;
+}
+
+
+.action-content {
+margin-right: 0;
+align-items: center;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-around;
+}

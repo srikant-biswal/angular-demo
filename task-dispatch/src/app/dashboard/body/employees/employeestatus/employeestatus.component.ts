@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Input, NgZone, Output, EventEmitter, OnChanges, AfterViewInit } from '@angular/core';
 import {IEmployee} from 'app/models/employee';
+import { DashboardService } from 'app/_services/dashboard.service';
 
 
 @Component({
@@ -7,7 +8,7 @@ import {IEmployee} from 'app/models/employee';
   templateUrl: './employeestatus.component.html',
   styleUrls: ['./employeestatus.component.css'],
 })
-export class EmployeestatusComponent implements OnChanges {
+export class EmployeestatusComponent implements OnInit, OnChanges {
   @Input() title;
   ready = false;
   @Input() _rows: IEmployee[] = [];
@@ -23,7 +24,13 @@ export class EmployeestatusComponent implements OnChanges {
                 {name: 'Zone', prop: 'ZoneBrief', show: true}];
   selected = [];
 
-  constructor(private ngZone: NgZone) { }
+  constructor(private ngZone: NgZone, private dashBoardService: DashboardService) { }
+
+  ngOnInit() {
+    this.dashBoardService.uncheck$.subscribe(
+      () => this.remove()
+    );
+  }
 
   ngOnChanges() {
       if (this._rows) {
@@ -77,19 +84,34 @@ export class EmployeestatusComponent implements OnChanges {
   }
 
 
-  onSelect({ selected }) {
+  onSelect({selected}) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
-    console.log(this.selected);
+    switch (this.title) {
+      case 'Available':
+      this.dashBoardService.selected[1] = selected;
+      break;
+      case 'Assigned':
+      this.dashBoardService.selected[2] = selected;
+      break;
+      case 'Delayed':
+      this.dashBoardService.selected[3] = selected;
+      break;
+      case 'Active':
+      this.dashBoardService.selected[4] = selected;
+      break;
+      case 'On Break':
+      this.dashBoardService.selected[5] = selected;
+      break;
+      case 'At Lunch':
+      this.dashBoardService.selected[6] = selected;
+      break;
+      default:
+      console.log('Undefined');
+    }
+    this.dashBoardService.actionBar.next();
   }
 
-  add() {
-    this.selected.push(this.rows[1], this.rows[3]);
-  }
-
-  update() {
-    this.selected = [ this.rows[1], this.rows[3] ];
-  }
 
   remove() {
     this.selected = [];

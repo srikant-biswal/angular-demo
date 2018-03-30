@@ -12,6 +12,7 @@ const key = 'MIIBITANBGKQHKIG9W0BAQEFAAOCAQ4AMIIBCQKCAQBJ67E+ROUGDNVVNNVQFWGLTK+
 export class LoginComponent implements OnInit {
   _email;
   _password;
+  invalidUser = false;
 
   constructor(private loginService: LoginService, private router: Router, private dashboardService: DashboardService) { }
 
@@ -25,6 +26,8 @@ export class LoginComponent implements OnInit {
         console.log(response.headers.get(key));
         this.dashboardService.key = response.headers.get(key);
         this.router.navigate(['/home']);
+      } else {
+        this.invalidUser = true;
       } },
       error => console.log(error)
     );

@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
+import { IArea } from 'app/models/area';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -9,19 +10,28 @@ export class DashboardService {
   currentFacility;
   currentArea;
   key;
+  areas: IArea[];
+  selected: any[][] = [];
 
   initializeData = new Subject<any>();
   initializeData$ = this.initializeData.asObservable();
 
   filterData = new Subject<any>();
   filterData$ = this.filterData.asObservable();
-  baseUrl = 'http://localhost/hrcapi/api/dispatch';
+
+  actionBar = new Subject<any>();
+  actionBar$ = this.actionBar.asObservable();
+
+  uncheck = new Subject<any>();
+  uncheck$ = this.uncheck.asObservable();
+
+  baseUrl = 'http://172.16.9.239/teampro/api/dispatch';
 
   constructor(private http: HttpClient) { }
 
-  getHeaders(): any{
+  getHeaders(): any {
     return {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization':'Bearer ' + this.key })
+      headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.key })
     };
   }
 

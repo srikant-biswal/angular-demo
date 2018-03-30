@@ -11,6 +11,20 @@ form {
   right: 0px;
 }
 
+.form-control {
+  line-height: 0;
+  font-size: 14px;
+}
+
+.notes {
+  line-height: 50px;
+  padding: 0 5px;
+}
+
+label {
+  margin-bottom: 0;
+}
+
 .cancel-button {
   margin:0;
   padding: 3px 9px;
