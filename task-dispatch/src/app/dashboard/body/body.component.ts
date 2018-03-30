@@ -11,9 +11,11 @@ import 'rxjs/add/operator/skip';
   templateUrl: './body.component.html',
   styleUrls: ['./body.component.css']
 })
-export class BodyComponent implements OnInit {
+export class BodyComponent implements OnInit, OnDestroy {
   showLoader;
   mode = 'over';
+  initializeSubscription;
+  filterSubscription;
   showSideBar = false;
   showActionBar = false;
   employees: IEmployee[]; filteredEmployees: IEmployee[];
@@ -28,13 +30,17 @@ export class BodyComponent implements OnInit {
 
   ngOnInit() {
       this.getTaskColumnConfig();
-      this.dashboardService.initializeData.unsubscribe();
-      this.dashboardService.initializeData.subscribe(
+     this.initializeSubscription =  this.dashboardService.initializeData.subscribe(
         () => this.getEmployees()
       );
-      this.dashboardService.filterData$.subscribe(
+     this.filterSubscription =  this.dashboardService.filterData.subscribe(
         () => this.filterEmployees(true)
       );
+  }
+
+  ngOnDestroy() {
+    this.initializeSubscription.unsubscribe();
+    this.filterSubscription.unsubscribe();
   }
 
 

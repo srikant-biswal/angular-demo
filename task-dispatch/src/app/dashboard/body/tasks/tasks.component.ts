@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, NgZone, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, NgZone, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { DashboardService } from 'app/_services/dashboard.service';
 import { ITask } from 'app/models/task';
 import { map } from 'rxjs/operators';
@@ -9,7 +9,8 @@ import { ITaskColumn } from 'app/models/taskcolumn';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnInit, OnChanges {
+export class TasksComponent implements OnInit, OnChanges, OnDestroy {
+  uncheckSubscription;
   activeTab = 1;
   @Input() tasks: ITask[] = [];
   @Input() columnConfig: ITaskColumn[];
@@ -29,7 +30,7 @@ export class TasksComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.dashboardService.uncheck$.subscribe(
+    this.uncheckSubscription = this.dashboardService.uncheck.subscribe(
       () => this.remove()
     );
   }
@@ -43,6 +44,10 @@ export class TasksComponent implements OnInit, OnChanges {
       this.columns = this.columnConfig.filter(column => column.statusType === 1);
       this.checkSelectAll();
      }
+  }
+
+  ngOnDestroy() {
+    this.uncheckSubscription.unsubscribe();
   }
 
 

@@ -14,16 +14,12 @@ export class DashboardService {
   selected: any[][] = [];
 
   initializeData = new Subject<any>();
-  initializeData$ = this.initializeData.asObservable();
 
   filterData = new Subject<any>();
-  filterData$ = this.filterData.asObservable();
 
   actionBar = new Subject<any>();
-  actionBar$ = this.actionBar.asObservable();
 
   uncheck = new Subject<any>();
-  uncheck$ = this.uncheck.asObservable();
 
   baseUrl = 'http://172.16.9.239/teampro/api/dispatch';
 

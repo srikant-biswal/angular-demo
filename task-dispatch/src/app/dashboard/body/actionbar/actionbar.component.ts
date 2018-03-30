@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { DashboardService } from 'app/_services/dashboard.service';
 
 @Component({
@@ -6,17 +6,24 @@ import { DashboardService } from 'app/_services/dashboard.service';
   templateUrl: './actionbar.component.html',
   styleUrls: ['./actionbar.component.css']
 })
-export class ActionbarComponent implements OnInit {
+export class ActionbarComponent implements OnInit, OnDestroy {
   @Output() childEvent = new EventEmitter();
   selected: any[][];
   flag = true;
+  actionBarSubscription;
 
-  constructor(private dashBoardService: DashboardService) { }
+  constructor(private dashBoardService: DashboardService) {
+
+   }
 
   ngOnInit() {
-    this.dashBoardService.actionBar$.subscribe(
+    this.actionBarSubscription = this.dashBoardService.actionBar.subscribe(
       () => this.checkSelected()
     );
+  }
+
+  ngOnDestroy() {
+    this.actionBarSubscription.unsubscribe();
   }
 
   checkSelected() {

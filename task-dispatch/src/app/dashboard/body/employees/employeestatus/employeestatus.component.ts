@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, Input, NgZone, Output, EventEmitter, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, NgZone, Output,
+         EventEmitter, OnChanges, AfterViewInit, OnDestroy } from '@angular/core';
 import {IEmployee} from 'app/models/employee';
 import { DashboardService } from 'app/_services/dashboard.service';
 
@@ -8,12 +9,13 @@ import { DashboardService } from 'app/_services/dashboard.service';
   templateUrl: './employeestatus.component.html',
   styleUrls: ['./employeestatus.component.css'],
 })
-export class EmployeestatusComponent implements OnInit, OnChanges {
+export class EmployeestatusComponent implements OnInit, OnChanges , OnDestroy {
   @Input() title;
   ready = false;
   @Input() _rows: IEmployee[] = [];
   @Output() childEvent = new EventEmitter();
   rows: IEmployee[] = [];
+  uncheckSubscription;
   contextMenu = false;
   contextMenuRow;
   x; y;
@@ -27,7 +29,7 @@ export class EmployeestatusComponent implements OnInit, OnChanges {
   constructor(private ngZone: NgZone, private dashBoardService: DashboardService) { }
 
   ngOnInit() {
-    this.dashBoardService.uncheck$.subscribe(
+    this.uncheckSubscription = this.dashBoardService.uncheck.subscribe(
       () => this.remove()
     );
   }
@@ -36,6 +38,10 @@ export class EmployeestatusComponent implements OnInit, OnChanges {
       if (this._rows) {
         this.rows = this._rows;
       }
+  }
+
+  ngOnDestroy() {
+    this.uncheckSubscription.unsubscribe();
   }
 
 

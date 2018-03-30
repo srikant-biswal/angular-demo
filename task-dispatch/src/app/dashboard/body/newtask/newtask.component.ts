@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { IArea } from 'app/models/area';
 import { DashboardService } from 'app/_services/dashboard.service';
 
@@ -7,27 +7,34 @@ import { DashboardService } from 'app/_services/dashboard.service';
   templateUrl: './newtask.component.html',
   styleUrls: ['./newtask.component.css']
 })
-export class NewtaskComponent implements OnInit {
+export class NewtaskComponent implements OnInit, OnDestroy {
   _name;
   _phone;
   areas: IArea[];
   currentArea;
+  initializeSubscription;
+  filterSubscription;
   @Output() childEvent = new EventEmitter();
 
   constructor(private dashBoardService: DashboardService) { }
 
   ngOnInit() {
-    // this.dashBoardService.initializeData$.subscribe(
-    //   () => {
-    //     this.areas = this.dashBoardService.areas;
-    //     this.currentArea = this.dashBoardService.currentArea;
-    //   }
-    // );
-    // this.dashBoardService.filterData$.subscribe(
-    //   () => {
-    //     this.currentArea = this.dashBoardService.currentArea;
-    //   }
-    // );
+    this.initializeSubscription = this.dashBoardService.initializeData.subscribe(
+      () => {
+        this.areas = this.dashBoardService.areas;
+        this.currentArea = this.dashBoardService.currentArea;
+      }
+    );
+    this.filterSubscription = this.dashBoardService.filterData.subscribe(
+      () => {
+        this.currentArea = this.dashBoardService.currentArea;
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.initializeSubscription.unsubscribe();
+    this.filterSubscription.unsubscribe();
   }
     onSubmit() {
     }
