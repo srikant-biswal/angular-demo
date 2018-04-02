@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { IFacility } from 'app/models/facility';
 import { DashboardService } from 'app/_services/dashboard.service';
 import { IArea } from 'app/models/area';
@@ -13,12 +13,14 @@ import {BodyComponent} from '../body/body.component';
 export class HeaderComponent implements OnInit {
   currentArea;
   facilities: IFacility[] = [];
+  @Output() loaderEvent = new EventEmitter();
 
   areas: IArea[] = [];
 
   constructor(private dashBoardService: DashboardService, private router: Router) { }
 
   ngOnInit() {
+      this.loaderEvent.emit(true);
     this.dashBoardService.getFacilityList().subscribe(
       facility => this.facilities = facility,
       error => this.handleError(error),
@@ -60,6 +62,10 @@ export class HeaderComponent implements OnInit {
     this.dashBoardService.currentArea = areaId;
     console.log(areaId);
     this.dashBoardService.filterData.next();
+  }
+
+  showUnsignedEmployees() {
+    this.dashBoardService.unsignedEmployees.next();
   }
 
   handleError(error) {

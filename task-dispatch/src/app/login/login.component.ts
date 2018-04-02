@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoginService } from '../_services/login.service';
 import { Router } from '@angular/router';
 import { DashboardService } from 'app/_services/dashboard.service';

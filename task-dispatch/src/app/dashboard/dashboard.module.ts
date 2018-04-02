@@ -15,11 +15,14 @@ import { NewtaskComponent } from './body/newtask/newtask.component';
 import { NgxResizeWatcherDirective } from './body/ngx-resize-watcher.directive';
 import { ActionbarComponent } from './body/actionbar/actionbar.component';
 import { DashboardService } from '../_services/dashboard.service';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 
 @NgModule({
   imports: [
-    CommonModule, NgxDatatableModule, DndModule.forRoot(), SidebarModule.forRoot(), FormsModule,   HttpClientModule
+    CommonModule, NgxDatatableModule, DndModule.forRoot(), SidebarModule.forRoot(), FormsModule,
+    HttpClientModule, NgbModule.forRoot()
   ],
   declarations: [DashboardComponent, HeaderComponent, EmployeestatusComponent, TasksComponent,
     EmployeesComponent, BodyComponent, NewtaskComponent, NgxResizeWatcherDirective, ActionbarComponent],

@@ -1,7 +1,7 @@
 
-
-a{
-  color:#12456e;
+a:not([href]):not([tabindex]) {
+  color: #12456e;
+  cursor: pointer;
 }
 
 select {
@@ -15,7 +15,9 @@ select {
 }
 
 .page-link{
-  border:1px solid #12456e
+  border:1px solid #12456e;
+  text-decoration: none;
+
 }
 
 .bootstrap-select .btn:focus {

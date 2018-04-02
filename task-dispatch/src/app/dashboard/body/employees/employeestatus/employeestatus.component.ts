@@ -13,7 +13,7 @@ export class EmployeestatusComponent implements OnInit, OnChanges , OnDestroy {
   @Input() title;
   ready = false;
   @Input() _rows: IEmployee[] = [];
-  @Output() childEvent = new EventEmitter();
+  @Output() changeStatusEvent = new EventEmitter();
   rows: IEmployee[] = [];
   uncheckSubscription;
   contextMenu = false;
@@ -86,7 +86,7 @@ export class EmployeestatusComponent implements OnInit, OnChanges , OnDestroy {
     console.log(status);
     this.contextMenu = false;
     this.contextMenuRow.EmpStatusType = status;
-    this.childEvent.emit(this.contextMenuRow);
+    this.changeStatusEvent.emit(this.contextMenuRow);
   }
 
 

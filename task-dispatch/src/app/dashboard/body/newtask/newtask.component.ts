@@ -14,7 +14,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   currentArea;
   initializeSubscription;
   filterSubscription;
-  @Output() childEvent = new EventEmitter();
+  @Output() toggleSideBarEvent = new EventEmitter();
 
   constructor(private dashBoardService: DashboardService) { }
 
@@ -40,7 +40,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
     }
 
     onCancel() {
-      this.childEvent.emit();
+      this.toggleSideBarEvent.emit();
     }
 
 }

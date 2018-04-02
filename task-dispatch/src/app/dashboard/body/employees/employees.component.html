@@ -1,22 +1,43 @@
 <div class="row">
   <div class="col-md-4 card-1">
-    <app-employeestatus [title]= "'Available'" [_rows]="available" (childEvent)="changeStatus($event)"  ></app-employeestatus>
+    <app-employeestatus [title]= "'Available'" [_rows]="available" (changeStatusEvent)="changeStatus($event)"  ></app-employeestatus>
   </div>
   <div class="col-md-4 card-2">
-    <app-employeestatus [title]= "'Assigned'" [_rows]="assigned" (childEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'Assigned'" [_rows]="assigned" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
   <div class="col-md-4 card-3">
-    <app-employeestatus [title]= "'Delayed'" [_rows]="delayed" (childEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'Delayed'" [_rows]="delayed" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
 </div>
 <div class="row">
   <div class="col-md-4 card-4 ">
-    <app-employeestatus [title]= "'Active'" [_rows]="active" (childEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'Active'" [_rows]="active" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
   <div class="col-md-4 card-5">
-    <app-employeestatus [title]= "'On Break'" [_rows]="onbreak" (childEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'On Break'" [_rows]="onbreak" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
   <div class="col-md-4 card-6">
-    <app-employeestatus [title]= "'At Lunch'" [_rows]="atlunch" (childEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'At Lunch'" [_rows]="atlunch" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
 </div>
+
+<ng-template  #modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Unsigned Employees</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <ul>
+        <li *ngFor="let emp of unsigned;let i=index">
+          <input class="form-controls" type="radio" name="employees" [id]="i" (change)="selectEmployee(emp)">
+         <label [for]="i">{{emp.Brief}}</label>
+        </li>
+      </ul>
+  </div>
+  <div class="modal-footer">
+    <button type="button"  class="btn btn-primary" (click)="signInEmployee()">Sign In</button>&nbsp;&nbsp;&nbsp;
+    <button type="button" class="btn cancel-button" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>

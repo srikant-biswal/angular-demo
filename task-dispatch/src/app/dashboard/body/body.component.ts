@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgZone, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { DashboardService } from 'app/_services/dashboard.service';
 import { IEmployee } from 'app/models/employee';
 import { ITask } from 'app/models/task';
@@ -12,12 +12,12 @@ import 'rxjs/add/operator/skip';
   styleUrls: ['./body.component.css']
 })
 export class BodyComponent implements OnInit, OnDestroy {
-  showLoader;
   mode = 'over';
   initializeSubscription;
   filterSubscription;
   showSideBar = false;
   showActionBar = false;
+  @Output() loaderEvent = new EventEmitter();
   employees: IEmployee[]; filteredEmployees: IEmployee[];
   tasks: ITask[]; filteredTasks: ITask[];
   allTaskColumns = []; taskColumnConfig = []; columnConfig: ITaskColumn[];
@@ -58,7 +58,7 @@ export class BodyComponent implements OnInit, OnDestroy {
 }
 
   getEmployees() {
-    this.showLoader = true;
+    this.loaderEvent.emit(true);
     this.showSideBar = false;
     this.employees = [];
     this.dashboardService.getEmployeeList().subscribe(
@@ -119,7 +119,25 @@ export class BodyComponent implements OnInit, OnDestroy {
     this.filteredTasks = this.tasks.filter(
       task => task.TskArea === areaId
     );
-    this.showLoader = false;
+    this.convertDateTime();
+    this.loaderEvent.emit(false);
+  }
+
+  convertDateTime() {
+    this.filteredTasks.map( task => {
+      task.ScheduleDate =  this.getDateTime(task.ScheduleDate);
+      task.DispatchNeeded = this.getDateTime(task.DispatchNeeded);
+      task.ResponseNeeded = this.getDateTime(task.ResponseNeeded);
+      task.CompleteNeededUTC = task.CompleteNeeded;
+      task.CompleteNeeded = this.getDateTime(task.CompleteNeeded);
+      task.RequestDate = this.getDateTime(task.RequestDate);
+    });
+  }
+
+  getDateTime(date): String {
+   const d = new Date(date);
+    date = d.getHours() + ':' + d.getMinutes() + ' ' + d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+   return date;
   }
 
   changeStatus(employee) {
@@ -133,7 +151,7 @@ export class BodyComponent implements OnInit, OnDestroy {
     this.showSideBar = !this.showSideBar;
   }
 
-  toggleActionBar(value) {
+  setActionBar(value) {
     this.ngZone.run(() => {
       this.showActionBar = value;
     });
@@ -148,8 +166,8 @@ export class BodyComponent implements OnInit, OnDestroy {
 
 
   resetSelections() {
-    this.toggleActionBar(false);
     this.dashboardService.selected = [];
+    this.dashboardService.actionBar.next();
     this.dashboardService.uncheck.next();
   }
 

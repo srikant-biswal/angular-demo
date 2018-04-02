@@ -16,6 +16,7 @@ export interface ITask {
   DispatchNeeded;
   ResponseNeeded;
   CompleteNeeded;
+  CompleteNeededUTC;
   RequestDate;
   AssignedDate;
   ActiveDate;

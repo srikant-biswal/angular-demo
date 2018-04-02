@@ -14,7 +14,7 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
   activeTab = 1;
   @Input() tasks: ITask[] = [];
   @Input() columnConfig: ITaskColumn[];
-  @Output() childEvent = new EventEmitter();
+  @Output() toggleSideBarEvent = new EventEmitter();
   contextMenu = false;
   contextMenuRow;
   x; y;
@@ -69,7 +69,7 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
 
   getRowClass(row: ITask) {
     const date = new Date();
-    const taskDate = new Date(row.CompleteNeeded);
+    const taskDate = new Date(row.CompleteNeededUTC);
     const timeDiff = Math.ceil((taskDate.getTime() - date.getTime()) / (1000 * 60) );
      return {
        'exceeded': (timeDiff < 0),

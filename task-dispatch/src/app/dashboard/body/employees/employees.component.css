@@ -29,3 +29,33 @@
   margin:0 0 16px 0;
   padding: 0 8px;
 }
+
+.btn-primary{
+  margin:0;
+  padding: 3px 9px;
+  border-radius: 7px;
+  color: white;
+  background-color: #12456e;
+}
+
+.cancel-button {
+  margin:0;
+  padding: 3px 9px;
+  border: 1px solid gainsboro;
+  border-radius: 7px;
+  color: #12456e;
+  background-color: white;
+}
+
+ul {
+  list-style-type: none;
+}
+
+label {
+  cursor: pointer;
+}
+
+.modal-body {
+  max-height: 60vh;
+  overflow-y:auto;
+}

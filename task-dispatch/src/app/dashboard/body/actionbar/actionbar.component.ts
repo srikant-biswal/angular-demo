@@ -7,7 +7,7 @@ import { DashboardService } from 'app/_services/dashboard.service';
   styleUrls: ['./actionbar.component.css']
 })
 export class ActionbarComponent implements OnInit, OnDestroy {
-  @Output() childEvent = new EventEmitter();
+  @Output() setActionBarEvent = new EventEmitter();
   selected: any[][];
   flag = true;
   actionBarSubscription;
@@ -32,11 +32,11 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     const count = this.countInObject(this.selected);
     if (count && this.flag) {
       this.flag = false;
-      this.childEvent.emit(true);
+      this.setActionBarEvent.emit(true);
     }
     if (!count) {
       this.flag = true;
-      this.childEvent.emit(false);
+      this.setActionBarEvent.emit(false);
     }
   }
 
@@ -53,7 +53,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   unselectAll() {
     this.dashBoardService.selected = [];
     this.dashBoardService.uncheck.next();
-    this.childEvent.emit(false);
+    this.setActionBarEvent.emit(false);
     this.flag = true;
  }
 }
