@@ -10,7 +10,7 @@ import { TasksComponent } from './body/tasks/tasks.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeesComponent } from './body/employees/employees.component';
 import { BodyComponent } from './body/body.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewtaskComponent } from './body/newtask/newtask.component';
 import { NgxResizeWatcherDirective } from './body/ngx-resize-watcher.directive';
 import { ActionbarComponent } from './body/actionbar/actionbar.component';
@@ -22,7 +22,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
     CommonModule, NgxDatatableModule, DndModule.forRoot(), SidebarModule.forRoot(), FormsModule,
-    HttpClientModule, NgbModule.forRoot()
+    HttpClientModule, NgbModule.forRoot(), ReactiveFormsModule
   ],
   declarations: [DashboardComponent, HeaderComponent, EmployeestatusComponent, TasksComponent,
     EmployeesComponent, BodyComponent, NewtaskComponent, NgxResizeWatcherDirective, ActionbarComponent],

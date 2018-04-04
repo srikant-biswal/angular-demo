@@ -1,32 +1,46 @@
 <h4>Requestor Info</h4>
 
-<form #newTaskForm="ngForm" (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit()"  [formGroup]="form" >
 
   <label for="name">Name</label>
-  <input id="name" [(ngModel)]="_name" class="form-control" name="name" type="text" placeholder="Enter Name" #name="ngModel">
+  <input  class="form-control"  type="text" formControlName="name">
   <!-- <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
           Email is required.
       </div> -->
-
-  <label for="phone">Password</label>
-  <input id="phone" [(ngModel)]="_phone" class="form-control" name="phone" type="number" placeholder="Enter Phone" #phone="ngModel">
-  <!-- <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+  <label for="phone">Phone</label>
+  <input  class="form-control"  type="number" formControlName="phone">
+    <!-- <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
             Password is required.
         </div> -->
   <label for="email">Email</label>
-  <input id="email" [(ngModel)]="_email" class="form-control" name="email" type="text" placeholder="Enter Email" #email="ngModel">
+  <input class="form-control"  type="text" formControlName="email">
   <!-- <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
               Password is required.
           </div> -->
   <label for="notes">Notes</label>
-  <textarea id="notes" [(ngModel)]="_notes" class="form-control notes" name="notes" type="text" placeholder="Notes" #notes="ngModel"> </textarea>
+  <textarea  class="form-control notes" type="text" placeholder="Notes" formControlName="notes"> </textarea>
 
   <h4>Task Info</h4>
 
-  <select  class="form-control">
-    <option *ngFor="let area of areas" [selected]="area.FunctionalArea==currentArea"  value={{area.FunctionalArea}} >{{area.Title}}</option>
+  <select class="form-control" formControlName="area">
+    <option *ngFor="let area of areas"   value={{area.FunctionalArea}} >{{area.Title}}</option>
   </select>
 
+  <select class="form-control" formControlName="taskClass" (change)="changeTaskClass($event)" >
+      <option *ngFor="let taskClass of taskClassList" value={{taskClass.ClassID}} >{{taskClass.ClassBrief}}</option>
+  </select>
+
+  <div formArrayName="taskClassOptions">
+   <div  *ngFor="let item of form.get('taskClassOptions').controls;let i=index">
+  <label for="{i}}">{{taskClassOptionsList[i].Header}}</label>
+  <input *ngIf="taskClassOptionsList[i].ControlType=='Text'" type="text" formControlName="{{i}}" maxlength="{{taskClassOptionsList[i].TextLength}}">
+
+  <!-- <div *ngIf="taskClass.required && form.get(taskClass.ControlName).invalid"></div>
+  <div *ngIf="form.get(taskClass.ControlName).errors.required">
+      is required.
+   </div> -->
+  </div>
+</div>
 
 
   <div class="form-action">

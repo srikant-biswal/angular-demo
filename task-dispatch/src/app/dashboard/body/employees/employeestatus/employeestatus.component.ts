@@ -20,8 +20,7 @@ export class EmployeestatusComponent implements OnInit, OnChanges , OnDestroy {
   contextMenuRow;
   x; y;
   showEdit = false;
-  columns =    [{name: 'Name', prop: 'Brief' , show: true},
-                {name: 'Min', prop: 'DiffMinute', show: true},
+  columns =    [{name: 'Min', prop: 'DiffMinute', show: true},
                 {name: 'Location', prop: 'Location', show: true},
                 {name: 'Zone', prop: 'ZoneBrief', show: true}];
   selected = [];

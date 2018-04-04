@@ -55,4 +55,13 @@ export class DashboardService {
   getTaskColumnConfig(): Observable<any> {
     return this.http.post(this.baseUrl + '/Config/TaskGridColumnList', {}, this.getHeaders());
   }
+
+  getEmployeeColumnConfig(): Observable<any> {
+    return this.http.post(this.baseUrl + '/Config/PersonnelGridColumnList', {}, this.getHeaders());
+  }
+
+  getTaskClass(): Observable<any> {
+    const body = {'SteHirNodeId': this.currentFacility};
+    return this.http.post(this.baseUrl + '/TaskClass/TaskClassWithEntryFieldList', body, this.getHeaders());
+  }
 }

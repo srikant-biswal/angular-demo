@@ -13,6 +13,7 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
   selected: IEmployee[];
   selectedEmployee: IEmployee;
   @Input() employees: IEmployee[];
+  @Input() filteredColumnConfig;
   @ViewChild('modal') modal;
   @Output() changeStatusEvent = new EventEmitter();
   unsignedEmployeesSubscription;
@@ -29,6 +30,7 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnChanges() {
    this.filterEmployees();
+   this.filterColumns();
   }
 
   ngOnDestroy() {
@@ -71,6 +73,10 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
       }
     );
   }
+  }
+
+  filterColumns() {
+    console.log(this.filteredColumnConfig);
   }
 
   onSelect({selected}) {

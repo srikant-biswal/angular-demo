@@ -5,6 +5,7 @@ import { ITask } from 'app/models/task';
 import { ITaskColumn } from 'app/models/taskcolumn';
 import { ITaskColumnDb } from 'app/models/taskcolumndb';
 import 'rxjs/add/operator/skip';
+import { TemplateParseError } from '@angular/compiler';
 
 @Component({
   selector: 'app-body',
@@ -21,6 +22,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   employees: IEmployee[]; filteredEmployees: IEmployee[];
   tasks: ITask[]; filteredTasks: ITask[];
   allTaskColumns = []; taskColumnConfig = []; columnConfig: ITaskColumn[];
+  employeeColumnConfig = []; filteredEmployeeColumnConfig = [];
 
   constructor(private dashboardService: DashboardService, private ngZone: NgZone) {
     if (window.screen.width > 1100) {
@@ -53,9 +55,18 @@ export class BodyComponent implements OnInit, OnDestroy {
           this.taskColumnConfig.push(value);
         }
       }),
-      error => this.handleError(error)
+      error => this.handleError(error),
+      () => this.getEmployeeColumnConfig()
     );
 }
+
+  getEmployeeColumnConfig() {
+    this.employeeColumnConfig = [];
+    this.dashboardService.getEmployeeColumnConfig().subscribe(
+      column => column.map(value => this.employeeColumnConfig.push(value)),
+      error => this.handleError(error),
+    );
+  }
 
   getEmployees() {
     this.loaderEvent.emit(true);
@@ -112,6 +123,9 @@ export class BodyComponent implements OnInit, OnDestroy {
                 }
               }
           }
+      this.filteredEmployeeColumnConfig = this.employeeColumnConfig.filter(
+        column => column.FunctionalAreaId === areaId
+      );
       this.filterTasks(areaId);
   }
 

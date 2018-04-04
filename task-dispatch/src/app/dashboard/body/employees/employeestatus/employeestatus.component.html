@@ -31,6 +31,8 @@
           </ngx-datatable-column>
           <ngx-datatable-column headerClass="task-column" [width]="40" name="" prop="Badge" [cellClass]="getCellClass" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
           </ngx-datatable-column>
+          <ngx-datatable-column name="Name" prop="Brief" [draggable]="false">
+          </ngx-datatable-column>
           <ng-container  *ngFor="let col of columns"  >
           <ngx-datatable-column [draggable]="false" *ngIf="col.show" [name]="col.name" [prop]="col.prop" ></ngx-datatable-column>
           </ng-container>
