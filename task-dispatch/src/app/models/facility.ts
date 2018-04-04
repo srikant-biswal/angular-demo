@@ -1,14 +1,14 @@
 export interface IFacility {
-  SteFacility: Number;
-  HirNode: Number;
-  Title: String;
-  Brief: String;
-  ManagementLevel: Number;
-  FullPath: String;
-  EnteredBy: Number;
-  EnteredAt: String;
-  ModifiedBy: Number;
-  ModifiedAt: String;
-  ErrorCode: Number;
-  ErrorResponse: String;
+  steFacility: Number;
+  hirNode: Number;
+  title: String;
+  brief: String;
+  managementLevel: Number;
+  fullPath: String;
+  enteredBy: Number;
+  enteredAt: String;
+  modifiedBy: Number;
+  modifiedAt: String;
+  errorCode: Number;
+  errorResponse: String;
 }

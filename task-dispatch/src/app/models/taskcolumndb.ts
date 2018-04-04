@@ -1,9 +1,9 @@
 export interface ITaskColumnDb {
-  FunctionalAreaId: Number;
-  TaskStatusTypeId: Number;
-  Header: String;
-  AttrName: String;
-  DisplayOrder: Number;
-  ErrorCode: Number;
-  ErrorResponse: String;
+  functionalAreaId: Number;
+  taskStatusTypeId: Number;
+  header: String;
+  attrName: String;
+  displayOrder: Number;
+  errorCode: Number;
+  errorResponse: String;
 }

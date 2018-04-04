@@ -32,7 +32,7 @@
       <ul>
         <li *ngFor="let emp of unsigned;let i=index">
           <input class="form-controls" type="radio" name="employees" [id]="i" (change)="selectEmployee(emp)">
-         <label [for]="i">{{emp.Brief}}</label>
+         <label [for]="i">{{emp.brief}}</label>
         </li>
       </ul>
   </div>

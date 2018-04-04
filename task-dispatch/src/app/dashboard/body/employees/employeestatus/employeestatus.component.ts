@@ -20,9 +20,10 @@ export class EmployeestatusComponent implements OnInit, OnChanges , OnDestroy {
   contextMenuRow;
   x; y;
   showEdit = false;
-  columns =    [{name: 'Min', prop: 'DiffMinute', show: true},
-                {name: 'Location', prop: 'Location', show: true},
-                {name: 'Zone', prop: 'ZoneBrief', show: true}];
+  columns =    [{name: 'Name', prop: 'brief' , show: true},
+                {name: 'Min', prop: 'diffMinute', show: true},
+                {name: 'Location', prop: 'location', show: true},
+                {name: 'Zone', prop: 'zoneBrief', show: true}];
   selected = [];
 
   constructor(private ngZone: NgZone, private dashBoardService: DashboardService) { }

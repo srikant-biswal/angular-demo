@@ -45,7 +45,7 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
     this.onbreak = []; this.atlunch = []; this.unsigned = [];
     this.employees.map(
       employee => {
-        switch (employee.EmpStatusType) {
+        switch (employee.empStatusType) {
           case 1:
           this.available.push(employee);
           break;
@@ -100,7 +100,7 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
 
   signInEmployee() {
     if (this.selectedEmployee) {
-    this.selectedEmployee.EmpStatusType = 1;
+    this.selectedEmployee.empStatusType = 1;
     this.changeStatus(this.selectedEmployee);
     this.closeModal();
     }

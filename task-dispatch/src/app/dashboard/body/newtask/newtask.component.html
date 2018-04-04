@@ -23,17 +23,18 @@
   <h4>Task Info</h4>
 
   <select class="form-control" formControlName="area">
-    <option *ngFor="let area of areas"   value={{area.FunctionalArea}} >{{area.Title}}</option>
+    <option *ngFor="let area of areas"   value={{area.functionalArea}} >{{area.title}}</option>
   </select>
 
   <select class="form-control" formControlName="taskClass" (change)="changeTaskClass($event)" >
-      <option *ngFor="let taskClass of taskClassList" value={{taskClass.ClassID}} >{{taskClass.ClassBrief}}</option>
+      <option *ngFor="let taskClass of taskClassList" value={{taskClass.classID}} >{{taskClass.classBrief}}</option>
+
   </select>
 
   <div formArrayName="taskClassOptions">
    <div  *ngFor="let item of form.get('taskClassOptions').controls;let i=index">
   <label for="{i}}">{{taskClassOptionsList[i].Header}}</label>
-  <input *ngIf="taskClassOptionsList[i].ControlType=='Text'" type="text" formControlName="{{i}}" maxlength="{{taskClassOptionsList[i].TextLength}}">
+  <input *ngIf="taskClassOptionsList[i].ControlType=='Text'" type="text" formControlName="{{i}}" maxlength="{{taskClassOptionsList[i].textLength}}">
 
   <!-- <div *ngIf="taskClass.required && form.get(taskClass.ControlName).invalid"></div>
   <div *ngIf="form.get(taskClass.ControlName).errors.required">
