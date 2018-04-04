@@ -38,7 +38,7 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges() {
      if (this.tasks && this.columnConfig) {
       this.activeTab = 1;
-      this.temp = this.tasks.filter( task => task.TskStatusType === 1);
+      this.temp = this.tasks.filter( task => task.tskStatusType === 1);
       this.rows = this.temp;
       this.sortColumns();
       this.columns = this.columnConfig.filter(column => column.statusType === 1);
@@ -55,7 +55,7 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
      if (this.activeTab !== tab) {
       this.columns = [];
       this.activeTab = tab;
-      this.temp = this.tasks.filter( task => task.TskStatusType === tab);
+      this.temp = this.tasks.filter( task => task.tskStatusType === tab);
       this.rows = this.temp;
       this.columns = this.columnConfig.filter(column => column.statusType === tab);
      }
@@ -69,7 +69,7 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
 
   getRowClass(row: ITask) {
     const date = new Date();
-    const taskDate = new Date(row.CompleteNeededUTC);
+    const taskDate = new Date(row.completeNeededUTC);
     const timeDiff = Math.ceil((taskDate.getTime() - date.getTime()) / (1000 * 60) );
      return {
        'exceeded': (timeDiff < 0),

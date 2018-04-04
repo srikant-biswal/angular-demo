@@ -1,9 +1,9 @@
 export interface IArea {
-  FunctionalArea: Number;
-  Active: boolean;
-  Title: String;
-  Brief: String;
-  Images: String;
-  ErrorCode: Number;
-  ErrorResponse: String;
+  functionalArea: Number;
+  active: boolean;
+  title: String;
+  brief: String;
+  images: String;
+  errorCode: Number;
+  errorResponse: String;
 }

@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
     this.dashBoardService.getFacilityList().subscribe(
       facility => this.facilities = facility,
       error => this.handleError(error),
-      () => this.getAreas(this.facilities[0].HirNode)
+      () => this.getAreas(this.facilities[0].hirNode)
     );
   }
 
@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
     this.dashBoardService.getAreaList().subscribe(
         area => this.areas = area,
         error => console.log(error),
-        () => this.initializeData(this.areas[0].FunctionalArea)
+        () => this.initializeData(this.areas[0].functionalArea)
     );
   }
 

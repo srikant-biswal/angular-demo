@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.loginService.login(this._email, this._password).subscribe(
       response => {
-      if (response.body['IsValid']) {
+      if (response.body['isValid']) {
         console.log(response.headers.get(key));
         this.dashboardService.key = response.headers.get(key);
         this.router.navigate(['/home']);
