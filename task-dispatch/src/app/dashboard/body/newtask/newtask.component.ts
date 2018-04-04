@@ -55,16 +55,16 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   }
 
   initializeForm() {
-    this.form.patchValue({area: this.currentArea, taskClass: this.taskClassList[0].ClassID});
-    this.setFormArray(this.taskClassList[0].ClassID);
+    this.form.patchValue({area: this.currentArea, taskClass: this.taskClassList[0].classID});
+    this.setFormArray(this.taskClassList[0].classID);
   }
 
   setFormArray(classID: Number) {
     this.temp = [];
     const taskClassList: ITaskClass[] = [];
     this.filteredTaskClass.map(taskClass => {
-      if (classID === taskClass.ClassID) {
-        this.temp.push(this.fb.control({name : taskClass.ControlName}));
+      if (classID === taskClass.classID) {
+        this.temp.push(this.fb.control({name : taskClass.controlName}));
         taskClassList.push(taskClass);
       }
     });
@@ -88,7 +88,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   }
 
   filterTaskClass() {
-  this.filteredTaskClass = this.taskClass.filter(taskClass => taskClass.FunctionalAreaId === this.currentArea);
+  this.filteredTaskClass = this.taskClass.filter(taskClass => taskClass.functionalAreaId === this.currentArea);
   this.getTaskClassList();
   }
 
@@ -96,11 +96,11 @@ export class NewtaskComponent implements OnInit, OnDestroy {
     this.taskClassList = [];
     const flags: any[] = [];
    this.filteredTaskClass.map(taskClass => {
-      if (flags[taskClass.ClassID]) {
+      if (flags[taskClass.classID]) {
         return false;
       } else {
         this.taskClassList.push(taskClass);
-        flags[taskClass.ClassID] = true;
+        flags[taskClass.classID] = true;
       }
     });
     this.initializeForm();

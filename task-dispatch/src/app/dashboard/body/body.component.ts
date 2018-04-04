@@ -92,7 +92,7 @@ export class BodyComponent implements OnInit, OnDestroy {
     const areaId = this.dashboardService.currentArea;
     console.log(areaId);
     this.filteredEmployees = this.employees.filter(
-      employee => employee.FunctionalAreaId === areaId
+      employee => employee.functionalAreaId === areaId
     );
     if (filterColumns) {
       this.resetSelections();
@@ -131,7 +131,7 @@ export class BodyComponent implements OnInit, OnDestroy {
 
   filterTasks(areaId) {
     this.filteredTasks = this.tasks.filter(
-      task => task.TskArea === areaId
+      task => task.tskArea === areaId
     );
     this.convertDateTime();
     this.loaderEvent.emit(false);
@@ -139,12 +139,12 @@ export class BodyComponent implements OnInit, OnDestroy {
 
   convertDateTime() {
     this.filteredTasks.map( task => {
-      task.ScheduleDate =  this.getDateTime(task.ScheduleDate);
-      task.DispatchNeeded = this.getDateTime(task.DispatchNeeded);
-      task.ResponseNeeded = this.getDateTime(task.ResponseNeeded);
-      task.CompleteNeededUTC = task.CompleteNeeded;
-      task.CompleteNeeded = this.getDateTime(task.CompleteNeeded);
-      task.RequestDate = this.getDateTime(task.RequestDate);
+      task.scheduleDate =  this.getDateTime(task.scheduleDate);
+      task.dispatchNeeded = this.getDateTime(task.dispatchNeeded);
+      task.responseNeeded = this.getDateTime(task.responseNeeded);
+      task.completeNeededUTC = task.completeNeeded;
+      task.completeNeeded = this.getDateTime(task.completeNeeded);
+      task.requestDate = this.getDateTime(task.requestDate);
     });
   }
 
@@ -155,7 +155,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   changeStatus(employee) {
-    const index = this.employees.findIndex(emp => emp.EmployeeId === employee.EmployeeId);
+    const index = this.employees.findIndex(emp => emp.employeeId === employee.employeeId);
     this.employees.splice(index, 1);
     this.employees.push(employee);
     this.filterEmployees(false);

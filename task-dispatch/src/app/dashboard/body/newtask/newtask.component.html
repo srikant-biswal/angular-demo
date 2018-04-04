@@ -33,7 +33,7 @@
 
   <div formArrayName="taskClassOptions">
    <div  *ngFor="let item of form.get('taskClassOptions').controls;let i=index">
-  <label for="{i}}">{{taskClassOptionsList[i].Header}}</label>
+  <label for="{i}}">{{taskClassOptionsList[i].header}}</label>
   <input *ngIf="taskClassOptionsList[i].ControlType=='Text'" type="text" formControlName="{{i}}" maxlength="{{taskClassOptionsList[i].textLength}}">
 
   <!-- <div *ngIf="taskClass.required && form.get(taskClass.ControlName).invalid"></div>
