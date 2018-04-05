@@ -107,18 +107,18 @@ export class BodyComponent implements OnInit, OnDestroy {
     );
     let flag;
      for (let i = 1; i < 7; i++) {
-        const temp = filteredTaskColumns.filter(value => value.TaskStatusTypeId === i);
+        const temp = filteredTaskColumns.filter(value => value.taskStatusTypeId === i);
         for (let j = 0; j < this.allTaskColumns.length ; j++) {
         flag = true;
         for (let k = 0; k < temp.length; k++) {
-            if (this.allTaskColumns[j].header === temp[k].Header) {
+            if (this.allTaskColumns[j].header === temp[k].header) {
                 flag = false;
-                 this.columnConfig.push({'name': temp[k].Header, 'prop': temp[k].AttrName, 'show': true,
-                                             'statusType': i, 'displayOrder': temp[k].DisplayOrder});
+                 this.columnConfig.push({'name': temp[k].header, 'prop': temp[k].attrName, 'show': true,
+                                             'statusType': i, 'displayOrder': temp[k].displayOrder});
                   }
             }
             if (flag) {
-                this.columnConfig.push({'name': this.allTaskColumns[j].Header, 'prop': this.allTaskColumns[j].AttrName,
+                this.columnConfig.push({'name': this.allTaskColumns[j].header, 'prop': this.allTaskColumns[j].attrName,
                                            'show': false, 'statusType': i, 'displayOrder': 99});
                 }
               }
