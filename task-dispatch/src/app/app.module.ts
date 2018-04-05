@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -9,12 +10,13 @@ import { AuthGuard } from './_guards/auth.guard';
 import { LoginService } from './_services/login.service';
 
 
+
 @NgModule({
   declarations: [
     AppComponent, LoginComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, DashboardModule
+    BrowserModule, AppRoutingModule, DashboardModule, BrowserAnimationsModule
   ],
   providers: [AuthGuard, LoginService],
   bootstrap: [AppComponent]

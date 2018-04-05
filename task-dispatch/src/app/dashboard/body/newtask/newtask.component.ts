@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy, NgZone } from '@ang
 import { IArea } from 'app/models/area';
 import { DashboardService } from 'app/_services/dashboard.service';
 import { ITaskClass } from 'app/models/taskclass';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-newtask',
@@ -44,38 +44,44 @@ export class NewtaskComponent implements OnInit, OnDestroy {
 
   createForm() {
     this.form = this.fb.group({
-      name : '',
+      name : new FormControl('', Validators.required),
       phone: '',
       email: '',
       notes: '',
       area:  '',
       taskClass: '',
-      taskClassOptions: this.fb.array([])
     });
   }
 
-  initializeForm() {
-    this.form.patchValue({area: this.currentArea, taskClass: this.taskClassList[0].ClassID});
-    this.setFormArray(this.taskClassList[0].ClassID);
+  initializeForm(classID) {
+    this.form.patchValue({area: this.currentArea, taskClass: classID});
+    this.setFormArray(classID);
   }
 
   setFormArray(classID: Number) {
-    this.temp = [];
-    const taskClassList: ITaskClass[] = [];
+    this.taskClassOptionsList = [];
     this.filteredTaskClass.map(taskClass => {
-      if (classID === taskClass.ClassID) {
-        this.temp.push(this.fb.control({name : taskClass.ControlName}));
-        taskClassList.push(taskClass);
+      if (classID === taskClass.classID) {
+         if (taskClass.required) {
+          this.form.addControl(taskClass.controlName, new FormControl('', Validators.required));
+         } else {
+          this.form.addControl(taskClass.controlName, new FormControl(''));
+         }
+        this.taskClassOptionsList.push(taskClass);
       }
     });
-    this.form.setControl('taskClassOptions', this.fb.array(this.temp));
-    console.log(this.form.controls.taskClassOptions);
-    this.taskClassOptionsList = taskClassList;
+    console.log(this.form.controls);
     console.log(this.taskClassOptionsList);
   }
 
   changeTaskClass(event) {
-    this.setFormArray(Number(event.target.value));
+    this.createForm();
+    this.initializeForm(Number(event.target.value));
+  }
+
+  changeFunctionalArea(event) {
+    this.currentArea = Number(event.target.value);
+    this.filterTaskClass();
   }
 
   getTaskClass() {
@@ -88,7 +94,8 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   }
 
   filterTaskClass() {
-  this.filteredTaskClass = this.taskClass.filter(taskClass => taskClass.FunctionalAreaId === this.currentArea);
+  this.createForm();
+  this.filteredTaskClass = this.taskClass.filter(taskClass => taskClass.functionalAreaId === this.currentArea);
   this.getTaskClassList();
   }
 
@@ -96,14 +103,14 @@ export class NewtaskComponent implements OnInit, OnDestroy {
     this.taskClassList = [];
     const flags: any[] = [];
    this.filteredTaskClass.map(taskClass => {
-      if (flags[taskClass.ClassID]) {
+      if (flags[taskClass.classID]) {
         return false;
       } else {
         this.taskClassList.push(taskClass);
-        flags[taskClass.ClassID] = true;
+        flags[taskClass.classID] = true;
       }
     });
-    this.initializeForm();
+    this.initializeForm(this.taskClassList[0].classID);
   }
 
 
@@ -112,6 +119,8 @@ export class NewtaskComponent implements OnInit, OnDestroy {
     this.filterSubscription.unsubscribe();
   }
     onSubmit() {
+      alert('submitted');
+      console.log(this.form.status);
     }
 
     onCancel() {

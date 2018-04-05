@@ -49,7 +49,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   getTaskColumnConfig() {
     this.dashboardService.getTaskColumnConfig().subscribe(
       column => column.map( value => {
-        if (value.FunctionalAreaId === -1) {
+        if (value.functionalAreaId === -1) {
           this.allTaskColumns.push(value);
         } else {
           this.taskColumnConfig.push(value);
@@ -92,7 +92,7 @@ export class BodyComponent implements OnInit, OnDestroy {
     const areaId = this.dashboardService.currentArea;
     console.log(areaId);
     this.filteredEmployees = this.employees.filter(
-      employee => employee.FunctionalAreaId === areaId
+      employee => employee.functionalAreaId === areaId
     );
     if (filterColumns) {
       this.resetSelections();
@@ -103,7 +103,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   filterColumns(areaId) {
     this.columnConfig = [];
     const filteredTaskColumns = this.taskColumnConfig.filter(
-      column => column.FunctionalAreaId === areaId
+      column => column.functionalAreaId === areaId
     );
     let flag;
      for (let i = 1; i < 7; i++) {
@@ -111,7 +111,7 @@ export class BodyComponent implements OnInit, OnDestroy {
         for (let j = 0; j < this.allTaskColumns.length ; j++) {
         flag = true;
         for (let k = 0; k < temp.length; k++) {
-            if (this.allTaskColumns[j].Header === temp[k].Header) {
+            if (this.allTaskColumns[j].header === temp[k].Header) {
                 flag = false;
                  this.columnConfig.push({'name': temp[k].Header, 'prop': temp[k].AttrName, 'show': true,
                                              'statusType': i, 'displayOrder': temp[k].DisplayOrder});
@@ -124,14 +124,14 @@ export class BodyComponent implements OnInit, OnDestroy {
               }
           }
       this.filteredEmployeeColumnConfig = this.employeeColumnConfig.filter(
-        column => column.FunctionalAreaId === areaId
+        column => column.functionalAreaId === areaId
       );
       this.filterTasks(areaId);
   }
 
   filterTasks(areaId) {
     this.filteredTasks = this.tasks.filter(
-      task => task.TskArea === areaId
+      task => task.tskArea === areaId
     );
     this.convertDateTime();
     this.loaderEvent.emit(false);
@@ -139,12 +139,12 @@ export class BodyComponent implements OnInit, OnDestroy {
 
   convertDateTime() {
     this.filteredTasks.map( task => {
-      task.ScheduleDate =  this.getDateTime(task.ScheduleDate);
-      task.DispatchNeeded = this.getDateTime(task.DispatchNeeded);
-      task.ResponseNeeded = this.getDateTime(task.ResponseNeeded);
-      task.CompleteNeededUTC = task.CompleteNeeded;
-      task.CompleteNeeded = this.getDateTime(task.CompleteNeeded);
-      task.RequestDate = this.getDateTime(task.RequestDate);
+      task.scheduleDate =  this.getDateTime(task.scheduleDate);
+      task.dispatchNeeded = this.getDateTime(task.dispatchNeeded);
+      task.responseNeeded = this.getDateTime(task.responseNeeded);
+      task.completeNeededUTC = task.completeNeeded;
+      task.completeNeeded = this.getDateTime(task.completeNeeded);
+      task.requestDate = this.getDateTime(task.requestDate);
     });
   }
 
@@ -155,7 +155,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   changeStatus(employee) {
-    const index = this.employees.findIndex(emp => emp.EmployeeId === employee.EmployeeId);
+    const index = this.employees.findIndex(emp => emp.employeeId === employee.employeeId);
     this.employees.splice(index, 1);
     this.employees.push(employee);
     this.filterEmployees(false);

@@ -16,13 +16,14 @@ import { NgxResizeWatcherDirective } from './body/ngx-resize-watcher.directive';
 import { ActionbarComponent } from './body/actionbar/actionbar.component';
 import { DashboardService } from '../_services/dashboard.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
 
 
 
 @NgModule({
   imports: [
     CommonModule, NgxDatatableModule, DndModule.forRoot(), SidebarModule.forRoot(), FormsModule,
-    HttpClientModule, NgbModule.forRoot(), ReactiveFormsModule
+    HttpClientModule, NgbModule.forRoot(), ReactiveFormsModule, OwlDateTimeModule, OwlNativeDateTimeModule
   ],
   declarations: [DashboardComponent, HeaderComponent, EmployeestatusComponent, TasksComponent,
     EmployeesComponent, BodyComponent, NewtaskComponent, NgxResizeWatcherDirective, ActionbarComponent],

@@ -3,10 +3,13 @@
 <form (ngSubmit)="onSubmit()"  [formGroup]="form" >
 
   <label for="name">Name</label>
-  <input  class="form-control"  type="text" formControlName="name">
-  <!-- <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
-          Email is required.
-      </div> -->
+  <input id="name"  class="form-control"  type="text" formControlName="name">
+
+ <div *ngIf="form.get('name').invalid && form.get('name').touched || form.get('name').dirty ">
+    <div *ngIf="form.get('name').errors?.required">
+        is required.
+     </div>
+ </div>
   <label for="phone">Phone</label>
   <input  class="form-control"  type="number" formControlName="phone">
     <!-- <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
@@ -22,30 +25,43 @@
 
   <h4>Task Info</h4>
 
-  <select class="form-control" formControlName="area">
+  <select class="form-control" formControlName="area" (change)="changeFunctionalArea($event)">
     <option *ngFor="let area of areas"   value={{area.functionalArea}} >{{area.title}}</option>
   </select>
 
   <select class="form-control" formControlName="taskClass" (change)="changeTaskClass($event)" >
       <option *ngFor="let taskClass of taskClassList" value={{taskClass.classID}} >{{taskClass.classBrief}}</option>
-
   </select>
 
-  <div formArrayName="taskClassOptions">
-   <div  *ngFor="let item of form.get('taskClassOptions').controls;let i=index">
-  <label for="{i}}">{{taskClassOptionsList[i].Header}}</label>
-  <input *ngIf="taskClassOptionsList[i].ControlType=='Text'" type="text" formControlName="{{i}}" maxlength="{{taskClassOptionsList[i].textLength}}">
 
-  <!-- <div *ngIf="taskClass.required && form.get(taskClass.ControlName).invalid"></div>
-  <div *ngIf="form.get(taskClass.ControlName).errors.required">
+   <div  *ngFor="let item of taskClassOptionsList">
+  <label for="{{item.controlName}}">{{item.header}}</label>
+
+  <div *ngIf="item.controlType=='Text'">
+  <input id="{{item.controlName}}" class="form-control"  type="text" formControlName="{{item.controlName}}" maxlength="{{item.textLength}}">
+  </div>
+
+  <div *ngIf="item.controlType=='DateTimeSplit'">
+  <input class="form-control" id="{{item.controlName}}" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1">
+  <owl-date-time [pickerMode]="'dialog'" #dt1></owl-date-time>
+  </div>
+
+  <input  *ngIf="item.controlType=='CheckBox'" type="checkbox"  id="{{item.controlName}}" value="true" >
+
+
+
+  <div *ngIf="item.required">
+ <div *ngIf="form.get(item.controlName).invalid && form.get(item.controlName).touched || form.get(item.controlName).dirty ">
+  <div *ngIf="form.get(item.controlName).errors?.required">
       is required.
-   </div> -->
+   </div>
+  </div>
   </div>
 </div>
-
-
-  <div class="form-action">
-    <button class="btn cancel-button" (click)="onCancel()">Cancel</button>
+<div class="form-action">
+    <button type="button" class="btn cancel-button" (click)="onCancel()">Cancel</button>
     <button type="submit" class="btn btn-primary show-right">Submit</button>
-  </div>
+</div>
 </form>
+
+
