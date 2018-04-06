@@ -10,27 +10,34 @@ import { IEmployee } from 'app/models/employee';
 })
 export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
   modalReference;
-  selected: IEmployee[];
   selectedEmployee: IEmployee;
   @Input() employees: IEmployee[];
   @Input() filteredColumnConfig;
-  @ViewChild('modal') modal;
+  @ViewChild('unsignedEmployeesModal') unsignedEmployeesModal;
+  @ViewChild('delayEmployeeModal') delayEmployeeModal;
   @Output() changeStatusEvent = new EventEmitter();
   unsignedEmployeesSubscription;
+  taskDelayList;
+  delayReason;
   available: IEmployee[]; assigned: IEmployee[]; delayed: IEmployee[];
   active: IEmployee[]; onbreak: IEmployee[]; atlunch: IEmployee[]; unsigned: IEmployee[];
+
   constructor(private dashboardService: DashboardService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
+    this.dashboardService.getTaskDelayList().subscribe(
+      taskDelay => this.taskDelayList = taskDelay,
+      error => console.log(error),
+      () => this.delayReason = this.taskDelayList[0].taskDelayTypeId
+    );
     this.unsignedEmployeesSubscription = this.dashboardService.unsignedEmployees.subscribe (
-      () => this.showUnsignedEmployees(this.modal)
+      () => this.showUnsignedEmployees(this.unsignedEmployeesModal)
     );
   }
 
   ngOnChanges() {
    this.filterEmployees();
-   this.filterColumns();
   }
 
   ngOnDestroy() {
@@ -79,10 +86,6 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
     console.log(this.filteredColumnConfig);
   }
 
-  onSelect({selected}) {
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
-  }
 
   showUnsignedEmployees(content) {
     this.selectedEmployee = null;
@@ -90,8 +93,21 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  changeStatus(employee) {
-    this.changeStatusEvent.emit(employee);
+  changeStatus(event) {
+    console.log(event);
+    if (event.newStatus === 3) {
+      console.log(this.taskDelayList);
+      this.modalReference = this.modalService.open(this.delayEmployeeModal);
+      this.selectedEmployee = event.employee;
+    } else {
+      this.changeStatusEvent.emit(event.employee);
+    }
+  }
+
+  delayEmployee() {
+    this.selectedEmployee.empStatusType = 3;
+    this.changeStatusEvent.emit(this.selectedEmployee);
+    this.closeModal();
   }
 
   selectEmployee(employee) {
@@ -110,6 +126,5 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
     this.selectedEmployee = null;
     this.modalReference.close();
   }
-
 
 }

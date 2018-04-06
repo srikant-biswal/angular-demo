@@ -1,75 +1,87 @@
 <h4>Requestor Info</h4>
 
-<form (ngSubmit)="onSubmit()"  [formGroup]="form" >
+<form style="position: relative" (ngSubmit)="onSubmit()" [formGroup]="form">
 
   <label for="name">Name</label>
-  <input id="name"  class="form-control"  type="text" formControlName="name">
+  <input id="name" class="form-control" type="text" formControlName="name">
 
- <div *ngIf="form.get('name').invalid && form.get('name').touched || form.get('name').dirty ">
+  <div *ngIf="form.get('name').invalid && form.get('name').touched || form.get('name').dirty ">
     <div *ngIf="form.get('name').errors?.required">
-        is required.
-     </div>
- </div>
+      is required.
+    </div>
+  </div>
   <label for="phone">Phone</label>
-  <input  class="form-control"  type="number" formControlName="phone">
-    <!-- <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+  <input class="form-control" type="number" formControlName="phone">
+  <!-- <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
             Password is required.
         </div> -->
   <label for="email">Email</label>
-  <input class="form-control"  type="text" formControlName="email">
+  <input class="form-control" type="text" formControlName="email">
   <!-- <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
               Password is required.
           </div> -->
   <label for="notes">Notes</label>
-  <textarea  class="form-control notes" type="text" placeholder="Notes" formControlName="notes"> </textarea>
+  <textarea class="form-control notes" type="text" placeholder="Notes" formControlName="notes"> </textarea>
 
   <h4>Task Info</h4>
 
   <select class="form-control" formControlName="area" (change)="changeFunctionalArea($event)">
-    <option *ngFor="let area of areas"   value={{area.functionalArea}} >{{area.title}}</option>
+    <option *ngFor="let area of areas" value={{area.functionalArea}}>{{area.title}}</option>
   </select>
 
-  <select class="form-control" formControlName="taskClass" (change)="changeTaskClass($event)" >
-      <option *ngFor="let taskClass of taskClassList" value={{taskClass.classID}} >{{taskClass.classBrief}}</option>
+  <select class="form-control" formControlName="taskClass" (change)="changeTaskClass($event)">
+    <option *ngFor="let taskClass of taskClassList" value={{taskClass.classID}}>{{taskClass.classBrief}}</option>
   </select>
 
 
-   <div  *ngFor="let item of taskClassOptionsList">
-  <label for="{{item.controlName}}">{{item.header}}</label>
+  <div *ngFor="let item of taskClassOptionsList">
+    <label for="{{item.controlName}}">{{item.header}}</label>
 
-  <div *ngIf="item.controlType=='Text'">
-  <input id="{{item.controlName}}" class="form-control"  type="text" formControlName="{{item.controlName}}" maxlength="{{item.textLength}}">
+    <ng-container [ngSwitch]="item.controlType">
+
+      <div *ngSwitchCase="'Text'">
+        <input id="{{item.controlName}}" class="form-control" type="text" formControlName="{{item.controlName}}" maxlength="{{item.textLength}}">
+      </div>
+
+      <div *ngSwitchCase="'PickList'">
+
+        <select *ngIf="item.header=='Equipment'" id="{{item.controlName}}" class="form-control" formControlName="{{item.controlName}}">
+          <option *ngFor="let item of equipmentList" value={{item.equipmentId}}>
+            {{item.title}}
+          </option>
+        </select>
+
+        <select *ngIf="item.header=='Mode'" id="{{item.controlName}}" class="form-control" formControlName="{{item.controlName}}">
+          <option *ngFor="let item of modeList" value={{item.modeTypeId}}>
+            {{item.title}}
+          </option>
+        </select>
+
+      </div>
+
+      <div *ngSwitchCase="'DateTimeSplit'">
+        <input class="form-control" id="{{item.controlName}}" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1">
+        <owl-date-time [pickerMode]="'dialog'" #dt1></owl-date-time>
+      </div>
+
+      <input *ngSwitchCase="'CheckBox'" type="checkbox" id="{{item.controlName}}" value="true">
+
+      <div *ngSwitchCase="'TypeAhead'">
+      <input *ngIf="item.header=='Destination'" id="{{item.controlName}}" formControlName="{{item.controlName}}"
+        type="text" class="form-control" [(ngModel)]="destination" [ngbTypeahead]="search"/>
+      </div>
+
+      <div *ngIf="item.required">
+        <div *ngIf="form.get(item.controlName).invalid && form.get(item.controlName).touched || form.get(item.controlName).dirty ">
+          <div *ngIf="form.get(item.controlName).errors?.required">
+            is required.
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
-
-  <div *ngIf="item.controlType=='PickList'">
-    <select id="{{item.controlName}}" class="form-control" formControlName="{{item.controlName}}">
-      <option>
-
-      </option>
-    </select>
-  </div>
-
-  <div *ngIf="item.controlType=='DateTimeSplit'">
-  <input class="form-control" id="{{item.controlName}}" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1">
-  <owl-date-time [pickerMode]="'dialog'" #dt1></owl-date-time>
-  </div>
-
-  <input  *ngIf="item.controlType=='CheckBox'" type="checkbox"  id="{{item.controlName}}" value="true" >
-
-
-
-  <div *ngIf="item.required">
- <div *ngIf="form.get(item.controlName).invalid && form.get(item.controlName).touched || form.get(item.controlName).dirty ">
-  <div *ngIf="form.get(item.controlName).errors?.required">
-      is required.
-   </div>
-  </div>
-  </div>
-</div>
-<div class="form-action">
+  <div class="form-action">
     <button type="button" class="btn cancel-button" (click)="onCancel()">Cancel</button>
     <button type="submit" class="btn btn-primary show-right">Submit</button>
-</div>
+  </div>
 </form>
-
-

@@ -146,14 +146,16 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
     }
     }
 
-
+    copyTask() {
+      this.dashboardService.taskToCopy = this.contextMenuRow;
+      this.dashboardService.copyTask.next();
+    }
 
   onSelect({ selected }) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
     this.dashboardService.selected[7] = selected;
     this.dashboardService.actionBar.next();
-
   }
 
 

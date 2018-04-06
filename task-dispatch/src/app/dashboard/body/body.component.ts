@@ -155,6 +155,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   changeStatus(employee) {
+    console.log(employee);
     const index = this.employees.findIndex(emp => emp.employeeId === employee.employeeId);
     this.employees.splice(index, 1);
     this.employees.push(employee);

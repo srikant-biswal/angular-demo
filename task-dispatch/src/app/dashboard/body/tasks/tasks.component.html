@@ -1,12 +1,17 @@
 <div class="context-menu" *ngIf="contextMenu" [ngStyle]="{'left.px': x, 'top.px': y}" (mouseleave)="contextMenu = false">
   <p>Task {{contextMenuRow.taskNumber}}</p>
   <hr>
-  <p>Break</p>
+  <p *ngIf="activeTab!=5 && activeTab!=6">View/Edit</p>
+  <p (click)="copyTask()">Copy</p>
+  <p >Cancel</p>
+  <p *ngIf="activeTab==5">Return Trip</p>
+  <p *ngIf="activeTab==1">Priority</p>
+
 </div>
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-1">
+    <div class="col-md-1 col-sm-2">
       <h5>Tasks</h5>
       <button class="btn btn-primary" (click)="toggleSideBarEvent.emit()">New Task</button>
       <ul class="tab-switcher">
@@ -31,7 +36,7 @@
       </ul>
     </div>
 
-    <div class="col-md-11">
+    <div class="col-md-11 col-sm-9">
       <div *ngIf="!showEdit">
         <div style="display: flex">
           <input type="text" class="search-bar" [(ngModel)]="filter" (keyup)="updateFilter()" placeholder="Filter Tasks" />
