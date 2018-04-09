@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, OnChanges, NgZone, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, NgZone, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/_services/dashboard.service';
 import { ITask } from 'app/models/task';
 import { map } from 'rxjs/operators';
 import { ITaskColumn } from 'app/models/taskcolumn';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-tasks',
@@ -10,13 +11,19 @@ import { ITaskColumn } from 'app/models/taskcolumn';
   styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit, OnChanges, OnDestroy {
+  modalReference;
   uncheckSubscription;
   activeTab = 1;
   @Input() tasks: ITask[] = [];
   @Input() columnConfig: ITaskColumn[];
   @Output() toggleSideBarEvent = new EventEmitter();
+  @ViewChild('taskCancelModal') taskCancelModal;
+  @Output() changeStatusEvent = new EventEmitter();
   contextMenu = false;
   contextMenuRow;
+  taskCancelList = [];
+  cancelReason;
+  additionalReason;
   x; y;
   temp: ITask[];
   rows: ITask[];
@@ -26,10 +33,15 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
   columns = [];
   selected = [];
 
-  constructor(private dashboardService: DashboardService, private ngZone: NgZone) {
+  constructor(private dashboardService: DashboardService, private ngZone: NgZone, private modalService: NgbModal) {
   }
 
   ngOnInit() {
+    this.dashboardService.getTaskCancelList().subscribe (
+      list => this.taskCancelList = list,
+      error => console.log(error),
+      () => this.cancelReason = this.taskCancelList[0].taskCancelTypeId
+    );
     this.uncheckSubscription = this.dashboardService.uncheck.subscribe(
       () => this.remove()
     );
@@ -67,6 +79,7 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
+
   getRowClass(row: ITask) {
     const date = new Date();
     const taskDate = new Date(row.completeNeededUTC);
@@ -76,6 +89,8 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
        'approaching': (timeDiff > 0 && timeDiff < 10)
      };
   }
+
+
 
   getCellClass({ row, column, value }): any {
     return {
@@ -149,6 +164,23 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
     copyTask() {
       this.dashboardService.taskToCopy = this.contextMenuRow;
       this.dashboardService.copyTask.next();
+    }
+
+    openCancelTaskModal() {
+      this.modalReference = this.modalService.open(this.taskCancelModal);
+    }
+
+    cancelTask() {
+      // send cancel and additional reason
+      this.contextMenuRow.tskStatusType = 6;
+      this.changeStatusEvent.emit(this.contextMenuRow);
+      this.modalReference.close();
+    }
+
+    closeModal() {
+      this.cancelReason = this.taskCancelList[0].taskCancelTypeId;
+      this.additionalReason = '';
+      this.modalReference.close();
     }
 
   onSelect({ selected }) {

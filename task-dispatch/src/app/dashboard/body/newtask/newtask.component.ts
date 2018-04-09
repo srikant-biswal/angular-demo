@@ -6,17 +6,9 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
+import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 
 
-const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
-  'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
-  'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
-  'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana',
-  'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island',
-  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia',
-  'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
 
 @Component({
   selector: 'app-newtask',
@@ -34,6 +26,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   taskClassOptionsList: ITaskClass[];
   taskToCopy;
   equipmentList;
+  locationList = [];
   modeList;
   start;
   destination;
@@ -67,6 +60,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
       () => {
         this.areas = this.dashBoardService.areas;
         this.currentArea = this.dashBoardService.currentArea;
+        this.getLocationList();
         this.getTaskClass();
       }
     );
@@ -80,6 +74,8 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   }
 
   createForm() {
+    this.start = '';
+    this.destination = '';
     this.form = this.fb.group({
       name : new FormControl('', Validators.required),
       phone: '',
@@ -87,12 +83,21 @@ export class NewtaskComponent implements OnInit, OnDestroy {
       notes: '',
       area:  '',
       taskClass: '',
+      start: '',
+      destination: ''
     });
   }
 
   initializeForm(classID) {
     this.form.patchValue({area: this.currentArea, taskClass: classID});
     this.setFormArray(classID);
+  }
+
+  changeForm() {
+    const temp = {name: this.form.get('name').value, phone: this.form.get('phone').value, email: this.form.get('email').value,
+                  notes: this.form.get('notes').value};
+    this.createForm();
+    this.form.patchValue({name: temp.name, phone: temp.phone, email: temp.email, notes: temp.notes});
   }
 
   setFormArray(classID: Number) {
@@ -112,7 +117,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   }
 
   changeTaskClass(event) {
-    this.createForm();
+    this.changeForm();
     this.initializeForm(Number(event.target.value));
   }
 
@@ -131,8 +136,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   }
 
   filterTaskClass() {
-  this.destination = '';
-  this.createForm();
+  this.changeForm();
   this.filteredTaskClass = this.taskClass.filter(taskClass => taskClass.functionalAreaId === this.currentArea);
   this.getTaskClassList();
   }
@@ -151,21 +155,64 @@ export class NewtaskComponent implements OnInit, OnDestroy {
     this.initializeForm(this.taskClassList[0].classID);
   }
 
+  getLocationList() {
+    this.dashBoardService.getLocationList().subscribe(
+      location => this.locationList = location,
+      error => console.log(error),
+      () => console.log(this.locationList)
+    );
+  }
 
+
+  inputFormatter = (value: any) => value.title || '';
+  resultFormatter = (value: any) => value.title || '';
   search = (text$: Observable<string>) =>
-   text$
-   .debounceTime(300)
-   .distinctUntilChanged()
-   .switchMap(term => this.dashBoardService.search(term))
+  text$
+    .debounceTime(200)
+    .distinctUntilChanged()
+    .map(term => term.length < 2 ? []
+      : this.locationList.filter(v =>
+       v['title'].toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+
+      onSelectStartItem(event: NgbTypeaheadSelectItemEvent): void {
+        console.log(event);
+        this.form.patchValue({start: event.item.id});
+      }
+
+      onSelectDestItem(event: NgbTypeaheadSelectItemEvent): void {
+        console.log(event);
+        this.form.patchValue({destination: event.item.id});
+      }
 
 
   ngOnDestroy() {
     this.initializeSubscription.unsubscribe();
     this.filterSubscription.unsubscribe();
+    this.copyTaskSubscription.unsubscribe();
   }
     onSubmit() {
-      alert('submitted');
-      console.log(this.form.status);
+      if (this.form.get('Panel2')) {
+      if (this.checkValidity('Panel1') && this.checkValidity('Panel2')) {
+        alert('submitted');
+      }
+    } else {
+      if (this.checkValidity('Panel1')) {
+        alert('submitted');
+    }
+    }
+  }
+
+    checkValidity(fieldName) {
+      if (this.checkIfValid(this.form.get(fieldName).value)) {
+        return true;
+      } else {
+        this.form.get(fieldName).setErrors({'invalidloc': true});
+        return false;
+      }
+    }
+
+    checkIfValid(obj: Object) {
+       return obj.hasOwnProperty('title') && obj.hasOwnProperty('id');
     }
 
     onCancel() {

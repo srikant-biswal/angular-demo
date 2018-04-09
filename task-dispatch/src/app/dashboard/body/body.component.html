@@ -11,8 +11,8 @@
 
   <div ng-sidebar-content>
   <div class="container-fluid employee-status-container">
-    <app-employees [employees]="filteredEmployees" [filteredColumnConfig]="filteredEmployeeColumnConfig" (changeStatusEvent)="changeStatus($event)"></app-employees>
+    <app-employees [employees]="filteredEmployees" [filteredColumnConfig]="filteredEmployeeColumnConfig" (changeStatusEvent)="changeEmployeeStatus($event)"></app-employees>
   </div>
-  <app-tasks [tasks]="filteredTasks" [columnConfig]="columnConfig" (toggleSideBarEvent)="toggleSideBar()"></app-tasks>
+  <app-tasks [tasks]="filteredTasks" [columnConfig]="columnConfig" (toggleSideBarEvent)="toggleSideBar()" (changeStatusEvent)="changeTaskStatus($event)"></app-tasks>
   </div>
 </ng-sidebar-container>

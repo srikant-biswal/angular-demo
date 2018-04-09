@@ -6,7 +6,7 @@
   <input id="name" class="form-control" type="text" formControlName="name">
 
   <div *ngIf="form.get('name').invalid && form.get('name').touched || form.get('name').dirty ">
-    <div *ngIf="form.get('name').errors?.required">
+    <div class="alert alert-danger" *ngIf="form.get('name').errors?.required">
       is required.
     </div>
   </div>
@@ -60,21 +60,26 @@
       </div>
 
       <div *ngSwitchCase="'DateTimeSplit'">
-        <input class="form-control" id="{{item.controlName}}" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1">
+        <input class="form-control" id="{{item.controlName}}" formControlName="{{item.controlName}}" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1">
         <owl-date-time [pickerMode]="'dialog'" #dt1></owl-date-time>
       </div>
 
       <input *ngSwitchCase="'CheckBox'" type="checkbox" id="{{item.controlName}}" value="true">
 
       <div *ngSwitchCase="'TypeAhead'">
-      <input *ngIf="item.header=='Destination'" id="{{item.controlName}}" formControlName="{{item.controlName}}"
-        type="text" class="form-control" [(ngModel)]="destination" [ngbTypeahead]="search"/>
+        <input *ngIf="item.header=='Start'" (selectItem)="onSelectStartItem($event)" id="{{item.controlName}}" formControlName="{{item.controlName}}" type="text" class="form-control"
+         [inputFormatter]="inputFormatter"  [resultFormatter]="resultFormatter" [(ngModel)]="start" [ngbTypeahead]="search" />
+        <input *ngIf="item.header=='Destination'" (selectItem)="onSelectDestItem($event)" id="{{item.controlName}}" formControlName="{{item.controlName}}" type="text" class="form-control"
+         [inputFormatter]="inputFormatter" [resultFormatter]="resultFormatter" [(ngModel)]="destination" [ngbTypeahead]="search" />
+         <div class="alert alert-danger" *ngIf="form.get(item.controlName).errors?.invalidloc">
+            Enter Valid Location
+        </div>
       </div>
 
       <div *ngIf="item.required">
-        <div *ngIf="form.get(item.controlName).invalid && form.get(item.controlName).touched || form.get(item.controlName).dirty ">
-          <div *ngIf="form.get(item.controlName).errors?.required">
-            is required.
+        <div  *ngIf="form.get(item.controlName).invalid && form.get(item.controlName).touched || form.get(item.controlName).dirty ">
+          <div class="alert alert-danger" *ngIf="form.get(item.controlName).errors?.required">
+            Please Fill Above Field
           </div>
         </div>
       </div>
@@ -82,6 +87,6 @@
   </div>
   <div class="form-action">
     <button type="button" class="btn cancel-button" (click)="onCancel()">Cancel</button>
-    <button type="submit" class="btn btn-primary show-right">Submit</button>
+    <button type="submit" [disabled]="!form.valid" class="btn btn-primary show-right">Submit</button>
   </div>
 </form>

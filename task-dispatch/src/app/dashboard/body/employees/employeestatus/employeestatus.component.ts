@@ -84,13 +84,7 @@ export class EmployeestatusComponent implements OnInit, OnChanges , OnDestroy {
   changeStatus(status) {
     console.log(status);
     this.contextMenu = false;
-    if (status !== 3) {
-      this.contextMenuRow.previousStatus = this.contextMenuRow.empStatusType;
-      this.contextMenuRow.empStatusType = status;
-      console.log(this.contextMenuRow);
-    } else {
-      this.contextMenuRow.previousStatus = this.contextMenuRow.EmpStatusType;
-    }
+   this.contextMenuRow.previousStatus = this.contextMenuRow.empStatusType;
     this.changeStatusEvent.emit({employee : this.contextMenuRow, newStatus: status});
   }
 

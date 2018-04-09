@@ -8,14 +8,7 @@ import 'rxjs/add/operator/map';
 import { Subject } from 'rxjs/Subject';
 import { ITask } from 'app/models/task';
 
-const WIKI_URL = 'https://en.wikipedia.org/w/api.php';
-const PARAMS = new HttpParams({
-  fromObject: {
-    action: 'opensearch',
-    format: 'json',
-    origin: '*'
-  }
-});
+
 
 @Injectable()
 export class DashboardService {
@@ -89,18 +82,14 @@ export class DashboardService {
     return this.http.get(this.baseUrl + '/GetTaskDelayTypeList', this.getHeaders());
   }
 
-  search(term: string) {
-    if (term === '') {
-      return of([]);
-    }
+  getTaskCancelList(): Observable<any> {
+    return this.http.get(this.baseUrl + '/GetTaskCancelTypeList', this.getHeaders());
+  }
 
-    return this.http
-      .get(WIKI_URL, {params: PARAMS.set('search', term)})
-        .map(response =>
-           response = response[1]
-        );
-}
-
+  getLocationList(): Observable<any> {
+    const body = {'SteHirNodeId': this.currentFacility};
+    return this.http.post(this.baseUrl + '/LocationList', body, this.getHeaders());
+  }
 
 }
 

@@ -100,6 +100,7 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
       this.modalReference = this.modalService.open(this.delayEmployeeModal);
       this.selectedEmployee = event.employee;
     } else {
+      event.employee.empStatusType = event.newStatus;
       this.changeStatusEvent.emit(event.employee);
     }
   }
@@ -116,8 +117,7 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
 
   signInEmployee() {
     if (this.selectedEmployee) {
-    this.selectedEmployee.empStatusType = 1;
-    this.changeStatus(this.selectedEmployee);
+    this.changeStatus({employee: this.selectedEmployee, newStatus: 1});
     this.closeModal();
     }
   }

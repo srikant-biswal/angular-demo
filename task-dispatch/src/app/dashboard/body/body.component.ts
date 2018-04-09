@@ -84,7 +84,10 @@ export class BodyComponent implements OnInit, OnDestroy {
     this.dashboardService.getTaskList().subscribe(
         tasks => this.tasks = tasks,
         error => console.log(error),
-        () => this.filterEmployees(true));
+        () => {
+          this.convertDateTime();
+          this.filterEmployees(true);
+        });
   }
 
 
@@ -133,12 +136,11 @@ export class BodyComponent implements OnInit, OnDestroy {
     this.filteredTasks = this.tasks.filter(
       task => task.tskArea === areaId
     );
-    this.convertDateTime();
     this.loaderEvent.emit(false);
   }
 
   convertDateTime() {
-    this.filteredTasks.map( task => {
+    this.tasks.map(task => {
       task.scheduleDate =  this.getDateTime(task.scheduleDate);
       task.dispatchNeeded = this.getDateTime(task.dispatchNeeded);
       task.responseNeeded = this.getDateTime(task.responseNeeded);
@@ -149,17 +151,27 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   getDateTime(date): String {
-   const d = new Date(date);
-    date = d.getHours() + ':' + d.getMinutes() + ' ' + d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
-   return date;
-  }
+    const d = new Date(date);
+     date = d.getHours() + ':' + d.getMinutes() + ' ' + d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    return date;
+   }
 
-  changeStatus(employee) {
-    console.log(employee);
+
+  changeEmployeeStatus(employee) {
     const index = this.employees.findIndex(emp => emp.employeeId === employee.employeeId);
     this.employees.splice(index, 1);
     this.employees.push(employee);
     this.filterEmployees(false);
+  }
+
+  changeTaskStatus(task) {
+    const index = this.tasks.findIndex(tsk => tsk.taskNumber === task.taskNumber);
+    this.tasks.splice(index, 1);
+    this.tasks.push(task);
+    const area = this.dashboardService.currentArea;
+    this.filteredTasks = this.tasks.filter(
+      tsk => tsk.tskArea === area
+    );
   }
 
   toggleSideBar() {
