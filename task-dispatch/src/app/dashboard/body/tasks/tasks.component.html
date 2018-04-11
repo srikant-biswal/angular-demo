@@ -11,7 +11,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-1 col-sm-2">
+    <div class="col-xl-1 col-lg-2">
       <h5>Tasks</h5>
       <button class="btn btn-primary" (click)="toggleSideBarEvent.emit()">New Task</button>
       <ul class="tab-switcher">
@@ -36,11 +36,11 @@
       </ul>
     </div>
 
-    <div class="col-md-11 col-sm-9">
+    <div class="col-xl-11 col-lg-10">
       <div *ngIf="!showEdit">
         <div style="display: flex">
           <input type="text" class="search-bar" [(ngModel)]="filter" (keyup)="updateFilter()" placeholder="Filter Tasks" />
-          <a class="show-right" (click)="showEdit=true">Edit</a>
+          <a class="show-right" (click)="showEditOptions()">Edit</a>
         </div>
 
         <span *ngIf="filter">Filtered For "{{filter}}"&nbsp;&nbsp;&nbsp;

@@ -45,7 +45,7 @@
         <hr>
         <ul  dnd-sortable-container [sortableData]="columns">
           <li *ngFor="let col of columns; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
-            <div>
+            <div style="padding:5px">
             <input id="col" type="checkbox" (change)='col.show=!col.show' [checked]='col.show'/>
             <label [attr.for]="col">{{col.name}}</label>
             <span dnd-sortable-handle class="show-handle-right"><i class="fa fa-bars"></i></span>

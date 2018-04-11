@@ -31,6 +31,7 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
   showEdit = false;
   showSelectAll;
   columns = [];
+  tempColumns = [];
   selected = [];
 
   constructor(private dashboardService: DashboardService, private ngZone: NgZone, private modalService: NgbModal) {
@@ -50,10 +51,9 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges() {
      if (this.tasks && this.columnConfig) {
       this.activeTab = 1;
-      this.temp = this.tasks.filter( task => task.tskStatusType === 1);
-      this.rows = this.temp;
+      this.filterTasks();
+      this.filterColumns();
       this.sortColumns();
-      this.columns = this.columnConfig.filter(column => column.statusType === 1);
       this.checkSelectAll();
      }
   }
@@ -67,9 +67,8 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
      if (this.activeTab !== tab) {
       this.columns = [];
       this.activeTab = tab;
-      this.temp = this.tasks.filter( task => task.tskStatusType === tab);
-      this.rows = this.temp;
-      this.columns = this.columnConfig.filter(column => column.statusType === tab);
+      this.filterTasks();
+      this.filterColumns();
      }
   }
 
@@ -77,6 +76,15 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
     this.columnConfig.sort(function(a, b) {
       return (a['displayOrder'] > b['displayOrder'] ? 1 : -1);
     });
+  }
+
+  filterTasks() {
+    this.temp = this.tasks.filter( task => task.tskStatusType === this.activeTab);
+    this.rows = this.temp;
+  }
+
+  filterColumns() {
+    this.columns = this.columnConfig.filter(column => column.statusType === this.activeTab);
   }
 
 
@@ -127,12 +135,21 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
     this.rows = this.temp;
   }
 
+  showEditOptions() {
+    this.showEdit = true;
+    this.tempColumns = JSON.parse(JSON.stringify(this.columnConfig));
+  }
+
   saveEdit() {
       this.showEdit = false;
+      this.tempColumns = [];
   }
 
   cancelEdit() {
+    this.columnConfig = this.tempColumns;
+    this.filterColumns();
     this.showEdit = false;
+    this.tempColumns = [];
   }
 
   toggleSelectAll() {

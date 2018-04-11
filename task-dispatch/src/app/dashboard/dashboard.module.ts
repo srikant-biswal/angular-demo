@@ -17,6 +17,7 @@ import { ActionbarComponent } from './body/actionbar/actionbar.component';
 import { DashboardService } from '../_services/dashboard.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
+import { SocketService } from '../_services/socket.service';
 
 
 
@@ -27,7 +28,7 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
   ],
   declarations: [DashboardComponent, HeaderComponent, EmployeestatusComponent, TasksComponent,
     EmployeesComponent, BodyComponent, NewtaskComponent, NgxResizeWatcherDirective, ActionbarComponent],
-  providers: [DashboardService],
+  providers: [DashboardService, SocketService],
   exports: [FormsModule]
 })
 export class DashboardModule { }

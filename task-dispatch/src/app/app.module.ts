@@ -8,6 +8,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import {LoginComponent} from './login/login.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { LoginService } from './_services/login.service';
+import { SocketService } from './_services/socket.service';
 
 
 
@@ -18,7 +19,7 @@ import { LoginService } from './_services/login.service';
   imports: [
     BrowserModule, AppRoutingModule, DashboardModule, BrowserAnimationsModule
   ],
-  providers: [AuthGuard, LoginService],
+  providers: [AuthGuard, LoginService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

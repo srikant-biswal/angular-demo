@@ -88,11 +88,6 @@ export class NewtaskComponent implements OnInit, OnDestroy {
     });
   }
 
-  initializeForm(classID) {
-    this.form.patchValue({area: this.currentArea, taskClass: classID});
-    this.setFormArray(classID);
-  }
-
   changeForm() {
     const temp = {name: this.form.get('name').value, phone: this.form.get('phone').value, email: this.form.get('email').value,
                   notes: this.form.get('notes').value};
@@ -101,6 +96,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   }
 
   setFormArray(classID: Number) {
+    this.form.patchValue({area: this.currentArea, taskClass: classID});
     this.taskClassOptionsList = [];
     this.filteredTaskClass.map(taskClass => {
       if (classID === taskClass.classID) {
@@ -118,7 +114,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
 
   changeTaskClass(event) {
     this.changeForm();
-    this.initializeForm(Number(event.target.value));
+    this.setFormArray(Number(event.target.value));
   }
 
   changeFunctionalArea(event) {
@@ -152,7 +148,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
         flags[taskClass.classID] = true;
       }
     });
-    this.initializeForm(this.taskClassList[0].classID);
+    this.setFormArray(this.taskClass[0].classID);
   }
 
   getLocationList() {

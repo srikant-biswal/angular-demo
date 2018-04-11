@@ -39,13 +39,14 @@ a:not([href]):not([tabindex]) {
 }
 
 .list-group-item{
-  padding:0;
-  margin-bottom: -8px;
-  border: none;
+  padding: 0;
 }
-
+ label {
+   margin-bottom: 0;
+ }
 
 ul{
+  padding:0;
   margin-bottom: -8px;
 }
 

@@ -3,9 +3,8 @@ import { DashboardService } from 'app/_services/dashboard.service';
 import { IEmployee } from 'app/models/employee';
 import { ITask } from 'app/models/task';
 import { ITaskColumn } from 'app/models/taskcolumn';
-import { ITaskColumnDb } from 'app/models/taskcolumndb';
 import 'rxjs/add/operator/skip';
-import { TemplateParseError } from '@angular/compiler';
+import { SocketService } from '../../_services/socket.service';
 
 @Component({
   selector: 'app-body',
@@ -19,12 +18,14 @@ export class BodyComponent implements OnInit, OnDestroy {
   showSideBar = false;
   showActionBar = false;
   @Output() loaderEvent = new EventEmitter();
+  socketConnection;
   employees: IEmployee[]; filteredEmployees: IEmployee[];
   tasks: ITask[]; filteredTasks: ITask[];
-  allTaskColumns = []; taskColumnConfig = []; columnConfig: ITaskColumn[];
+  allTaskColumns = []; taskColumnConfig = [];
+  columnConfig: ITaskColumn[];
   employeeColumnConfig = []; filteredEmployeeColumnConfig = [];
 
-  constructor(private dashboardService: DashboardService, private ngZone: NgZone) {
+  constructor(private dashboardService: DashboardService, private socketService: SocketService, private ngZone: NgZone) {
     if (window.screen.width > 1100) {
       this.mode = 'push';
     }
@@ -36,8 +37,7 @@ export class BodyComponent implements OnInit, OnDestroy {
         () => this.getEmployees()
       );
      this.filterSubscription =  this.dashboardService.filterData.subscribe(
-        () => this.filterEmployees(true)
-      );
+        () => this.filterEmployees(true));
   }
 
   ngOnDestroy() {
@@ -69,6 +69,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   getEmployees() {
+    this.socketEvents();
     this.loaderEvent.emit(true);
     this.showSideBar = false;
     this.employees = [];
@@ -85,7 +86,7 @@ export class BodyComponent implements OnInit, OnDestroy {
         tasks => this.tasks = tasks,
         error => console.log(error),
         () => {
-          this.convertDateTime();
+          this.tasks.map(task => this.convertDateTime(task));
           this.filterEmployees(true);
         });
   }
@@ -102,6 +103,8 @@ export class BodyComponent implements OnInit, OnDestroy {
       this.filterColumns(areaId);
     }
   }
+
+
 
   filterColumns(areaId) {
     this.columnConfig = [];
@@ -129,7 +132,7 @@ export class BodyComponent implements OnInit, OnDestroy {
       this.filteredEmployeeColumnConfig = this.employeeColumnConfig.filter(
         column => column.functionalAreaId === areaId
       );
-      this.filterTasks(areaId);
+       this.filterTasks(areaId);
   }
 
   filterTasks(areaId) {
@@ -139,21 +142,19 @@ export class BodyComponent implements OnInit, OnDestroy {
     this.loaderEvent.emit(false);
   }
 
-  convertDateTime() {
-    this.tasks.map(task => {
+  convertDateTime(task) {
       task.scheduleDate =  this.getDateTime(task.scheduleDate);
       task.dispatchNeeded = this.getDateTime(task.dispatchNeeded);
       task.responseNeeded = this.getDateTime(task.responseNeeded);
       task.completeNeededUTC = task.completeNeeded;
       task.completeNeeded = this.getDateTime(task.completeNeeded);
       task.requestDate = this.getDateTime(task.requestDate);
-    });
   }
 
   getDateTime(date): String {
     const d = new Date(date);
      date = d.getHours() + ':' + d.getMinutes() + ' ' + d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
-    return date;
+     return date;
    }
 
 
@@ -161,17 +162,23 @@ export class BodyComponent implements OnInit, OnDestroy {
     const index = this.employees.findIndex(emp => emp.employeeId === employee.employeeId);
     this.employees.splice(index, 1);
     this.employees.push(employee);
-    this.filterEmployees(false);
+    if (employee.functionalAreaId === this.dashboardService.currentArea) {
+      this.filterEmployees(false);
+    }
   }
 
   changeTaskStatus(task) {
-    const index = this.tasks.findIndex(tsk => tsk.taskNumber === task.taskNumber);
+    let index = -1;
+    index = this.tasks.findIndex(tsk => tsk.taskNumber === task.taskNumber);
+    if (index !== -1) {
     this.tasks.splice(index, 1);
+    } else {
+      this.convertDateTime(task);
+    }
     this.tasks.push(task);
-    const area = this.dashboardService.currentArea;
-    this.filteredTasks = this.tasks.filter(
-      tsk => tsk.tskArea === area
-    );
+    if (task.tskArea === this.dashboardService.currentArea) {
+      this.filterTasks(task.tskArea);
+    }
   }
 
   toggleSideBar() {
@@ -181,6 +188,16 @@ export class BodyComponent implements OnInit, OnDestroy {
   setActionBar(value) {
     this.ngZone.run(() => {
       this.showActionBar = value;
+    });
+  }
+
+  socketEvents() {
+    this.socketConnection = this.socketService.hubConnection;
+    this.socketConnection.on('TaskChange', (msg) => {
+      this.changeTaskStatus(msg);
+    });
+    this.socketConnection.on('BroadcastMessage', (msg) => {
+      this.changeEmployeeStatus(msg);
     });
   }
 

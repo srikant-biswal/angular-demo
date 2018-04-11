@@ -1,6 +1,6 @@
 <ng-sidebar-container style="height:91vh">
 
-    <ng-sidebar class="side-bar" [mode]="mode" position="right" [(opened)]="showSideBar">
+    <ng-sidebar class="side-bar" [mode]="mode" position="right" [autoFocus]="false" [(opened)]="showSideBar">
         <app-newtask (toggleSideBarEvent)="toggleSideBar()"></app-newtask>
     </ng-sidebar>
 

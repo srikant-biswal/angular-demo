@@ -4,6 +4,8 @@ import { DashboardService } from 'app/_services/dashboard.service';
 import { IArea } from 'app/models/area';
 import { Router } from '@angular/router';
 import {BodyComponent} from '../body/body.component';
+import { HubConnection } from '@aspnet/signalr';
+import { SocketService } from 'app/_services/socket.service';
 
 @Component({
   selector: 'app-header',
@@ -16,16 +18,19 @@ export class HeaderComponent implements OnInit {
   @Output() loaderEvent = new EventEmitter();
 
   areas: IArea[] = [];
-
-  constructor(private dashBoardService: DashboardService, private router: Router) { }
+  private _hubConnection: HubConnection;
+  constructor(private socketService: SocketService, private dashBoardService: DashboardService, private router: Router) { }
 
   ngOnInit() {
       this.loaderEvent.emit(true);
-    this.dashBoardService.getFacilityList().subscribe(
-      facility => this.facilities = facility,
-      error => this.handleError(error),
-      () => this.getAreas(this.facilities[0].hirNode)
-    );
+      this._hubConnection = new HubConnection('http://localhost:5000/signalr');
+      this._hubConnection
+        .start()
+        .then(() => {
+          this.socketService.hubConnection = this._hubConnection;
+          this.getFacilities();
+        })
+        .catch(err => console.log('Error while establishing connection :('));
   }
 
   changeFacility(event) {
@@ -37,6 +42,14 @@ export class HeaderComponent implements OnInit {
     if (this.currentArea !== areaId) {
     this.setArea(areaId);
     }
+  }
+
+  getFacilities() {
+    this.dashBoardService.getFacilityList().subscribe(
+      facility => this.facilities = facility,
+      error => this.handleError(error),
+      () => this.getAreas(this.facilities[0].hirNode)
+    );
   }
 
   getAreas(facilityId) {
