@@ -14,6 +14,7 @@ import { SocketService } from '../../_services/socket.service';
 export class BodyComponent implements OnInit, OnDestroy {
   mode = 'over';
   initializeSubscription;
+  currentArea;
   filterSubscription;
   showSideBar = false;
   showActionBar = false;
@@ -93,23 +94,22 @@ export class BodyComponent implements OnInit, OnDestroy {
 
 
   filterEmployees(filterColumns) {
-    const areaId = this.dashboardService.currentArea;
-    console.log(areaId);
+    this.currentArea = this.dashboardService.currentArea;
     this.filteredEmployees = this.employees.filter(
-      employee => employee.functionalAreaId === areaId
+      employee => employee.functionalAreaId === this.currentArea
     );
     if (filterColumns) {
       this.resetSelections();
-      this.filterColumns(areaId);
+      this.filterColumns();
     }
   }
 
 
 
-  filterColumns(areaId) {
+  filterColumns() {
     this.columnConfig = [];
     const filteredTaskColumns = this.taskColumnConfig.filter(
-      column => column.functionalAreaId === areaId
+      column => column.functionalAreaId === this.currentArea
     );
     let flag;
      for (let i = 1; i < 7; i++) {
@@ -130,14 +130,14 @@ export class BodyComponent implements OnInit, OnDestroy {
               }
           }
       this.filteredEmployeeColumnConfig = this.employeeColumnConfig.filter(
-        column => column.functionalAreaId === areaId
+        column => column.functionalAreaId === this.currentArea
       );
-       this.filterTasks(areaId);
+       this.filterTasks();
   }
 
-  filterTasks(areaId) {
+  filterTasks() {
     this.filteredTasks = this.tasks.filter(
-      task => task.tskArea === areaId
+      task => task.tskArea === this.currentArea
     );
     this.loaderEvent.emit(false);
   }
@@ -162,7 +162,7 @@ export class BodyComponent implements OnInit, OnDestroy {
     const index = this.employees.findIndex(emp => emp.employeeId === employee.employeeId);
     this.employees.splice(index, 1);
     this.employees.push(employee);
-    if (employee.functionalAreaId === this.dashboardService.currentArea) {
+    if (employee.functionalAreaId === this.currentArea) {
       this.filterEmployees(false);
     }
   }
@@ -176,8 +176,8 @@ export class BodyComponent implements OnInit, OnDestroy {
       this.convertDateTime(task);
     }
     this.tasks.push(task);
-    if (task.tskArea === this.dashboardService.currentArea) {
-      this.filterTasks(task.tskArea);
+    if (task.tskArea === this.currentArea) {
+      this.filterTasks();
     }
   }
 
@@ -192,6 +192,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   socketEvents() {
+    if (this.socketService.hubConnection) {
     this.socketConnection = this.socketService.hubConnection;
     this.socketConnection.on('TaskChange', (msg) => {
       this.changeTaskStatus(msg);
@@ -199,6 +200,7 @@ export class BodyComponent implements OnInit, OnDestroy {
     this.socketConnection.on('BroadcastMessage', (msg) => {
       this.changeEmployeeStatus(msg);
     });
+  }
   }
 
   handleError(error) {
@@ -212,7 +214,8 @@ export class BodyComponent implements OnInit, OnDestroy {
   resetSelections() {
     this.dashboardService.selected = [];
     this.dashboardService.actionBar.next();
-    this.dashboardService.uncheck.next();
+    this.dashboardService.uncheckEmployees.next();
+    this.dashboardService.uncheckTasks.next();
   }
 
 }

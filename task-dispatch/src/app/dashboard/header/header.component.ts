@@ -28,9 +28,10 @@ export class HeaderComponent implements OnInit {
         .start()
         .then(() => {
           this.socketService.hubConnection = this._hubConnection;
-          this.getFacilities();
         })
         .catch(err => console.log('Error while establishing connection :('));
+        this.getFacilities();
+
   }
 
   changeFacility(event) {

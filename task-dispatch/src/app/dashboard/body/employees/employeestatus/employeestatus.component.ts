@@ -28,7 +28,7 @@ export class EmployeestatusComponent implements OnInit, OnChanges , OnDestroy {
   constructor(private ngZone: NgZone, private dashBoardService: DashboardService) { }
 
   ngOnInit() {
-    this.uncheckSubscription = this.dashBoardService.uncheck.subscribe(
+    this.uncheckSubscription = this.dashBoardService.uncheckEmployees.subscribe(
       () => this.remove()
     );
   }
@@ -90,30 +90,33 @@ export class EmployeestatusComponent implements OnInit, OnChanges , OnDestroy {
 
 
   onSelect({selected}) {
+    this.dashBoardService.uncheckEmployees.next();
+    this.remove();
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
-    switch (this.title) {
-      case 'Available':
-      this.dashBoardService.selected[1] = selected;
-      break;
-      case 'Assigned':
-      this.dashBoardService.selected[2] = selected;
-      break;
-      case 'Delayed':
-      this.dashBoardService.selected[3] = selected;
-      break;
-      case 'Active':
-      this.dashBoardService.selected[4] = selected;
-      break;
-      case 'On Break':
-      this.dashBoardService.selected[5] = selected;
-      break;
-      case 'At Lunch':
-      this.dashBoardService.selected[6] = selected;
-      break;
-      default:
-      console.log('Undefined');
-    }
+    this.dashBoardService.selected[0] = selected;
+    // switch (this.title) {
+    //   case 'Available':
+    //   this.dashBoardService.selected[1] = selected;
+    //   break;
+    //   case 'Assigned':
+    //   this.dashBoardService.selected[2] = selected;
+    //   break;
+    //   case 'Delayed':
+    //   this.dashBoardService.selected[3] = selected;
+    //   break;
+    //   case 'Active':
+    //   this.dashBoardService.selected[4] = selected;
+    //   break;
+    //   case 'On Break':
+    //   this.dashBoardService.selected[5] = selected;
+    //   break;
+    //   case 'At Lunch':
+    //   this.dashBoardService.selected[6] = selected;
+    //   break;
+    //   default:
+    //   console.log('Undefined');
+    // }
     this.dashBoardService.actionBar.next();
   }
 

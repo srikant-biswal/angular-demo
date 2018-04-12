@@ -22,9 +22,11 @@ export class DashboardService {
   unsignedEmployees = new Subject<any>();
   filterData = new Subject<any>();
   copyTask = new Subject<any>();
+  cancelTask = new Subject<any>();
   actionBar = new Subject<any>();
-
-  uncheck = new Subject<any>();
+  changeEmployeeStatus = new Subject<any>();
+  uncheckEmployees = new Subject<any>();
+  uncheckTasks = new Subject<any>();
 
   baseUrl = 'http://172.16.9.239/teampro/api/dispatch';
 

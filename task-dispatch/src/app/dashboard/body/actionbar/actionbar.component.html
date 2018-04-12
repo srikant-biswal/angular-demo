@@ -1,13 +1,33 @@
-
-  <div class=" row action-content">
-    <div class="col-md-3">
+<div class=" row action-content">
+  <div class="col-md-3">
     <a (click)="unselectAll()">Deselect All</a>
-    </div>
-    <div class="col-md-5 action-buttons">
-    <button class="btn-primary">View</button>
-    <button class="btn btn-primary">Message</button>
-    <button class="btn btn-primary">Delay</button>
-    <button class="btn btn-primary">Start</button>
-   </div>
   </div>
+  <div class="col-md-5 action-buttons">
 
+    <ng-container *ngIf="actionBarLayout==0">
+      <button class="btn-primary">View</button>
+      <button class="btn btn-primary">Message</button>
+      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==1" (click)="changeEmployeeStatus(5)">Break</button>
+      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==1" (click)="changeEmployeeStatus(6)">Lunch</button>
+      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==1" (click)="changeEmployeeStatus(7)">Not In</button>
+      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==2 || selectedEmployee?.empStatusType==4 " (click)="changeEmployeeStatus(3)">Delay</button>
+      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==2 || selectedEmployee?.empStatusType==3" (click)="changeEmployeeStatus(4)">Start</button>
+      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==4" (click)="changeEmployeeStatus(1)">Completed</button>
+      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==5 || selectedEmployee?.empStatusType==6" (click)="changeEmployeeStatus(1)">Available</button>
+    </ng-container>
+
+    <ng-container *ngIf="actionBarLayout==1">
+      <button  class="btn btn-primary" *ngIf="selectedTask?.tskStatusType!=5 && selectedTask?.tskStatusType!=6">View/Edit</button>
+      <button  class="btn btn-primary"  (click)="copyTask()">Copy</button>
+      <button  class="btn btn-primary" (click)="cancelTask()">Cancel</button>
+      <button  class="btn btn-primary" *ngIf="selectedTask?.tskStatusType==5">Return Trip</button>
+      <button  class="btn btn-primary" *ngIf="selectedTask?.tskStatusType==1">Priority</button>
+    </ng-container>
+
+    <ng-container *ngIf="actionBarLayout==2">
+      <button class="btn btn-primary">Assign</button>
+    </ng-container>
+
+
+  </div>
+</div>

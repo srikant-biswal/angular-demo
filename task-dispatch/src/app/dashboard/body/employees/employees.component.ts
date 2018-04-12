@@ -17,6 +17,7 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
   @ViewChild('delayEmployeeModal') delayEmployeeModal;
   @Output() changeStatusEvent = new EventEmitter();
   unsignedEmployeesSubscription;
+  changeEmployeeStatusSubscription;
   taskDelayList;
   delayReason;
   available: IEmployee[]; assigned: IEmployee[]; delayed: IEmployee[];
@@ -34,6 +35,9 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
     this.unsignedEmployeesSubscription = this.dashboardService.unsignedEmployees.subscribe (
       () => this.showUnsignedEmployees(this.unsignedEmployeesModal)
     );
+    this.changeEmployeeStatusSubscription = this.dashboardService.changeEmployeeStatus.subscribe (
+      value =>  this.changeStatus(value)
+    );
   }
 
   ngOnChanges() {
@@ -42,6 +46,7 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsignedEmployeesSubscription.unsubscribe();
+    this.changeEmployeeStatusSubscription.unsubscribe();
   }
 
 
@@ -109,6 +114,7 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
     this.selectedEmployee.empStatusType = 3;
     this.changeStatusEvent.emit(this.selectedEmployee);
     this.closeModal();
+    this.resetSelections();
   }
 
   selectEmployee(employee) {
@@ -124,7 +130,12 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
 
   closeModal() {
     this.selectedEmployee = null;
-    this.modalReference.close();
+     this.modalReference.close();
+  }
+
+  resetSelections() {
+    this.dashboardService.selected = [];
+    this.dashboardService.actionBar.next();
   }
 
 }

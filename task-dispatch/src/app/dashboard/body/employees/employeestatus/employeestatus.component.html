@@ -26,7 +26,7 @@
         <ngx-datatable appNgxResizeWatcher  class="material" [rows]="rows" [rowClass]="getRowClass" [columnMode]="'force'" [sortType]="'single'"
           [headerHeight]="20" [footerHeight]="0" [reorderable]="true"  (select)="onSelect($event)" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false"
           [scrollbarV]="true"  (tableContextmenu)="onTableContextMenu($event)">
-          <ngx-datatable-column  [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
+          <ngx-datatable-column  [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false"
             [checkboxable]="true">
           </ngx-datatable-column>
           <ngx-datatable-column headerClass="task-column" [width]="40" name="" prop="badge" [cellClass]="getCellClass" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">

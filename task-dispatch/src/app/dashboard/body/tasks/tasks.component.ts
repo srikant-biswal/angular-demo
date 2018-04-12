@@ -13,6 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class TasksComponent implements OnInit, OnChanges, OnDestroy {
   modalReference;
   uncheckSubscription;
+  cancelTaskSubscription;
   activeTab = 1;
   @Input() tasks: ITask[] = [];
   @Input() columnConfig: ITaskColumn[];
@@ -43,14 +44,16 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
       error => console.log(error),
       () => this.cancelReason = this.taskCancelList[0].taskCancelTypeId
     );
-    this.uncheckSubscription = this.dashboardService.uncheck.subscribe(
+    this.cancelTaskSubscription = this.dashboardService.cancelTask.subscribe(
+      task => {this.contextMenuRow = task; this.openCancelTaskModal(); }
+    );
+    this.uncheckSubscription = this.dashboardService.uncheckTasks.subscribe(
       () => this.remove()
     );
   }
 
   ngOnChanges() {
      if (this.tasks && this.columnConfig) {
-      this.activeTab = 1;
       this.filterTasks();
       this.filterColumns();
       this.sortColumns();
@@ -60,6 +63,7 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy() {
     this.uncheckSubscription.unsubscribe();
+    this.cancelTaskSubscription.unsubscribe();
   }
 
 
@@ -179,8 +183,8 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     copyTask() {
-      this.dashboardService.taskToCopy = this.contextMenuRow;
-      this.dashboardService.copyTask.next();
+      this.dashboardService.copyTask.next(this.contextMenuRow);
+      this.contextMenu = false;
     }
 
     openCancelTaskModal() {
@@ -191,6 +195,7 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
       // send cancel and additional reason
       this.contextMenuRow.tskStatusType = 6;
       this.changeStatusEvent.emit(this.contextMenuRow);
+      this.resetSelections();
       this.modalReference.close();
     }
 
@@ -203,8 +208,14 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
   onSelect({ selected }) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
-    this.dashboardService.selected[7] = selected;
+    this.dashboardService.selected[1] = selected;
     this.dashboardService.actionBar.next();
+  }
+
+  resetSelections() {
+    this.dashboardService.selected = [];
+    this.dashboardService.actionBar.next();
+    this.remove();
   }
 
 

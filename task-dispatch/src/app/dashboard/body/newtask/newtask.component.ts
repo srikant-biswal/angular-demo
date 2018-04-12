@@ -50,10 +50,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
       error => console.log(error)
     );
     this.copyTaskSubscription = this.dashBoardService.copyTask.subscribe(
-      () => {
-        this.taskToCopy = this.dashBoardService.taskToCopy;
-        console.log(this.taskToCopy);
-      }
+      task => {this.taskToCopy = task; this.toggleSideBarEvent.emit(); }
     );
 
     this.initializeSubscription = this.dashBoardService.initializeData.subscribe(
@@ -132,7 +129,6 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   }
 
   filterTaskClass() {
-  this.changeForm();
   this.filteredTaskClass = this.taskClass.filter(taskClass => taskClass.functionalAreaId === this.currentArea);
   this.getTaskClassList();
   }
@@ -148,7 +144,8 @@ export class NewtaskComponent implements OnInit, OnDestroy {
         flags[taskClass.classID] = true;
       }
     });
-    this.setFormArray(this.taskClass[0].classID);
+    this.changeForm();
+    this.setFormArray(this.taskClassList[0].classID);
   }
 
   getLocationList() {
