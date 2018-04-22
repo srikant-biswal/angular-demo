@@ -19,7 +19,8 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
   @Input() columnConfig: ITaskColumn[];
   @Output() toggleSideBarEvent = new EventEmitter();
   @ViewChild('taskCancelModal') taskCancelModal;
-  @Output() changeStatusEvent = new EventEmitter();
+  @Output() changeTaskStatusEvent = new EventEmitter();
+  @Output() unassignEmployeeEvent = new EventEmitter();
   contextMenu = false;
   contextMenuRow;
   taskCancelList = [];
@@ -193,8 +194,12 @@ export class TasksComponent implements OnInit, OnChanges, OnDestroy {
 
     cancelTask() {
       // send cancel and additional reason
+      if (this.contextMenuRow.assignedPersonnel) {
+        this.unassignEmployeeEvent.emit(this.contextMenuRow.assignedPersonnel);
+      }
+      this.contextMenuRow.assignedPersonnel = null;
       this.contextMenuRow.tskStatusType = 6;
-      this.changeStatusEvent.emit(this.contextMenuRow);
+      this.changeTaskStatusEvent.emit(this.contextMenuRow);
       this.resetSelections();
       this.modalReference.close();
     }

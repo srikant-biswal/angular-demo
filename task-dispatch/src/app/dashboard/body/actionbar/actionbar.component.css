@@ -13,6 +13,10 @@ a:not([href]):not([tabindex]) {
   background-color: white;
 }
 
+.text-danger {
+  margin:0;
+  color:#ea746c
+}
 
 .action-content {
 margin-right: 0;

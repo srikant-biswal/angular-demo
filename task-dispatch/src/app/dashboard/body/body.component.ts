@@ -129,8 +129,9 @@ export class BodyComponent implements OnInit, OnDestroy {
                 }
               }
           }
+      console.log(this.employeeColumnConfig);
       this.filteredEmployeeColumnConfig = this.employeeColumnConfig.filter(
-        column => column.functionalAreaId === this.currentArea
+        column => column.functionalAreaID === this.currentArea || column.functionalAreaID === -1
       );
        this.filterTasks();
   }
@@ -179,6 +180,33 @@ export class BodyComponent implements OnInit, OnDestroy {
     if (task.tskArea === this.currentArea) {
       this.filterTasks();
     }
+  }
+
+  assignTask(event) {
+    this.changeEmployeeStatus(event.employee);
+    this.changeTaskStatus(event.task);
+  }
+
+  unassignEmployee(employeeName) {
+    const employee = this.filteredEmployees.find(emp => emp.brief === employeeName);
+    employee.empStatusType = 1;
+    this.changeEmployeeStatus(employee);
+  }
+
+  changeTaskStatusFromEmployee(employee) {
+    const task = this.filteredTasks.find(tsk => {
+      const status = tsk.tskStatusType;
+      if (status === 2 || status === 3 || status === 4 ) {
+       return tsk.assignedPersonnel === employee.brief;
+      }
+     });
+    console.log(task);
+    if (employee.empStatusType === 1) {
+      task.tskStatusType = 5;
+    } else {
+      task.tskStatusType = employee.empStatusType;
+    }
+    this.changeTaskStatus(task);
   }
 
   toggleSideBar() {

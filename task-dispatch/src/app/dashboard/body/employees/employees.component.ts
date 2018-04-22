@@ -9,16 +9,19 @@ import { IEmployee } from 'app/models/employee';
   styleUrls: ['./employees.component.css']
 })
 export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
+  initialSort;
   modalReference;
   selectedEmployee: IEmployee;
   @Input() employees: IEmployee[];
   @Input() filteredColumnConfig;
   @ViewChild('unsignedEmployeesModal') unsignedEmployeesModal;
   @ViewChild('delayEmployeeModal') delayEmployeeModal;
-  @Output() changeStatusEvent = new EventEmitter();
+  @Output() changeEmployeeStatusEvent = new EventEmitter();
+  @Output() changeTaskStatusEvent  = new EventEmitter();
   unsignedEmployeesSubscription;
   changeEmployeeStatusSubscription;
   taskDelayList;
+  generatedColumnConfig;
   delayReason;
   available: IEmployee[]; assigned: IEmployee[]; delayed: IEmployee[];
   active: IEmployee[]; onbreak: IEmployee[]; atlunch: IEmployee[]; unsigned: IEmployee[];
@@ -65,10 +68,10 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
           this.assigned.push(employee);
           break;
           case 3:
-          this.delayed.push(employee);
+          this.active.push(employee);
           break;
           case 4:
-          this.active.push(employee);
+          this.delayed.push(employee);
           break;
           case 5:
           this.onbreak.push(employee);
@@ -84,11 +87,39 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
         }
       }
     );
+    this.filterColumns();
   }
   }
 
   filterColumns() {
-    console.log(this.filteredColumnConfig);
+    this.generatedColumnConfig = [];
+    const allColumns = [];
+    const config = [];
+    this.filteredColumnConfig.filter(col => {
+    if (col.FunctionalAreaId === -1) {
+      allColumns.push(col);
+    } else {
+      config.push(col);
+      if (col.sortBy === 1) {
+        this.initialSort = {prop: col.attrName, dir: 'asc'};
+      }
+    }
+    });
+    for (let i = 0; i < allColumns.length; i++ ) {
+      let flag = true;
+      for (let j = 0; j < config.length ; j++) {
+            if (allColumns[i].header === config[j].header) {
+              flag = false;
+              this.generatedColumnConfig.push({'name': config[j].header, 'prop': config[j].attrName,
+                                              'show': true , 'displayOrder': config[j].displayOrder});
+            }
+            if (flag) {
+              this.generatedColumnConfig.push({'name': allColumns[i].header, 'prop': allColumns[i].attrName,
+                                              'show': false , 'displayOrder': 99});
+            }
+      }
+    }
+
   }
 
 
@@ -99,20 +130,22 @@ export class EmployeesComponent implements OnChanges, OnInit, OnDestroy {
 
 
   changeStatus(event) {
-    console.log(event);
-    if (event.newStatus === 3) {
-      console.log(this.taskDelayList);
+    if (event.newStatus === 4) {
       this.modalReference = this.modalService.open(this.delayEmployeeModal);
       this.selectedEmployee = event.employee;
     } else {
       event.employee.empStatusType = event.newStatus;
-      this.changeStatusEvent.emit(event.employee);
+      if (event.employee.empStatusType !== 5 && event.employee.empStatusType !== 6) {
+        this.changeTaskStatusEvent.emit(event.employee);
+      }
+      this.changeEmployeeStatusEvent.emit(event.employee);
     }
   }
 
   delayEmployee() {
-    this.selectedEmployee.empStatusType = 3;
-    this.changeStatusEvent.emit(this.selectedEmployee);
+    this.selectedEmployee.empStatusType = 4;
+    this.changeTaskStatusEvent.emit(this.selectedEmployee);
+    this.changeEmployeeStatusEvent.emit(this.selectedEmployee);
     this.closeModal();
     this.resetSelections();
   }

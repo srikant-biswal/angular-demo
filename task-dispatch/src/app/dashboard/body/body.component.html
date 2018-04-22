@@ -5,14 +5,14 @@
     </ng-sidebar>
 
     <ng-sidebar class="action-bar" [mode]="'over'" position="bottom" [autoFocus]="false" [(opened)]="showActionBar" >
-      <app-actionbar (setActionBarEvent)="setActionBar($event)"></app-actionbar>
+      <app-actionbar (assignTaskEvent)="assignTask($event)" (setActionBarEvent)="setActionBar($event)"></app-actionbar>
     </ng-sidebar>
 
 
   <div ng-sidebar-content>
   <div class="container-fluid employee-status-container">
-    <app-employees [employees]="filteredEmployees" [filteredColumnConfig]="filteredEmployeeColumnConfig" (changeStatusEvent)="changeEmployeeStatus($event)"></app-employees>
+    <app-employees [employees]="filteredEmployees" [filteredColumnConfig]="filteredEmployeeColumnConfig" (changeEmployeeStatusEvent)="changeEmployeeStatus($event)" (changeTaskStatusEvent)="changeTaskStatusFromEmployee($event)"></app-employees>
   </div>
-  <app-tasks [tasks]="filteredTasks" [columnConfig]="columnConfig" (toggleSideBarEvent)="toggleSideBar()" (changeStatusEvent)="changeTaskStatus($event)"></app-tasks>
+  <app-tasks [tasks]="filteredTasks" [columnConfig]="columnConfig" (toggleSideBarEvent)="toggleSideBar()" (changeTaskStatusEvent)="changeTaskStatus($event)" (unassignEmployeeEvent)="unassignEmployee($event)"></app-tasks>
   </div>
 </ng-sidebar-container>

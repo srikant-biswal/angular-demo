@@ -35,6 +35,7 @@ export class HeaderComponent implements OnInit {
   }
 
   changeFacility(event) {
+     this.loaderEvent.emit(true);
      this.getAreas(event.target.value);
   }
 

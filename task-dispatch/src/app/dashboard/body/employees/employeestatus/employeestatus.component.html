@@ -8,8 +8,8 @@
     <p *ngIf="title=='Available'" (click)="changeStatus(5)">Break</p>
     <p *ngIf="title=='Available'" (click)="changeStatus(6)">Lunch</p>
     <p *ngIf="title=='Available'" (click)="changeStatus(7)">Not In</p>
-    <p *ngIf="title=='Assigned' || title=='Active' " (click)="changeStatus(3)">Delay</p>
-    <p *ngIf="title=='Assigned' || title=='Delayed'" (click)="changeStatus(4)">Start</p>
+    <p *ngIf="title=='Assigned' || title=='Active' " (click)="changeStatus(4)">Delay</p>
+    <p *ngIf="title=='Assigned' || title=='Delayed'" (click)="changeStatus(3)">Start</p>
     <p *ngIf="title=='Active'" (click)="changeStatus(1)">Completed</p>
     <p *ngIf="title=='On Break' || title=='At Lunch'" (click)="changeStatus(1)">Available</p>
   </div>
