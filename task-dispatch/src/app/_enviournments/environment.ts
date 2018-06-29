@@ -1,0 +1,5 @@
+export const Environment = {
+    production: false,
+    apiUrl: 'http://localhost/teampro/api/',
+    apiKey: 'MIIBITANBGKQHKIG9W0BAQEFAAOCAQ4AMIIBCQKCAQBJ67E+ROUGDNVVNNVQFWGLTK+3DIIEMIMXHMT5WTJ6BD1OWQHNBPQ6XT1MYAT6QPBRJFCDKBC8QJ'
+  };

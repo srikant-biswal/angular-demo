@@ -7,7 +7,7 @@ import {of} from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import { Subject } from 'rxjs/Subject';
 import { ITask } from 'app/models/task';
-
+import { Environment} from '../_enviournments/environment'
 
 
 @Injectable()
@@ -28,7 +28,7 @@ export class DashboardService {
   uncheckEmployees = new Subject<any>();
   uncheckTasks = new Subject<any>();
 
-  baseUrl = 'http://172.16.9.239/teampro/api/dispatch';
+  baseUrl = Environment.apiUrl +  'dispatch';
 
   constructor(private http: HttpClient, private ngZone: NgZone) { }
 

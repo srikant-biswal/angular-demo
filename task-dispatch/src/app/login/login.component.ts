@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoginService } from '../_services/login.service';
 import { Router } from '@angular/router';
 import { DashboardService } from 'app/_services/dashboard.service';
-
-const key = 'MIIBITANBGKQHKIG9W0BAQEFAAOCAQ4AMIIBCQKCAQBJ67E+ROUGDNVVNNVQFWGLTK+3DIIEMIMXHMT5WTJ6BD1OWQHNBPQ6XT1MYAT6QPBRJFCDKBC8QJ';
+import { Environment} from '../_enviournments/environment'
 
 @Component({
   templateUrl: './login.component.html',
@@ -29,7 +28,7 @@ export class LoginComponent implements OnInit {
       response => {
       if (response.body['isValid']) {
         console.log(response.headers.get(key));
-        this.dashboardService.key = response.headers.get(key);
+        this.dashboardService.key = response.headers.get(Environment.apiKey);
         this.router.navigate(['/home']);
       } else {
         this.showLoader = false;
