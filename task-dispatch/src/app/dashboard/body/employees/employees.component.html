@@ -1,23 +1,23 @@
 <div class="row">
   <div class="col-md-4 card-1">
-    <app-employeestatus [title]= "'Available'" [_rows]="available" (changeStatusEvent)="changeStatus($event)"  ></app-employeestatus>
+    <app-employeestatus [title]= "'Available'" [_rows]="available" [columns]="generatedColumnConfig" (changeStatusEvent)="changeStatus($event)"  ></app-employeestatus>
   </div>
   <div class="col-md-4 card-2">
-    <app-employeestatus [title]= "'Assigned'" [_rows]="assigned" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'Assigned'" [_rows]="assigned" [columns]="generatedColumnConfig" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
   <div class="col-md-4 card-3">
-    <app-employeestatus [title]= "'Delayed'" [_rows]="delayed" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'Active'" [_rows]="active" [columns]="generatedColumnConfig" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
 </div>
 <div class="row">
   <div class="col-md-4 card-4 ">
-    <app-employeestatus [title]= "'Active'" [_rows]="active" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'Delayed'" [_rows]="delayed" [columns]="generatedColumnConfig" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
   <div class="col-md-4 card-5">
-    <app-employeestatus [title]= "'On Break'" [_rows]="onbreak" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'On Break'" [_rows]="onbreak" [columns]="generatedColumnConfig" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
   <div class="col-md-4 card-6">
-    <app-employeestatus [title]= "'At Lunch'" [_rows]="atlunch" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
+    <app-employeestatus [title]= "'At Lunch'" [_rows]="atlunch" [columns]="generatedColumnConfig" (changeStatusEvent)="changeStatus($event)" ></app-employeestatus>
   </div>
 </div>
 

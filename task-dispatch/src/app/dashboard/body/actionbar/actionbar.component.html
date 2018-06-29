@@ -4,15 +4,19 @@
   </div>
   <div class="col-md-5 action-buttons">
 
+    <ng-container *ngIf="actionBarLayout==-1">
+      <p class="text-danger">No options to show</p>
+    </ng-container>
+
     <ng-container *ngIf="actionBarLayout==0">
       <button class="btn-primary">View</button>
       <button class="btn btn-primary">Message</button>
       <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==1" (click)="changeEmployeeStatus(5)">Break</button>
       <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==1" (click)="changeEmployeeStatus(6)">Lunch</button>
       <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==1" (click)="changeEmployeeStatus(7)">Not In</button>
-      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==2 || selectedEmployee?.empStatusType==4 " (click)="changeEmployeeStatus(3)">Delay</button>
-      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==2 || selectedEmployee?.empStatusType==3" (click)="changeEmployeeStatus(4)">Start</button>
-      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==4" (click)="changeEmployeeStatus(1)">Completed</button>
+      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==2 || selectedEmployee?.empStatusType==3 " (click)="changeEmployeeStatus(4)">Delay</button>
+      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==2 || selectedEmployee?.empStatusType==4" (click)="changeEmployeeStatus(3)">Start</button>
+      <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==3" (click)="changeEmployeeStatus(1)">Completed</button>
       <button class="btn btn-primary" *ngIf="selectedEmployee?.empStatusType==5 || selectedEmployee?.empStatusType==6" (click)="changeEmployeeStatus(1)">Available</button>
     </ng-container>
 
@@ -25,7 +29,7 @@
     </ng-container>
 
     <ng-container *ngIf="actionBarLayout==2">
-      <button class="btn btn-primary">Assign</button>
+      <button class="btn btn-primary" (click)="assignTask()">Assign</button>
     </ng-container>
 
 

@@ -13,6 +13,8 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   selectedEmployee: IEmployee;
   selectedTask: ITask;
   @Output() setActionBarEvent = new EventEmitter();
+  @Output() assignTaskEvent = new EventEmitter();
+
   selected: any[][] = [];
   flag = true;
   actionBarSubscription;
@@ -72,15 +74,29 @@ export class ActionbarComponent implements OnInit, OnDestroy {
           }
       } else {
            if (this.selected[0] && this.selected[1]) {
-          this.actionBarLayout = 2;
           this.selectedEmployee = this.selected[0][0];
           this.selectedTask = this.selected[1][0];
-           }
+          if (this.selectedEmployee && this.selectedTask) {
+            if (this.selectedEmployee.empStatusType === 1 && this.selectedTask.tskStatusType === 1) {
+              this.actionBarLayout = 2;
+            } else {
+              this.actionBarLayout = -1;
+            }
+          }
+        }
       }
     }
 
+    assignTask() {
+      this.unselectAll();
+      this.selectedEmployee.empStatusType = 2;
+      this.selectedTask.assignedPersonnel = this.selectedEmployee.brief;
+      this.selectedTask.tskStatusType = 2;
+      this.assignTaskEvent.emit({employee: this.selectedEmployee, task: this.selectedTask});
+    }
+
     changeEmployeeStatus(newStatus) {
-      if (newStatus !== 3) {
+      if (newStatus !== 4) {
         this.unselectAll();
       }
       this.dashBoardService.changeEmployeeStatus.next({employee: this.selectedEmployee, newStatus: newStatus});

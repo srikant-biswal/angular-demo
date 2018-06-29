@@ -22,6 +22,7 @@ export class DashboardService {
   unsignedEmployees = new Subject<any>();
   filterData = new Subject<any>();
   copyTask = new Subject<any>();
+  assignTask = new Subject<any>();
   cancelTask = new Subject<any>();
   actionBar = new Subject<any>();
   changeEmployeeStatus = new Subject<any>();

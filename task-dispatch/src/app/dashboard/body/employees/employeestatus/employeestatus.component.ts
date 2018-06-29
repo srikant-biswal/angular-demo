@@ -12,6 +12,7 @@ import { DashboardService } from 'app/_services/dashboard.service';
 export class EmployeestatusComponent implements OnInit, OnChanges , OnDestroy {
   @Input() title;
   ready = false;
+  @Input() columns;
   @Input() _rows: IEmployee[] = [];
   @Output() changeStatusEvent = new EventEmitter();
   rows: IEmployee[] = [];
@@ -20,9 +21,6 @@ export class EmployeestatusComponent implements OnInit, OnChanges , OnDestroy {
   contextMenuRow;
   x; y;
   showEdit = false;
-  columns =    [{name: 'Min', prop: 'diffMinute', show: true},
-                {name: 'Location', prop: 'location', show: true},
-                {name: 'Zone', prop: 'zoneBrief', show: true}];
   selected = [];
 
   constructor(private ngZone: NgZone, private dashBoardService: DashboardService) { }

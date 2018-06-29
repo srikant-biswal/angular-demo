@@ -24,7 +24,6 @@ export class NewtaskComponent implements OnInit, OnDestroy {
   filteredTaskClass: ITaskClass[];
   taskClassList: ITaskClass[];
   taskClassOptionsList: ITaskClass[];
-  taskToCopy;
   equipmentList;
   locationList = [];
   modeList;
@@ -49,8 +48,9 @@ export class NewtaskComponent implements OnInit, OnDestroy {
       equipment => this.equipmentList = equipment,
       error => console.log(error)
     );
+
     this.copyTaskSubscription = this.dashBoardService.copyTask.subscribe(
-      task => {this.taskToCopy = task; this.toggleSideBarEvent.emit(); }
+      task =>  this.copyTask(task)
     );
 
     this.initializeSubscription = this.dashBoardService.initializeData.subscribe(
@@ -177,6 +177,13 @@ export class NewtaskComponent implements OnInit, OnDestroy {
         this.form.patchValue({destination: event.item.id});
       }
 
+      copyTask(task) {
+        console.log(task);
+      //   Object.keys(task).map(key => {
+      //   this.form.patchValue({key: task.key});
+      //  });
+      }
+
 
   ngOnDestroy() {
     this.initializeSubscription.unsubscribe();
@@ -186,6 +193,7 @@ export class NewtaskComponent implements OnInit, OnDestroy {
     onSubmit() {
       if (this.form.get('Panel2')) {
       if (this.checkValidity('Panel1') && this.checkValidity('Panel2')) {
+        console.log(this.form.value);
         alert('submitted');
       }
     } else {
