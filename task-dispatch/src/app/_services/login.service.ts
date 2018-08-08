@@ -2,14 +2,14 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { HubConnection } from '@aspnet/signalr';
-import { environment} from '../_enviournments/environment'
+import { Environment} from '../_enviournments/environment'
 
 const hdrs = new HttpHeaders({ 'Content-Type': 'application/json' });
 
 @Injectable()
 export class LoginService {
   private _hubConnection: HubConnection;
-  loginUrl = environment.apiUrl + 'auth/signin'; // 'http://localhost/teampro/api/auth/signin';
+  loginUrl = Environment.apiUrl + 'auth/signin'; // 'http://localhost/teampro/api/auth/signin';
 
 
 

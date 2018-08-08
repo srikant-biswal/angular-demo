@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import {BodyComponent} from '../body/body.component';
 import { HubConnection } from '@aspnet/signalr';
 import { SocketService } from 'app/_services/socket.service';
+import { Environment} from '../../_enviournments/environment';
 
 @Component({
   selector: 'app-header',
@@ -23,14 +24,14 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
       this.loaderEvent.emit(true);
-      this._hubConnection = new HubConnection('http://localhost:5000/signalr');
-      this._hubConnection
-        .start()
-        .then(() => {
-          this.socketService.hubConnection = this._hubConnection;
-        })
-        .catch(err => console.log('Error while establishing connection :('));
-        this.getFacilities();
+      //this._hubConnection = new HubConnection(Environment.apiUrl + 'signalr');
+      //this._hubConnection
+        //.start()
+        //.then(() => {
+          //this.socketService.hubConnection = this._hubConnection;
+        //})
+        //.catch(err => console.log('Error while establishing connection :('));
+        //this.getFacilities();
 
   }
 

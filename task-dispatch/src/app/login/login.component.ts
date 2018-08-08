@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this._email, this._password).subscribe(
       response => {
       if (response.body['isValid']) {
-        console.log(response.headers.get(key));
+        console.log(response.headers.get(Environment.apiKey));
         this.dashboardService.key = response.headers.get(Environment.apiKey);
         this.router.navigate(['/home']);
       } else {
